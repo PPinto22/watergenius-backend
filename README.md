@@ -15,6 +15,10 @@ psql -h localhost -U postgres
 
 CREATE DATABASE watergenius;
 
+exit
+
+pip3.5 install -r requirements/docker.txt --upgrade
+
 python3.5 manage.py makemigrations
 
 python3.5 manage.py migrate
