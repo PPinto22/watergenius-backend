@@ -6,11 +6,14 @@ from django.contrib.auth.models import User,AbstractBaseUser, PermissionsMixin
 class User(AbstractBaseUser, PermissionsMixin):
     user_email = models.EmailField(max_length=254, unique=True, db_index=True, primary_key=True)
     USERNAME_FIELD = 'user_email'
+    #user_passwd = models.CharField(max_length=50)
+    #PASSWORD_FIELD = 'user_passwd'
     user_name = models.CharField(max_length=100)
-    user_passwd = models.CharField(max_length=50)
     user_admin = models.BooleanField()
     user_props = models.ManyToManyField('Property', through='UserHasProperty')
 
+    def __str__(self):
+        return 'email -> ' + self.user_email  +' Name -> ' + self.user_name
 
 class Property(models.Model):
     prop_id = models.AutoField(primary_key=True)

@@ -8,11 +8,11 @@ initdb -U username -D folder
  pg_ctl -D . -l logfile start #MAC OS
 
 
-psql -U postgres
+psql postgres
 
 create user watergenius with password 'watergenius';
 create database watergenius;
-grant all privileges to database watergenius to watergenius;
+grant all privileges on database watergenius to watergenius;
 \du
 \q
 

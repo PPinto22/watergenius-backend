@@ -1,5 +1,5 @@
-/users							# GET, POST
-/users/{id}						# GET, PUT, DEL
+/users							# GET, POST -- done
+/users/{id}						# GET, PUT, DEL --done
 
 /properties						# GET(owner/manager), POST(user)
 /properties/{id}				# GET, PUT, DEL
