@@ -30,6 +30,9 @@ RUN ls -lsa
 RUN pip3.6 install pip setuptools --upgrade
 # install project dependencies
 RUN pip3.6 install -r requirements/docker.txt --upgrade
+RUN pip3.6 install djangorestframework
+RUN pip3.6 install markdown       # Markdown support for the browsable API.
+RUN pip3.6 install django-filter  # Filt
 
 EXPOSE 8000
 

@@ -20,5 +20,5 @@ from django.urls import include, path
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^users/',include('users.urls')),
-
+    url( r'^users/(?P<user_email>[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})', include('users.urls')),
 ]
