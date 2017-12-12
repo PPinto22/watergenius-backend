@@ -1,38 +1,38 @@
-/users                          # GET, POST
-/users/{id}                     # GET, PUT, DEL
+/users							            # GET, POST
+/users/{id}						          # GET, PUT, DEL
 
 /properties                     # GET(owner/manager), POST(user)
-/properties/{id}                # GET, PUT, DEL
-/properties/{id}/node           # GET, POST, PUT
-/properties/{id}/managers       # GET
-/properties/{id}/managers/{id}  # POST (Empty body), DEL
+/properties/{id}				        # GET, PUT, DEL
+/properties/{id}/node			      # GET, POST, PUT
+/properties/{id}/managers		    # GET
+/properties/{id}/managers/{id}	# POST (Empty body), DEL
 
-/spaces                         # GET(owner/manager, property), POST(property)
-/spaces/{id}                    # GET, PUT, DEL
-/spaces/{id}/restrictions       # GET, POST
-/spaces/{id}/restrictions/{id}  # PUT, DEL
+/spaces							            # GET(owner/manager, property), POST(property)
+/spaces/{id}					          # GET, PUT, DEL
+/spaces/{id}/restrictions		    # GET, POST
+/spaces/{id}/restrictions/{id}	# PUT, DEL
 
-/plants                         # GET (para auto-complete ??)
+/plants							            # GET (para auto-complete ??)
 
-/subspaces                      # GET(property, space), POST(space)
-/subspaces/{id}                 # GET, PUT, DEL
+/subspaces						          # GET(property, space), POST(space)
+/subspaces/{id}					        # GET, PUT, DEL
 
-/plans                          # GET(property, spaces, subspace, time-interval), POST(subspace)
-/plans/{id}                     # GET
+/plans							            # GET(property, spaces, subspace, time-interval), POST(subspace)
+/plans/{id}						          # GET
 
-/irrigations                    # GET(property, spaces, subspace, time-interval), POST(subspace)
-/irrigations{id}                # GET, PUT, DEL
+/irrigations					          # GET(property, spaces, subspace, time-interval), POST(subspace)
+/irrigations{id}				        # GET, PUT, DEL
 
-/embededsys                     # GET(subspace), POST(subspace)
-/embededsys/{id}                # GET, PUT, DEL
+/embeddedsys						        # GET(subspace), POST(subspace)
+/embeddedsys/{id}				        # GET, PUT, DEL
 
-/sensors                        # GET(subspace, embededsys), POST(embededsys)
-/sensors/{id}                   # GET, PUT, DEL
+/sensors						            # GET(subspace, embeddedsys), POST(embeddedsys)
+/sensors/{id}					          # GET, PUT, DEL
 
-/reads                          # GET(subspace, embededsys, sensor), POST(sensor)
-/reads/{id}                     # GET
+/reads							            # GET(subspace, embeddedsys, sensor), POST(sensor)
+/reads/{id}						          # GET
 
-/warnings                       # GET(node/property), POST(property, error_code)
-/warnings/{id}                  # GET, PUT, DEL
+/warnings						            # GET(node/property), POST(property, error_code)
+/warnings/{id}					        # GET, PUT, DEL
 
-/node/{i}/poweroff              # POST
+/node/{i}/poweroff				      # POST

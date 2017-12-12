@@ -1,0 +1,23 @@
+#set up postgres (MAC OS)
+
+criar pasta para o cluster
+mkdir databases/postgres; cd tothat
+# criar cluster para o user ruirua
+initdb -U username -D folder 
+# iniciar server( ir para o folder
+ pg_ctl -D . -l logfile start #MAC OS
+
+
+psql postgres
+
+create user watergenius with password 'watergenius';
+create database watergenius;
+grant all privileges on database watergenius to watergenius;
+\du
+\q
+
+
+errors:
+ValueError("Dependency on app with no migrations: %s" % key[0])ValueError: Dependency on app with no migrations: users
+
+python3.6 manage.py makemigrations users
