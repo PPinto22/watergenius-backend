@@ -96,12 +96,12 @@ python3.5 manage.py runserver
 - Operability
   - [~~POST /node/{i}/poweroff~~](#post-nodeipoweroff)
 
-### GET /users  <!-- done? -->
-### POST /users  <!-- done? -->
+### GET /users
+### POST /users
 
-### GET /users/{id} <!-- done? -->
-### PUT /users/{id} <!-- done? -->
-### DEL /users/{id} <!-- done? -->
+### GET /users/{id}
+### PUT /users/{id}
+### DEL /users/{id}
 
 ### GET /properties
 #### Parameters
