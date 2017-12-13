@@ -278,7 +278,7 @@ Estes warnings são para coisas do género: um sensor deixa de funcionar ou o si
 }
 ```
 
-### POST /node/{i}/poweroff
+### POST /node/{id}/poweroff
 Desliga totalmente o nodo central. Depois a ativação teria que ser manual? **PRIORIDADE BAIXA**
 #### Body
 > Empty body

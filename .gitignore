@@ -6,3 +6,6 @@ __pycache__/
 # virtualenv
 venv/
 ENV/
+
+# Database
+watergenius_api/db
