@@ -1,8 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import User,AbstractBaseUser, PermissionsMixin
+from django.contrib.auth.models import User,AbstractBaseUser, PermissionsMixin, BaseUserManager
 #from django.contrib.gis.db import models as modelos - geo cordinates
 # Create your models here.
 
+ 
 class User(AbstractBaseUser, PermissionsMixin):
     user_email = models.EmailField(max_length=254, unique=True, db_index=True, primary_key=True)
     USERNAME_FIELD = 'user_email'
@@ -11,21 +12,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     user_name = models.CharField(max_length=100)
     user_admin = models.BooleanField()
     user_props = models.ManyToManyField('Property', through='UserHasProperty')
+    objects = BaseUserManager()
 
     def __str__(self):
         return 'email -> ' + self.user_email  +' Name -> ' + self.user_name
-    
-    def create_user(self, email, password=None):
-        if not email:
-            raise ValueError('Users must have an email address')
 
-        user = self.model(
-            email=self.normalize_email(email),
-        )
-
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
+    def create_user( email, username=None, password=None, admin=False):
+        return User.objects.create(user_email=email, user_name=username, password=password, user_admin=admin)
 
 class Property(models.Model):
     prop_id = models.AutoField(primary_key=True)

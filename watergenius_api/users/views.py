@@ -7,33 +7,44 @@ from rest_framework.parsers import JSONParser
 from users.serializers import UserSerializer,PropertySerializer
 from urllib.parse import urlparse
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate
+from django.contrib.auth import login , logout
+from watergenius_api.authbackend import SettingsBackend
 import base64
 
 
-def login(request):
+def logout_view(request):
+    auth = request.META['HTTP_AUTHORIZATION'].split()
+    if len(auth) == 2:
+        #x = User.create_user('pinto@gmail.com', 'pinto')
+        #User.create_user(email='pinto@gmail.com', password='pinto' , username="pinto" )
+        if auth[0].lower() == "basic":
+            username, password = base64.b64decode(auth[1]).decode('utf-8').split(':', 1)
+            passwd = base64.b64encode(base64.b64encode(password.encode('utf-8')))
+            logout(request)
+            return HttpResponse('success', status=200)
+
+
+
+def login_view(request):
     if 'HTTP_AUTHORIZATION' in request.META:
-              auth = request.META['HTTP_AUTHORIZATION'].split()
-              if len(auth) == 2:
-                      #x = User.create_user('pinto@gmail.com', 'pinto')
-                      if auth[0].lower() == "basic":
-                            username, password = base64.b64decode(auth[1]).decode('utf-8').split(':', 1)
-                            passwd = base64.b64encode(base64.b64encode(password.encode('utf-8')))
-                            print(passwd)
-                            print(username)
-                            print(password)
-                            user = authenticate(username=username, password=password)
-                            print(user)
+        auth = request.META['HTTP_AUTHORIZATION'].split()
+        if len(auth) == 2:
+            #x = User.create_user('pinto@gmail.com', 'pinto')
+            #User.create_user(email='pinto@gmail.com', password='pinto' , username="pinto" )
+            if auth[0].lower() == "basic":
+                username, password = base64.b64decode(auth[1]).decode('utf-8').split(':', 1)
+                passwd = base64.b64encode(base64.b64encode(password.encode('utf-8')))
+                print(passwd)
+                print(username)
+                print(password)
+                us = User.objects.get(user_email='pinto@gmail.com')
+                user = SettingsBackend.authenticate(username=username, password=password)
+                #print(user)
+                print(us)
+                login(request, us)
+                return HttpResponse('success', status=200)
 
     return HttpResponse('xua')
-    #user = authenticate(request, username=username, password=password)
-    #if user is not None:
-    #    login(request, user)
-    #    retun HttpResponse("logged in")
-    #    ...
-    #else:
-        # Return an 'invalid login' error message.
-    #    ...
 
 
 #@login_required
