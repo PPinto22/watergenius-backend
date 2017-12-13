@@ -1,3 +1,9 @@
+# put vs post : put should be idempotent. put para editar , post para inserir
+
+/login
+/logout
+
+
 /users							# GET, POST -- done
 /users/{id}						# GET, PUT, DEL --done
 

@@ -21,5 +21,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^users/',include('users.urls')),
     url(r'^properties/',include('users.props')),
+    url(r'^login',include('users.log')),
    
 ]

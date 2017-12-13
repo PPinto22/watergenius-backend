@@ -6,7 +6,37 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from users.serializers import UserSerializer,PropertySerializer
 from urllib.parse import urlparse
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate
+import base64
 
+
+def login(request):
+    if 'HTTP_AUTHORIZATION' in request.META:
+              auth = request.META['HTTP_AUTHORIZATION'].split()
+              if len(auth) == 2:
+                      x = User.create_user('pinto@gmail.com', 'pinto')
+                      if auth[0].lower() == "basic":
+                            username, password = base64.b64decode(auth[1]).decode('utf-8').split(':', 1)
+                            passwd = base64.b64encode(base64.b64encode(password.encode('utf-8')))
+                            print(passwd)
+                            print(username)
+                            print(password)
+                            user = authenticate(username=username, password=password)
+                            print(user)
+
+    return HttpResponse('xua')
+    #user = authenticate(request, username=username, password=password)
+    #if user is not None:
+    #    login(request, user)
+    #    retun HttpResponse("logged in")
+    #    ...
+    #else:
+        # Return an 'invalid login' error message.
+    #    ...
+
+
+@login_required
 def usersNormal(request):
     print('normal \n \n ')
     if request.method == 'GET':
@@ -25,7 +55,7 @@ def usersNormal(request):
     
     return JsonResponse(serializer.errors, status=400)
 
-
+@login_required
 def usersMail(request, mail=None):
     if request.method == 'GET':
         #data = JSONParser().parse(request)
@@ -59,6 +89,7 @@ def usersMail(request, mail=None):
 
     return JsonResponse(serializer.errors, status=400)
 
+@login_required
 def properties(request):
     if request.method == 'GET':
         #data = JSONParser().parse(request)

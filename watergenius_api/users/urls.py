@@ -10,5 +10,4 @@ urlpatterns = [
     #  path('', views.usersMail, name='usersMail'),
     path('', views.usersNormal, name='usersNormal'),
 
-
 ]
