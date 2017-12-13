@@ -15,7 +15,7 @@ def login(request):
     if 'HTTP_AUTHORIZATION' in request.META:
               auth = request.META['HTTP_AUTHORIZATION'].split()
               if len(auth) == 2:
-                      x = User.create_user('pinto@gmail.com', 'pinto')
+                      #x = User.create_user('pinto@gmail.com', 'pinto')
                       if auth[0].lower() == "basic":
                             username, password = base64.b64decode(auth[1]).decode('utf-8').split(':', 1)
                             passwd = base64.b64encode(base64.b64encode(password.encode('utf-8')))
@@ -36,7 +36,7 @@ def login(request):
     #    ...
 
 
-@login_required
+#@login_required
 def usersNormal(request):
     print('normal \n \n ')
     if request.method == 'GET':
@@ -55,7 +55,7 @@ def usersNormal(request):
     
     return JsonResponse(serializer.errors, status=400)
 
-@login_required
+#@login_required
 def usersMail(request, mail=None):
     if request.method == 'GET':
         #data = JSONParser().parse(request)
@@ -98,7 +98,7 @@ def properties(request):
         return JsonResponse(serializer.data , status=200 ,safe=False)
 
     elif request.method == 'PUT':
-        print ('puta')
+        print ('iii')
 
     return JsonResponse('error', status=400, safe=False)
 

@@ -36,7 +36,7 @@ class Property(models.Model):
 
 class UserHasProperty(models.Model):
     user_has_id = models.ForeignKey(User, related_name='owner' , on_delete=models.CASCADE)
-    prop_has_id = models.ForeignKey(Property, related_name='prop' , on_delete=models.CASCADE)    
+    prop_has_id = models.ForeignKey(Property, related_name='prop' , on_delete=models.CASCADE)
 
 
 class PlantType(models.Model):
@@ -51,14 +51,14 @@ class Space(models.Model):
     space_description = models.CharField(max_length=150)
     space_irrigation_hour = models.IntegerField()
     space_property = models.ForeignKey(Property, related_name='belongs_to_property', on_delete=models.CASCADE)
-    space_plant_type = models.ForeignKey(PlantType , related_name='has_plant_type', on_delete=models.CASCADE) 
+    space_plant_type = models.ForeignKey(PlantType , related_name='has_plant_type', on_delete=models.CASCADE)
 
 
 class TimeRestrition(models.Model):
     time_restrition_id = models.AutoField(primary_key=True)
     time_begin = models.DateTimeField()
     time_duration = models.DurationField()
-    time_restrition_space = models.ForeignKey(Space, related_name='belongs_to_spaceid', on_delete=models.CASCADE) 
+    time_restrition_space = models.ForeignKey(Space, related_name='belongs_to_spaceid', on_delete=models.CASCADE)
 
 class Localization(models.Model):
     local_id = models.AutoField(primary_key=True)
@@ -77,7 +77,7 @@ class SubSpace(models.Model):
     sub_description = models.CharField(max_length=150)
     sub_space_id = models.ForeignKey(Space, related_name='belongs_to_space', on_delete=models.CASCADE)
 
-class EmbededSystem(models.Model):
+class EmbeddedSystem(models.Model):
     esys_id = models.AutoField(primary_key=True)
     esys_local = models.ForeignKey(Localization, related_name='is_in_localization', on_delete=models.CASCADE)
     esys_sub = models.ForeignKey(SubSpace, related_name='belongs_to_sub', on_delete=models.CASCADE)
@@ -92,7 +92,7 @@ class SensorType(models.Model):
 class Sensor(models.Model):
     sensor_id = models.AutoField(primary_key=True)
     sensor_state = models.IntegerField()
-    sensor_sub = models.ForeignKey(EmbededSystem, related_name='belongs_to_subspace', on_delete=models.CASCADE)
+    sensor_sub = models.ForeignKey(EmbeddedSystem, related_name='belongs_to_subspace', on_delete=models.CASCADE)
     sensor_timerate = models.IntegerField()
     sensor_depth = models.IntegerField()
     sensor_type = models.ForeignKey(SensorType, related_name='has_type', on_delete=models.CASCADE)
@@ -130,9 +130,3 @@ class IrrigationTime(models.Model):
     irrigation_time_date = models.DateField()
     irrigation_time_qtd = models.IntegerField()
     irrigation_time_sub = models.ForeignKey(SubSpace, related_name='refers_to', on_delete=models.CASCADE)
-
-
-
-
-
-    
