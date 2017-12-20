@@ -9,3 +9,4 @@ ENV/
 
 # Database
 watergenius_api/db
+.idea/
