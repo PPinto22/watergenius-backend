@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'users.apps.UsersConfig',
+    'api.apps.UsersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -49,12 +49,12 @@ MIDDLEWARE = [
     #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.RemoteUserMiddleware',
-    'watergenius_api.middleware.CustomHeaderMiddleware',
+    'watergenius.middleware.CustomHeaderMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'watergenius_api.urls'
+ROOT_URLCONF = 'watergenius.urls'
 
 TEMPLATES = [
     {
@@ -72,7 +72,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'watergenius_api.wsgi.application'
+WSGI_APPLICATION = 'watergenius.wsgi.application'
 
 
 # Database
@@ -109,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
+    # or allow read-only access for unauthenticated api.
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
     ]
@@ -117,7 +117,7 @@ REST_FRAMEWORK = {
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    #'watergenius_api.authbackend',
+    #'watergenius.authbackend',
     #'django.contrib.auth.backends.AllowAllUsersRemoteUserBackend',
 ]
 
@@ -136,7 +136,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'api.User'
 
 
 # Static files (CSS, JavaScript, Images)

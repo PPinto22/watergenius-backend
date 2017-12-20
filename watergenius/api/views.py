@@ -1,14 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-from users.models import User,Property
+from api.models import User,Property
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
-from users.serializers import UserSerializer,PropertySerializer
+from api.serializers import UserSerializer,PropertySerializer
 from urllib.parse import urlparse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login , logout
-from watergenius_api.authbackend import SettingsBackend
+from watergenius.authbackend import SettingsBackend
 import base64
 
 

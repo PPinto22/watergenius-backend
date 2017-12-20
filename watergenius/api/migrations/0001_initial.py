@@ -92,7 +92,7 @@ class Migration(migrations.Migration):
                 ('read_id', models.AutoField(primary_key=True, serialize=False)),
                 ('read_timestamp', models.DateField(auto_now=True)),
                 ('read_value', models.IntegerField()),
-                ('read_dayplan', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='belongs_to_dayplan', to='users.DayPlan')),
+                ('read_dayplan', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='belongs_to_dayplan', to='api.DayPlan')),
             ],
         ),
         migrations.CreateModel(
@@ -111,7 +111,7 @@ class Migration(migrations.Migration):
                 ('sensor_state', models.IntegerField()),
                 ('sensor_timerate', models.IntegerField()),
                 ('sensor_depth', models.IntegerField()),
-                ('sensor_sub', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='belongs_to_subspace', to='users.EmbeddedSystem')),
+                ('sensor_sub', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='belongs_to_subspace', to='api.EmbeddedSystem')),
             ],
         ),
         migrations.CreateModel(
@@ -128,8 +128,8 @@ class Migration(migrations.Migration):
                 ('space_name', models.CharField(max_length=50)),
                 ('space_description', models.CharField(max_length=150)),
                 ('space_irrigation_hour', models.IntegerField()),
-                ('space_plant_type', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='has_plant_type', to='users.PlantType')),
-                ('space_property', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='belongs_to_property', to='users.Property')),
+                ('space_plant_type', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='has_plant_type', to='api.PlantType')),
+                ('space_property', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='belongs_to_property', to='api.Property')),
             ],
         ),
         migrations.CreateModel(
@@ -138,7 +138,7 @@ class Migration(migrations.Migration):
                 ('sub', models.AutoField(primary_key=True, serialize=False)),
                 ('sub_name', models.CharField(max_length=50)),
                 ('sub_description', models.CharField(max_length=150)),
-                ('sub_space_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='belongs_to_space', to='users.Space')),
+                ('sub_space_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='belongs_to_space', to='api.Space')),
             ],
         ),
         migrations.CreateModel(
@@ -147,14 +147,14 @@ class Migration(migrations.Migration):
                 ('time_restrition_id', models.AutoField(primary_key=True, serialize=False)),
                 ('time_begin', models.DateTimeField()),
                 ('time_duration', models.DurationField()),
-                ('time_restrition_space', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='belongs_to_spaceid', to='users.Space')),
+                ('time_restrition_space', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='belongs_to_spaceid', to='api.Space')),
             ],
         ),
         migrations.CreateModel(
             name='UserHasProperty',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('prop_has_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='prop', to='users.Property')),
+                ('prop_has_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='prop', to='api.Property')),
                 ('user_has_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='owner', to=settings.AUTH_USER_MODEL)),
             ],
         ),
@@ -168,51 +168,51 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='sensor',
             name='sensor_type',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='has_type', to='users.SensorType'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='has_type', to='api.SensorType'),
         ),
         migrations.AddField(
             model_name='readtype',
             name='read_type_sensor',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='read_belongs_to', to='users.Sensor'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='read_belongs_to', to='api.Sensor'),
         ),
         migrations.AddField(
             model_name='read',
             name='read_sensor',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='belongs_to_sensor', to='users.Sensor'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='belongs_to_sensor', to='api.Sensor'),
         ),
         migrations.AddField(
             model_name='read',
             name='read_type',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='has_readtype', to='users.ReadType'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='has_readtype', to='api.ReadType'),
         ),
         migrations.AddField(
             model_name='irrigationtime',
             name='irrigation_time_sub',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='refers_to', to='users.SubSpace'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='refers_to', to='api.SubSpace'),
         ),
         migrations.AddField(
             model_name='embeddedsystem',
             name='esys_local',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='is_in_localization', to='users.Localization'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='is_in_localization', to='api.Localization'),
         ),
         migrations.AddField(
             model_name='embeddedsystem',
             name='esys_sub',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='belongs_to_sub', to='users.SubSpace'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='belongs_to_sub', to='api.SubSpace'),
         ),
         migrations.AddField(
             model_name='dayplan',
             name='dayplan_sub',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='belongs_to_subspa', to='users.SubSpace'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='belongs_to_subspa', to='api.SubSpace'),
         ),
         migrations.AddField(
             model_name='centralnode',
             name='node_local',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='is_in_local', to='users.Localization'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='is_in_local', to='api.Localization'),
         ),
         migrations.AddField(
             model_name='user',
             name='user_props',
-            field=models.ManyToManyField(through='users.UserHasProperty', to='users.Property'),
+            field=models.ManyToManyField(through='api.UserHasProperty', to='api.Property'),
         ),
     ]

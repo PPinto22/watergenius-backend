@@ -28,9 +28,9 @@ python3.5 manage.py runserver
 
 ## API
 
--Auth
-  - [GET /login](#login-with-basic-auth)
-  - [GET /logout] (#logout)
+- Auth
+  - [GET /login](#get-login)
+  - [GET /logout](#get-logout)
 
 - Users
   - [GET /users](#get-users)
@@ -99,6 +99,10 @@ python3.5 manage.py runserver
   - [~~POST /warnings~~](#post-warnings)
 - Operability
   - [~~POST /node/{i}/poweroff~~](#post-nodeipoweroff)
+--- 
+
+### GET /login
+### GET /logout
 
 ### GET /users
 ### POST /users
