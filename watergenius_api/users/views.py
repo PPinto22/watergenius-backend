@@ -44,10 +44,10 @@ def login_view(request):
                 login(request, us)
                 return HttpResponse('success', status=200)
 
-    return HttpResponse('xua')
+    return HttpResponse('authentication needed', status=204)
 
 
-#@login_required
+@login_required
 def usersNormal(request):
     print('normal \n \n ')
     if request.method == 'GET':
@@ -66,7 +66,7 @@ def usersNormal(request):
     
     return JsonResponse(serializer.errors, status=400)
 
-#@login_required
+@login_required
 def usersMail(request, mail=None):
     if request.method == 'GET':
         #data = JSONParser().parse(request)
@@ -102,6 +102,10 @@ def usersMail(request, mail=None):
 
 @login_required
 def properties(request):
+    if request.user.is_authenticated:
+        username = request.user.user_email
+        print('ulha o user')
+        print(username)
     if request.method == 'GET':
         #data = JSONParser().parse(request)
         prop = Property.objects.all()
