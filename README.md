@@ -28,6 +28,10 @@ python3.5 manage.py runserver
 
 ## API
 
+-Auth
+  - [GET /login](#login-with-basic-auth)
+  - [GET /logout] (#logout)
+
 - Users
   - [GET /users](#get-users)
   - [POST /users](#post-users)
