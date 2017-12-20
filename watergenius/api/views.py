@@ -37,7 +37,7 @@ def login_view(request):
                 print(passwd)
                 print(username)
                 print(password)
-                us = User.objects.get(user_email='pinto@gmail.com')
+                us = User.objects.get(user_email=username)
                 user = SettingsBackend.authenticate(username=username, password=password)
                 #print(user)
                 print(us)
@@ -102,13 +102,14 @@ def usersMail(request, mail=None):
 
 @login_required
 def properties(request):
+    print (request.user)
     if request.user.is_authenticated:
         username = request.user.user_email
         print('ulha o user')
         print(username)
     if request.method == 'GET':
         #data = JSONParser().parse(request)
-        prop = Property.objects.all()
+        prop = Property.objects.filter(prop_owner_id=username)
         serializer = PropertySerializer(prop, many=True)
         return JsonResponse(serializer.data , status=200 ,safe=False)
 
@@ -117,7 +118,10 @@ def properties(request):
 
     return JsonResponse('error', status=400, safe=False)
 
-
+@login_required
+def spaces(request):
+    print ('cachaço')
+    return JsonResponse('error', status=400, safe=False)    
 
 
 

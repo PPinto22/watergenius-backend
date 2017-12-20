@@ -1,6 +1,6 @@
 FROM centos:7
 
-LABEL maintainer "tiagocostaloureiro@gmail.com"
+LABEL maintainer "PINTO@gmail.com"
 
 RUN yum -y update && yum -y install epel-release && \
     yum -y install python34-devel \
@@ -38,4 +38,4 @@ EXPOSE 8000
 
 #ENTRYPOINT ["/api/docker-entrypoint.sh"]
 
-CMD ["python3.6", "watergenius_api/manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["python3.6", "watergenius/api/manage.py", "runserver", "0.0.0.0:8000"]

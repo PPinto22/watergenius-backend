@@ -3,7 +3,8 @@
 
 mkdir -p log data
 
-cd watergenius_api
+cd watergenius
+#cd watergenius_api
 
 ls -lsa
 

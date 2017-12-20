@@ -19,11 +19,11 @@ exit
 
 pip3.5 install -r requirements/docker.txt --upgrade
 
-python3.5 manage.py makemigrations
+python3.6 manage.py makemigrations
 
-python3.5 manage.py migrate
+python3.6 manage.py migrate
 
-python3.5 manage.py runserver
+python3.6 manage.py runserver
 ```
 
 ## API
@@ -35,11 +35,11 @@ python3.5 manage.py runserver
 - Users
   - [GET /users](#get-users)
   - [POST /users](#post-users)
-  - [~~GET /users/{id}~~](#get-usersid)
-  - [~~PUT /users/{id}~~](#put-usersid)
-  - [~~DEL /users/{id}~~](#del-usersid)
+  - [GET /users/{id}~~](#get-usersid)
+  - [PUT /users/{id}~~](#put-usersid)
+  - [DEL /users/{id}~~](#del-usersid)
 - Properties
-  - [~~GET /properties~~](#get-properties)
+  - [GET /properties~~](#get-properties)
   - [~~POST /properties~~](#post-properties)
   - [~~GET /properties/{id}~~](#get-propertiesid)
   - [~~PUT /properties/{id}~~](#put-propertiesid)
