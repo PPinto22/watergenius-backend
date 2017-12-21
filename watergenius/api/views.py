@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-from api.models import User,Property, Space , PlantType , SubSpace
+from api.models import User,Property, Space , PlantType , SubSpace , DayPlan
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
-from api.serializers import UserSerializer,PropertySerializer, SpaceSerializer , PlantTypeSerializer , SubSpaceSerializer
+from api.serializers import UserSerializer,PropertySerializer, SpaceSerializer , PlantTypeSerializer , SubSpaceSerializer, DayPlanSerializer
 from urllib.parse import urlparse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login , logout
@@ -155,6 +155,27 @@ def subspaces(request, spaceid=None):
 
 
     return JsonResponse('error', status=400, safe=False)
+
+@login_required
+def plans(request):
+    if request.method == 'GET':
+        print(request.META['QUERY_STRING'])
+        query = (request.META['QUERY_STRING']).split('=')
+        if query[0] == 'subspace':
+            subspaceid = (query[1])
+            dayplans = DayPlan.objects.filter(dayplan_sub=subspaceid)
+        #data = JSONParser().parse(request)
+        #serializer = SpaceSerializer(data=data,partial=True)
+        #plants = SubSpace.objects.filter(sub_space_id=spaceid)
+        serialize = DayPlanSerializer(dayplans, many=True)
+        return JsonResponse( serialize.data , status=200 ,safe=False)
+    elif request.method == 'PUT':
+        print ('iii')
+
+
+    return JsonResponse('error', status=400, safe=False)
+
+
 
 
 

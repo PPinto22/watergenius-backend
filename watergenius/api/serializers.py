@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from api.models import User, Property , Space , PlantType, SubSpace
+from api.models import User, Property , Space , PlantType, SubSpace , DayPlan
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -31,3 +31,8 @@ class SubSpaceSerializer(serializers.ModelSerializer):
         fields = ('sub', 'sub_name', 'sub_description', 'sub_space_id')
         validators = []  # Remove a default "unique together" constraint.
 
+class DayPlanSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DayPlan
+        fields = ('dayplan_id', 'dayplan_gen_time', 'dayplan_time','dayplan_water_qtd', 'dayplan_sub')
+        validators = []  # Remove a default "unique together" constraint.

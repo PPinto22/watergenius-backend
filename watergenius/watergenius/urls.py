@@ -26,4 +26,5 @@ urlpatterns = [
     url(r'^plants/',include('api.plants')),
     #url(r'^subspaces/',include('api.subspaces')),
     url(r'^subspaces/(?P<spaceid>\d+)/',include('api.subspaces')),
+    url(r'^plans/',include('api.plans')),
 ]
