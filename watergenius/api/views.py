@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-from api.models import User,Property
+from api.models import User,Property, Space , PlantType , SubSpace
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
-from api.serializers import UserSerializer,PropertySerializer
+from api.serializers import UserSerializer,PropertySerializer, SpaceSerializer , PlantTypeSerializer , SubSpaceSerializer
 from urllib.parse import urlparse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login , logout
@@ -79,13 +79,9 @@ def usersMail(request, mail=None):
         user = User.objects.get(user_email=mail)
         data = JSONParser().parse(request)
         serializer = UserSerializer(data=data,partial=True)
-        print('ao poste')
-        print(user)
-        print(serializer)
         print(serializer.is_valid())
         # assuming that serializer is valid. TODO 
         if serializer.data['user_email']==user.user_email:
-            print('igualzinho crl')
             user.user_name = serializer.data['user_name']
             user.user_admin = serializer.data['user_admin']
             user.save()
@@ -120,8 +116,47 @@ def properties(request):
 
 @login_required
 def spaces(request):
-    print ('cachaço')
-    return JsonResponse('error', status=400, safe=False)    
+    if request.method == 'GET':
+        props = Property.objects.filter(prop_owner_id=request.user.user_email)
+        #serializer = PropertySerializer(prop, many=True)
+        queryset = Space.objects.filter(space_property__in=props.values('prop_id'))
+        print(list(queryset))
+        spaces = SpaceSerializer(list(queryset), many=True)
+        return JsonResponse( spaces.data, status=200 ,safe=False)
+    elif request.method == 'PUT':
+        print ('iii')
+
+
+    return JsonResponse('error', status=400, safe=False)
+
+
+@login_required
+def plants(request):
+    if request.method == 'GET':
+        plants = PlantType.objects.all()
+        serializer = PlantTypeSerializer(plants, many=True)
+        return JsonResponse( serializer.data, status=200 ,safe=False)
+    elif request.method == 'PUT':
+        print ('iii')
+
+    return JsonResponse('error', status=400, safe=False)
+
+@login_required
+def subspaces(request, spaceid=None):
+    if request.method == 'GET':
+        print(spaceid)
+        #data = JSONParser().parse(request)
+        #serializer = SpaceSerializer(data=data,partial=True)
+        plants = SubSpace.objects.filter(sub_space_id=spaceid)
+        serialize = SubSpaceSerializer(plants, many=True)
+        return JsonResponse( serialize.data, status=200 ,safe=False)
+    elif request.method == 'PUT':
+        print ('iii')
+
+
+    return JsonResponse('error', status=400, safe=False)
+
+
 
 
 

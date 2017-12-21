@@ -22,5 +22,8 @@ urlpatterns = [
     url(r'^api/',include('api.urls')),
     url(r'^properties/',include('api.props')),
     url(r'^login',include('api.log')),
-   
+    url(r'^spaces/',include('api.spaces')),
+    url(r'^plants/',include('api.plants')),
+    #url(r'^subspaces/',include('api.subspaces')),
+    url(r'^subspaces/(?P<spaceid>\d+)/',include('api.subspaces')),
 ]

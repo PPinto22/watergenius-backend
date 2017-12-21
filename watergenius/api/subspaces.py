@@ -6,8 +6,10 @@ from . import views, converters
 
 urlpatterns = [
     #new in django 2.0
-    re_path('(?P<mail>\w{1,50}[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/', views.usersMail, ),
+    #re_path('(?P<mail>\w{1,50}[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/', views.usersMail, ),
     #  path('', views.usersMail, name='usersMail'),
-    path('', views.usersNormal, ),
+    #path('', views.login_view, name='login_view'),
+    path('', views.subspaces, name='subspaces'),
+
 
 ]

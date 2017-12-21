@@ -51,7 +51,7 @@ python3.6 manage.py runserver
   - [~~POST /properties/{id}/managers/{id}~~](#post-propertiesidmanagersid)
   - [~~DEL /properties/{id}/managers/{id}~~](#del-propertiesidmanagersid)
 - Spaces
-  - [~~GET /spaces~~](#get-spaces)
+  - [GET /spaces~~](#get-spaces)
   - [~~POST /spaces~~](#post-spaces)
   - [~~GET /spaces/{id}~~](#get-spacesid)
   - [~~PUT /spaces/{id}~~](#put-spacesid)
@@ -61,9 +61,9 @@ python3.6 manage.py runserver
   - [~~PUT /spaces/{id}/restrictions/{id}~~](#put-spacesidrestrictionsid)
   - [~~DEL /spaces/{id}/restrictions/{id}~~](#del-spacesidrestrictionsid)
 - Plants
-  - [~~GET /plants~~](#get-plants)
+  - [GET /plants~~](#get-plants)
 - Subspaces
-  - [~~GET /subspaces~~](#get-subspaces)
+  - [GET /subspaces~~](#get-subspaces)
   - [~~POST /subspaces~~](#post-subspaces)
   - [~~GET /subspaces/{id}~~](#get-subspacesid)
   - [~~PUT /subspaces/{id}~~](#put-subspacesid)
