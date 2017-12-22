@@ -102,7 +102,7 @@ python3.6 manage.py runserver
 ---
 
 ### POST /auth
-A autenticação é feita por JWT. Esta rota recebe as credenciais do utilizador (email e password) e devolve um token que deve ir em toda as próximas mensagens no campo de cabeçalho Authentication, da seguinte forma:
+A autenticação é feita por JWT. Esta rota recebe as credenciais do utilizador (email e password) e devolve um token que deve ir em todas as próximas mensagens no campo Authorization do cabeçalho HTTP, da seguinte forma:
 
 > JWT &lt;Token>
 
