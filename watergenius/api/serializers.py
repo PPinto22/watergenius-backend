@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from api.models import User, Property , Space , PlantType, SubSpace , DayPlan
+from api.models import User, Property , Warnings,  Space , EmbeddedSystem,  Read,  PlantType, SubSpace , DayPlan , IrrigationTime , Sensor
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -36,3 +36,37 @@ class DayPlanSerializer(serializers.ModelSerializer):
         model = DayPlan
         fields = ('dayplan_id', 'dayplan_gen_time', 'dayplan_time','dayplan_water_qtd', 'dayplan_sub')
         validators = []  # Remove a default "unique together" constraint.
+
+class IrrigationTimeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = IrrigationTime
+        fields = ('irrigation_time_id', 'irrigation_time_date', 'irrigation_time_qtd', 'irrigation_time_sub')
+        validators = []  # Remove a default "unique together" constraint.
+
+class SensorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Sensor
+        fields = ('sensor_id', 'sensor_state', 'sensor_sub', 'sensor_timerate' ,'sensor_depth','sensor_type')
+        validators = []  # Remove a default "unique together" constraint.
+
+class ReadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Read
+        fields = ('read_id', 'read_timestamp', 'read_value', 'read_sensor' ,'read_dayplan','read_type')
+        validators = []  # Remove a default "unique together" constraint.
+
+
+class EmbeddedSystemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EmbeddedSystem
+        fields = ('esys_id', 'esys_local', 'esys_sub', 'esys_state')
+        validators = []  # Remove a default "unique together" constraint.
+
+class WarningsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Warnings
+        fields = ( 'warning_id', 'warning_description')
+        validators = []  # Remove a default "unique together" constraint.
+
+
+

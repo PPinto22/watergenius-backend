@@ -69,33 +69,33 @@ python3.6 manage.py runserver
   - [~~PUT /subspaces/{id}~~](#put-subspacesid)
   - [~~DEL /subspaces/{id}~~](#del-subspacesid)
 - Plans
-  - [~~GET /plans~~](#get-plans)
+  - [GET /plans~~](#get-plans)
   - [~~POST /plans~~](#post-plans)
   - [~~GET /plans/{id}~~](#get-plansid)
 - Irrigations
-  - [~~GET /irrigations~~](#get-irrigations)
+  - [GET /irrigations~~](#get-irrigations)
   - [~~POST /irrigations~~](#post-irrigations)
   - [~~GET /irrigations/{id}~~](#get-irrigationsid)
   - [~~PUT /irrigations/{id}~~](#put-irrigationsid)
   - [~~DEL /irrigations/{id}~~](#del-irrigationsid)
 - Embedded systems
-  - [~~GET /embeddedsys~~](#get-embeddedsys)
+  - [GET /embeddedsys~~](#get-embeddedsys)
   - [~~POST /embeddedsys~~](#post-embeddedsys)
   - [~~GET /embeddedsys/{id}~~](#get-embeddedsysid)
   - [~~PUT /embeddedsys/{id}~~](#put-embeddedsysid)
   - [~~DEL /embeddedsys/{id}~~](#del-embeddedsysid)
 - Sensors
-  - [~~GET /sensors~~](#get-sensors)
+  - [GET /sensors~~](#get-sensors)
   - [~~POST /sensors~~](#post-sensors)
   - [~~GET /sensors/{id}~~](#get-sensorsid)
   - [~~PUT /sensors/{id}~~](#put-sensorsid)
   - [~~DEL /sensors/{id}~~](#del-sensorsid)
 - Reads
-  - [~~GET /reads~~](#get-reads)
+  - [GET /reads~~](#get-reads)
   - [~~POST /reads~~](#post-reads)
   - [~~GET /reads/{id}~~](#get-readsid)
 - Warnings
-  - [~~GET /warnings~~](#get-warnings)
+  - [GET /warnings~~](#get-warnings)
   - [~~POST /warnings~~](#post-warnings)
 - Operability
   - [~~POST /node/{i}/poweroff~~](#post-nodeipoweroff)

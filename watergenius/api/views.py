@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-from api.models import User,Property, Space , PlantType , SubSpace , DayPlan
+from api.models import User,Property, Space , PlantType , Warnings, EmbeddedSystem, Read, SubSpace , Sensor, DayPlan , IrrigationTime
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
-from api.serializers import UserSerializer,PropertySerializer, SpaceSerializer , PlantTypeSerializer , SubSpaceSerializer, DayPlanSerializer
+from api.serializers import UserSerializer, WarningsSerializer, EmbeddedSystemSerializer, ReadSerializer, PropertySerializer, SensorSerializer, SpaceSerializer , PlantTypeSerializer , SubSpaceSerializer, DayPlanSerializer , IrrigationTimeSerializer
 from urllib.parse import urlparse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login , logout
@@ -175,8 +175,101 @@ def plans(request):
 
     return JsonResponse('error', status=400, safe=False)
 
+@login_required
+def irrigations(request):
+    if request.method == 'GET':
+        print(request.META['QUERY_STRING'])
+        query = (request.META['QUERY_STRING']).split('=')
+        if query[0] == 'subspace':
+            print('é isso evaristo')
+            subspaceid = (query[1])
+            dayplans = IrrigationTime.objects.filter(irrigation_time_sub=subspaceid)
+        #data = JSONParser().parse(request)
+        #serializer = SpaceSerializer(data=data,partial=True)
+        #plants = SubSpace.objects.filter(sub_space_id=spaceid)
+        serialize = IrrigationTimeSerializer(dayplans, many=True)
+        return JsonResponse( serialize.data , status=200 ,safe=False)
+    elif request.method == 'PUT':
+        print ('iii')
 
 
+    return JsonResponse('error', status=400, safe=False)
+
+@login_required
+def reads(request):
+    if request.method == 'GET':
+        #print(request.META['QUERY_STRING'])
+        #query = (request.META['QUERY_STRING']).split('=')
+        #if query[0] == 'subspace':
+        #    print('é isso evaristo')
+        #    subspaceid = (query[1])
+        #    dayplans = IrrigationTime.objects.filter(irrigation_time_sub=subspaceid)
+        #data = JSONParser().parse(request)
+        #serializer = SpaceSerializer(data=data,partial=True)
+        #plants = SubSpace.objects.filter(sub_space_id=spaceid)
+        reads = Read.objects.all()
+        serialize = ReadSerializer(reads, many=True)
+        return JsonResponse( serialize.data , status=200 ,safe=False)
+    elif request.method == 'PUT':
+        print ('iii')
+
+
+    return JsonResponse('error', status=400, safe=False)
+
+
+@login_required
+def sensors(request):
+    if request.method == 'GET':
+        #print(request.META['QUERY_STRING'])
+        #query = (request.META['QUERY_STRING']).split('=')
+        #if query[0] == 'subspace':
+        #    print('é isso evaristo')
+        #    subspaceid = (query[1])
+        #    dayplans = IrrigationTime.objects.filter(irrigation_time_sub=subspaceid)
+        sensores = Sensor.objects.all()
+        serialize = SensorSerializer(sensores, many=True)
+        return JsonResponse( serialize.data , status=200 ,safe=False)
+    elif request.method == 'PUT':
+        print ('iii')
+
+
+    return JsonResponse('error', status=400, safe=False)
+
+@login_required
+def embeddedsystems(request):
+    if request.method == 'GET':
+        #print(request.META['QUERY_STRING'])
+        #query = (request.META['QUERY_STRING']).split('=')
+        #if query[0] == 'subspace':
+        #    print('é isso evaristo')
+        #    subspaceid = (query[1])
+        #    dayplans = IrrigationTime.objects.filter(irrigation_time_sub=subspaceid)
+        embedded = EmbeddedSystem.objects.all()
+        serialize = EmbeddedSystemSerializer(embedded, many=True)
+        return JsonResponse( serialize.data , status=200 ,safe=False)
+    elif request.method == 'PUT':
+        print ('iii')
+
+
+    return JsonResponse('error', status=400, safe=False)
+
+@login_required
+def warnings(request):
+    if request.method == 'GET':
+        #print(request.META['QUERY_STRING'])
+        #query = (request.META['QUERY_STRING']).split('=')
+        #if query[0] == 'subspace':
+        #    print('é isso evaristo')
+        #    subspaceid = (query[1])
+        #    dayplans = IrrigationTime.objects.filter(irrigation_time_sub=subspaceid)
+        warnings = Warnings.objects.all()
+        serialize = WarningsSerializer(warnings, many=True)
+        return JsonResponse( serialize.data , status=200 ,safe=False)
+    elif request.method == 'PUT':
+        print ('iii')
+
+
+    return JsonResponse('error', status=400, safe=False)
 
 
 

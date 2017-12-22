@@ -23,8 +23,13 @@ urlpatterns = [
     url(r'^properties/',include('api.props')),
     url(r'^login',include('api.log')),
     url(r'^spaces/',include('api.spaces')),
+    url(r'^irrigations/',include('api.irrigations')),
     url(r'^plants/',include('api.plants')),
     #url(r'^subspaces/',include('api.subspaces')),
     url(r'^subspaces/(?P<spaceid>\d+)/',include('api.subspaces')),
     url(r'^plans/',include('api.plans')),
+    url(r'^sensors/',include('api.sensors')),
+    url(r'^reads/',include('api.reads')),
+    url(r'^embeddedsys/',include('api.embedded')),
+    url(r'^warnings/',include('api.warnings')),
 ]

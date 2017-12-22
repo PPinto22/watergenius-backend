@@ -99,14 +99,14 @@ class ReadType(models.Model):
 
 class DayPlan(models.Model):
     dayplan_id = models.AutoField(primary_key=True)
-    dayplan_gen_time = models.DateField(auto_now=True)
-    dayplan_time = models.DateField()
+    dayplan_gen_time = models.DateTimeField(auto_now=True)
+    dayplan_time = models.DateTimeField()
     dayplan_water_qtd = models.IntegerField()
     dayplan_sub = models.ForeignKey(SubSpace, related_name='belongs_to_subspa', on_delete=models.CASCADE)
 
 class Read(models.Model):
     read_id = models.AutoField(primary_key=True)
-    read_timestamp = models.DateField(auto_now=True)
+    read_timestamp = models.DateTimeField(auto_now=True)
     read_value = models.IntegerField()
     read_sensor = models.ForeignKey(Sensor, related_name='belongs_to_sensor', on_delete=models.CASCADE)
     read_dayplan = models.ForeignKey(DayPlan, related_name='belongs_to_dayplan', on_delete=models.CASCADE)
@@ -120,6 +120,6 @@ class Warnings(models.Model):
 
 class IrrigationTime(models.Model):
     irrigation_time_id = models.AutoField(primary_key=True)
-    irrigation_time_date = models.DateField()
+    irrigation_time_date = models.DateTimeField()
     irrigation_time_qtd = models.IntegerField()
     irrigation_time_sub = models.ForeignKey(SubSpace, related_name='refers_to', on_delete=models.CASCADE)
