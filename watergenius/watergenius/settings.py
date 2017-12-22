@@ -9,10 +9,13 @@ https://docs.djangoproject.com/en/1.11/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
+import datetime
 
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from rest_framework import settings
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -31,7 +34,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'api.apps.UsersConfig',
+    'api.apps.ApiConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -79,11 +82,19 @@ WSGI_APPLICATION = 'watergenius.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
+    # FIXME - Definir as credenciais da DB
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': 'watergenius',
+    #     'USER': 'postgres',
+    #     'PASSWORD': 'dbrootpass',
+    #     'HOST': 'localhost'
+    # }
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'watergenius',
-        'USER': 'postgres',
-        'PASSWORD': 'dbrootpass',
+        'USER': 'watergenius',
+        'PASSWORD': 'watergenius',
         'HOST': 'localhost'
     }
 }
@@ -108,20 +119,20 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated api.
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
-    ]
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
 }
 
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    #'watergenius.authbackend',
-    #'django.contrib.auth.backends.AllowAllUsersRemoteUserBackend',
-]
-
-LOGIN_URL='/login'
+JWT_AUTH = {
+    'JWT_SECRET_KEY': 'Beep boop',
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/

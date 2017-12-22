@@ -1,11 +1,33 @@
 from rest_framework import serializers
-from api.models import User, Property , Warnings,  Space , EmbeddedSystem,  Read,  PlantType, SubSpace , DayPlan , IrrigationTime , Sensor
+
+from api.models import *
+
+
+class UserLoginSerializer(serializers.BaseSerializer):
+    email = serializers.EmailField(required=True)
+    password = serializers.CharField(required=True, max_length=50)
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('user_email', 'user_name', 'user_admin')
+        fields = ('email', 'first_name',  'last_name', 'is_superuser')
         validators = []  # Remove a default "unique together" constraint.
+
+# TODO - validar email com regex
+class UserCreateSerializer(serializers.ModelSerializer):
+    is_superuser = serializers.BooleanField(required=False,default=False)
+    class Meta:
+        model = User
+        fields = ('email', 'first_name', 'last_name', 'password', 'is_superuser')
+        extra_kwargs = {
+            "password": {
+                "write_only": True
+            }
+        }
+
+    def create(self, validated_data):
+        return User(**validated_data)
 
 class PropertySerializer(serializers.ModelSerializer):
     class Meta:
