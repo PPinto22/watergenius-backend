@@ -29,17 +29,16 @@ python3.6 manage.py runserver
 ## API
 
 - Auth
-  - [GET /login](#get-login)
-  - [GET /logout](#get-logout)
+  - [POST /auth](#post-auth)
+  - [POST /register](#post-register)
 
 - Users
   - [GET /users](#get-users)
-  - [POST /users](#post-users)
-  - [GET /users/{id}~~](#get-usersid)
-  - [PUT /users/{id}~~](#put-usersid)
-  - [DEL /users/{id}~~](#del-usersid)
+  - [GET /users/{id}](#get-usersid)
+  - [PUT /users/{id}](#put-usersid)
+  - [DEL /users/{id}](#del-usersid)
 - Properties
-  - [GET /properties~~](#get-properties)
+  - [GET /properties](#get-properties)
   - [~~POST /properties~~](#post-properties)
   - [~~GET /properties/{id}~~](#get-propertiesid)
   - [~~PUT /properties/{id}~~](#put-propertiesid)
@@ -51,7 +50,7 @@ python3.6 manage.py runserver
   - [~~POST /properties/{id}/managers/{id}~~](#post-propertiesidmanagersid)
   - [~~DEL /properties/{id}/managers/{id}~~](#del-propertiesidmanagersid)
 - Spaces
-  - [GET /spaces~~](#get-spaces)
+  - [GET /spaces](#get-spaces)
   - [~~POST /spaces~~](#post-spaces)
   - [~~GET /spaces/{id}~~](#get-spacesid)
   - [~~PUT /spaces/{id}~~](#put-spacesid)
@@ -61,9 +60,9 @@ python3.6 manage.py runserver
   - [~~PUT /spaces/{id}/restrictions/{id}~~](#put-spacesidrestrictionsid)
   - [~~DEL /spaces/{id}/restrictions/{id}~~](#del-spacesidrestrictionsid)
 - Plants
-  - [GET /plants~~](#get-plants)
+  - [GET /plants](#get-plants)
 - Subspaces
-  - [GET /subspaces~~](#get-subspaces)
+  - [GET /subspaces](#get-subspaces)
   - [~~POST /subspaces~~](#post-subspaces)
   - [~~GET /subspaces/{id}~~](#get-subspacesid)
   - [~~PUT /subspaces/{id}~~](#put-subspacesid)
@@ -99,14 +98,75 @@ python3.6 manage.py runserver
   - [~~POST /warnings~~](#post-warnings)
 - Operability
   - [~~POST /node/{i}/poweroff~~](#post-nodeipoweroff)
---- 
 
-### GET /login
-### GET /logout
+---
+
+### POST /auth
+A autenticação é feita por JWT. Esta rota recebe as credenciais do utilizador (email e password) e devolve um token que deve ir em toda as próximas mensagens no campo de cabeçalho Authentication, da seguinte forma:
+
+> JWT &lt;Token>
+
+
+#### Body
+```json
+{
+  "email": "john@gmail.com",
+  "password": "password"
+}
+```
+
+#### Response
+```json
+{
+  "token": "eyJ0p.eyJ1c.u8vNO"
+}
+```
+
+#### Exceptions
+- **Bad Request (400)** - Invalid credentials
+
+Em comunicações posteriores à autenticação, quando o token não for válido:
+- **Unauthorized (401)**
+
+### POST /register
+#### Body
+```json
+{
+  "email": "john@gmail.com",
+  "password": "password",
+  "first_name": "John",
+  "last_name": "Doe",
+  "is_superuser": true
+}
+```
+O campo "is_superuser" define se o utilizador a ser criado é admin ou não. Não é obrigatório ir na mensagem, tomando o valor ``false`` por defeito. Só um admin é que tem permissões para criar outro admin **(Isto ainda não está implementado)**.
+
+#### Response
+Igual ao Body - a chave é o email.
+
+#### Exceptions
+- **Bad Request (400)** -
+```json
+{
+  "email": ["user with this email already exists."],
+  "password": ["This field is required."],
+  "etc..."
+}
+```
 
 ### GET /users
-### POST /users
-
+#### Response
+```json
+[
+  {
+    "email": "john@gmail.com",
+    "password": "password",
+    "first_name": "John",
+    "last_name": "Doe",
+    "is_superuser": true
+  }
+]
+```
 ### GET /users/{id}
 ### PUT /users/{id}
 ### DEL /users/{id}

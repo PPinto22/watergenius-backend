@@ -1,13 +1,17 @@
-from django.urls import path ,register_converter, re_path
-from . import views, converters
+from django.urls import include, path
+from rest_framework_jwt.views import obtain_jwt_token
 
-
-#register_converter(converters.MailConverter, 'mail')
+from . import views
 
 urlpatterns = [
-    #new in django 2.0
-    re_path('(?P<mail>\w{1,50}[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/', views.usersMail, ),
-    #  path('', views.usersMail, name='usersMail'),
-    path('', views.usersNormal, ),
+    path('register', views.RegisterView.as_view()),
+    path('auth', obtain_jwt_token),
 
+    path('users', views.UserView.as_view()),
+    path('properties/',include('api.props')),
+    path('spaces/',include('api.spaces')),
+    path('plants/',include('api.plants')),
+    #path('subspaces/',include('api.subspaces')),
+    path('subspaces/<int:spaceid>/',include('api.subspaces')),
+    path('plans/',include('api.plans')),
 ]
