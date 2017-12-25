@@ -17,7 +17,7 @@ CREATE DATABASE watergenius;
 
 exit
 
-pip3.5 install -r requirements/docker.txt --upgrade
+pip3.6 install -r requirements/docker.txt --upgrade
 
 python3.6 manage.py makemigrations
 
@@ -27,7 +27,8 @@ python3.6 manage.py runserver
 ```
 
 ## API
-
+#post udpate/modify reosurce
+#put insert/overwrite
 - Auth
   - [POST /auth](#post-auth)
   - [POST /register](#post-register)
@@ -39,16 +40,16 @@ python3.6 manage.py runserver
   - [DEL /users/{id}](#del-usersid)
 - Properties
   - [GET /properties](#get-properties)
-  - [~~POST /properties~~](#post-properties)
-  - [~~GET /properties/{id}~~](#get-propertiesid)
-  - [~~PUT /properties/{id}~~](#put-propertiesid)
-  - [~~DEL /properties/{id}~~](#del-propertiesid)
-  - [~~GET /properties/{id}/node~~](#get-propertiesidnode)
-  - [~~POST /properties/{id}/node~~](#post-propertiesidnode)
-  - [~~PUT /properties/{id}/node~~](#put-propertiesidnode)
-  - [~~GET /properties/{id}/managers~~](#get-propertiesidmanagers)
-  - [~~POST /properties/{id}/managers/{id}~~](#post-propertiesidmanagersid)
-  - [~~DEL /properties/{id}/managers/{id}~~](#del-propertiesidmanagersid)
+  - [PUT /properties](#put-properties)
+  - [POST /properties/{id}](#post-properties)
+  - [GET /properties/{id}](#get-propertiesid)
+  - [DEL /properties/{id}](#del-propertiesid)
+  - [GET /properties/{id}/node](#get-propertiesidnode)
+  - [POST /properties/{id}/node](#post-propertiesidnode)
+  - [PUT /properties/{id}/node](#put-propertiesidnode)
+  - [GET /properties/{id}/managers/](#get-propertiesidmanagers)
+  - [PUT /properties/{id}/managers/{id}](#post-propertiesidmanagersid)
+  - [DEL /properties/{id}/managers/{id}](#del-propertiesidmanagersid)
 - Spaces
   - [GET /spaces](#get-spaces)
   - [~~POST /spaces~~](#post-spaces)

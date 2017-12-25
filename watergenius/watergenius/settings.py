@@ -93,8 +93,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'watergenius',
-        'USER': 'watergenius',
-        'PASSWORD': 'watergenius',
+        'USER': 'postgres',
+        'PASSWORD': 'dbrootpass',
         'HOST': 'localhost'
     }
 }

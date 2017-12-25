@@ -36,9 +36,16 @@ class PropertySerializer(serializers.ModelSerializer):
         validators = []  # Remove a default "unique together" constraint.
 
 class SpaceSerializer(serializers.ModelSerializer):
+    space_id = serializers.PrimaryKeyRelatedField(queryset=Space.objects.all())
     class Meta:
         model = Space
         fields = ('space_id', 'space_name', 'space_description', 'space_irrigation_hour' ,'space_property','space_plant_type')
+        validators = []  # Remove a default "unique together" constraint.
+
+class UserHasPropertyeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserHasProperty
+        fields = ('user_has_id','prop_has_id')
         validators = []  # Remove a default "unique together" constraint.
 
 class PlantTypeSerializer(serializers.ModelSerializer):
@@ -69,6 +76,14 @@ class SensorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sensor
         fields = ('sensor_id', 'sensor_state', 'sensor_sub', 'sensor_timerate' ,'sensor_depth','sensor_type')
+        validators = []  # Remove a default "unique together" constraint.
+
+class CentralNodeSerializer(serializers.ModelSerializer):
+    node_id = serializers.PrimaryKeyRelatedField(queryset=CentralNode.objects.all())
+    node_property = serializers.PrimaryKeyRelatedField(queryset=Property.objects.all())
+    class Meta:
+        model = CentralNode
+        fields = ('node_id', 'node_ip', 'node_local', 'node_property' )
         validators = []  # Remove a default "unique together" constraint.
 
 class ReadSerializer(serializers.ModelSerializer):

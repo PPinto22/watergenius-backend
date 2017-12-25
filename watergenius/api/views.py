@@ -3,7 +3,7 @@ from rest_framework.parsers import JSONParser
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from django.core.exceptions import ObjectDoesNotExist 
 import api.serializers
 from api.serializers import *
 
@@ -60,33 +60,226 @@ def usersMail(request, mail=None):
 
     return JsonResponse(serializer.errors, status=400)
 
-def properties(request):
-    print (request.user)
-    if request.user.is_authenticated:
-        username = request.user.email
-        print('ulha o user')
-        print(username)
+
+#/properties/{id}/managers
+def propertiesManagers(request, propid=None, managerid=None):
+    print(managerid)
+    print(propid)
+    if propid==None:
+        return JsonResponse(' Please especify the property id' , status=400 ,safe=False)
+    if request.method == 'GET':
+        if managerid==None:
+            #return all managers of that property
+            managersOfProperty = UserHasProperty.objects.filter(prop_has_id=propid)
+            queryset = User.objects.filter(email__in=managersOfProperty.values('user_has_id'))
+            print(list(queryset))
+            serializer = api.serializers.UserSerializer(list(queryset), many=True)
+            return JsonResponse(serializer.data, safe=False)
+        else:
+            managersOfProperty = UserHasProperty.objects.filter(prop_has_id=propid)
+            queryset = User.objects.filter(email__in=managersOfProperty.values('user_has_id'), )
+
+    if request.method == 'PUT':
+        if managerid!=None:
+            #NOTE: put = set user has manager??
+            try:
+                user = User.objects.get(email=managerid)
+            except Exception as e:
+                return JsonResponse(' Invalid user mail ' , status=400 ,safe=False)
+            manager = UserHasProperty()
+            manager.user_has_id = user
+            manager.prop_has_id =  Property.objects.get(prop_id=propid)
+            try:
+                manager.save()
+            except Exception:
+                return JsonResponse( managerid + ' is the manager already' , status=200 ,safe=False)
+            return JsonResponse('New Manager added' , status=200 ,safe=False)
+        else:
+            return JsonResponse(' Please especify the property id' , status=400 ,safe=False)
+
+    if request.method == 'DELETE':
+        if managerid!=None:
+            try:
+                usp = UserHasProperty.objects.get(user_has_id=managerid , prop_has_id=propid)
+            except ObjectDoesNotExist:
+                return JsonResponse("That manager doesn't manage this property" , status=400 ,safe=False)
+            usp.delete()
+            return JsonResponse('OK', status=200, safe=False)
+        else:
+            return JsonResponse('Especify the property id' , status=400 ,safe=False)
+
+
+    return JsonResponse('Not supported' + str(propid) + str(), status=400, safe=False)
+
+
+
+#/properties/{id}/node
+def propertiesNode(request, propid=None):
+    if propid==None:
+        return JsonResponse(' Please especify the property id' , status=400 ,safe=False)
+    
+    if request.method == 'GET':
+        try:
+            node = CentralNode.objects.get(node_property_id=propid)
+        except ObjectDoesNotExist as e:
+            return JsonResponse("That property doesn't have a central node" , status=404, safe=False)
+        
+        serializer = CentralNodeSerializer(node, many=False)
+        return JsonResponse(serializer.data, safe=False)
+    elif request.method == 'PUT':
+        try:
+            node = CentralNode.objects.get(node_property_id=propid)
+        except ObjectDoesNotExist as e:
+            data = JSONParser().parse(request)
+            serializer = api.serializers.CentralNodeSerializer(data=data , partial=True)
+            if serializer.is_valid():
+                serializer.node_id=-1
+                serializer.save()
+                return JsonResponse('Central Node created' , status=200 ,safe=False)
+        else:
+            # already exists, error
+             return JsonResponse('That property already has a central node. if you want to edit the central node, use post method' , status=200 ,safe=False)
+    elif request.method == 'POST':
+        try:
+            node = CentralNode.objects.get(node_property_id=propid)
+        except ObjectDoesNotExist as e:
+            return JsonResponse("That property doesn't have a central node" , status=404, safe=False)
+        data = JSONParser().parse(request)
+        serializer = api.serializers.CentralNodeSerializer(data=data , partial=True)
+        print(serializer.is_valid())
+        print(serializer.data)
+        if serializer.is_valid():
+            for attr, value in serializer.validated_data.items():
+                # NOTE: not allowing to change property id . DISCUSS
+                if attr != 'node_id' and attr != 'node_property':
+                    setattr(node, attr, value)
+            node.save()
+            return JsonResponse('Central Node updated' , status=200 ,safe=False)
+        else:
+            return JsonResponse('Internal error' , status=500 ,safe=False)                    
+    return JsonResponse('NOT SUPPORTED' + str(propid), status=400, safe=False)
+
+
+#Propertys/{id}
+def properties(request, propid=None):
     if request.method == 'GET':
         #data = JSONParser().parse(request)
-        prop = Property.objects.filter(prop_owner_id=username)
-        serializer = api.serializers.PropertySerializer(prop, many=True)
-        return JsonResponse(serializer.data , status=200 ,safe=False)
-
+        if propid!=None:
+            #TODO  check authenticated user and get only the properties of that user
+            prop = Property.objects.filter(prop_id=propid)
+            print (prop)
+            serializer = api.serializers.PropertySerializer(list(prop) , many=True)
+            return JsonResponse(serializer.data , status=200 ,safe=False)
+        else:
+            owner = request.user
+            print(owner)
+            prop = Property.objects.filter(prop_owner_id=owner)
+            serializer = api.serializers.PropertySerializer(prop, many=True)
+            return JsonResponse(serializer.data , status=200 ,safe=False)
+    
+    elif request.method == 'POST':
+        print('ao poste')
+        if propid!=None:
+            try:
+                instance = Property.objects.get(prop_id=propid)
+            except ObjectDoesNotExist:
+                return JsonResponse("That property doesn't even exist" , status=400 ,safe=False)
+            data = JSONParser().parse(request)
+            serializer = api.serializers.PropertySerializer(data=data , partial=True)
+            if serializer.is_valid():
+                for attr, value in serializer.validated_data.items():
+                    print (attr)
+                    if attr != 'prop_id' and attr != 'prop_owner':
+                        setattr(instance, attr, value)
+                print(type(instance))
+                instance.save()
+                return JsonResponse('Property updated' , status=200 ,safe=False)
+        else:
+            return JsonResponse('Especify the property id' , status=400 ,safe=False)
     elif request.method == 'PUT':
-        print ('iii')
+        # NOTE : not inserting in api_userhasproperty DISCUSS
+        if propid!=None:
+            #especificou id no url ( makes sense? dunno)
+            try:
+                instance = Property.objects.get(prop_id=propid)
+            except ObjectDoesNotExist:
+                instance = None
+            if instance != None:
+                data = JSONParser().parse(request)
+                serializer = api.serializers.PropertySerializer(data=data , partial=True)
+                if serializer.is_valid():
+                    if serializer.is_valid():
+                        for attr, value in serializer.validated_data.items():
+                            print (attr)
+                            if attr != 'prop_id' or attr != 'prop_owner':
+                                setattr(instance, attr, value)
+                        instance.save()
+                    return JsonResponse('Property updated' , status=200 ,safe=False)
+                else:
+                    return JsonResponse('Internal error' , status=500 ,safe=False)                    
+            else:
+                #doesn't exist, create
+                data = JSONParser().parse(request)
+                serializer = api.serializers.PropertySerializer(data=data , partial=True)
+                if serializer.is_valid():
+                    serializer.prop_id=-1
+                    serializer.save()
+                    return JsonResponse('New property created' , status=200 ,safe=False)
 
-    return JsonResponse('error', status=400, safe=False)
+        else:
+            #create the resource with auto id
+            data = JSONParser().parse(request)
+            serializer = api.serializers.PropertySerializer(data=data , partial=True)
+            if serializer.is_valid():
+                serializer.prop_id=-1
+                serializer.save()
+                return JsonResponse('New property created' , status=200 ,safe=False)
+            else:
+                return JsonResponse('Internal error' , status=500 ,safe=False)                    
+    
+    elif request.method == 'DELETE':
+        if propid!=None:
+            try:
+                prop = Property.objects.get(prop_id=propid)
+            except ObjectDoesNotExist:
+                return JsonResponse("That property doesn't even exist" , status=400 ,safe=False)
+            prop.delete()
+            return JsonResponse('OK', status=200, safe=False)
+        else:
+            return JsonResponse('Especify the property id' , status=400 ,safe=False)
 
-def spaces(request):
+    return JsonResponse('error', status=501, safe=False)
+
+def spaces(request, spaceid=None):
+    print (request.user)
     if request.method == 'GET':
-        props = Property.objects.filter(prop_owner_id=request.user.email)
-        #serializer = PropertySerializer(prop, many=True)
-        queryset = Space.objects.filter(space_property__in=props.values('prop_id'))
-        print(list(queryset))
-        spaces = api.serializers.SpaceSerializer(list(queryset), many=True)
-        return JsonResponse( spaces.data, status=200 ,safe=False)
-    elif request.method == 'PUT':
-        print ('iii')
+        print(spaceid)
+        if spaceid!=None:
+            props = Property.objects.filter(prop_owner_id=request.user.email)
+            #serializer = PropertySerializer(prop, many=True)
+            queryset = Space.objects.filter(space_property__in=props.values('prop_id'))
+            print(list(queryset))
+            spaces = api.serializers.SpaceSerializer(list(queryset), many=True)
+            return JsonResponse( spaces.data, status=200 ,safe=False)
+        else:
+            queryset = Space.objects.all()
+            spaces = api.serializers.SpaceSerializer(queryset, many=True)
+            return JsonResponse( spaces.data, status=200 ,safe=False)
+
+    elif request.method == 'POST':
+        #edit resource
+        data = JSONParser().parse(request)
+        serializer = api.serializers.SpaceSerializer(data=data , partial=True)
+        if serializer.is_valid():
+            instance = Space.objects.get(pk=serializer.data['space_id'])
+            print(instance)
+            for attr, value in serializer.validated_data.items():
+                print (attr)
+                if attr != 'space_id':
+                    setattr(instance, attr, value)
+            print(type(instance))
+            instance.save()
+            return JsonResponse( 'OK', status=200, safe=False)
 
     return JsonResponse('error', status=400, safe=False)
 
@@ -104,15 +297,18 @@ def plants(request):
 def subspaces(request, spaceid=None):
     if request.method == 'GET':
         print(spaceid)
-        #data = JSONParser().parse(request)
-        #serializer = SpaceSerializer(data=data,partial=True)
-        plants = SubSpace.objects.filter(sub_space_id=spaceid)
-        serialize = api.serializers.SubSpaceSerializer(plants, many=True)
-        return JsonResponse( serialize.data, status=200 ,safe=False)
+        if spaceid!=None:
+            #data = JSONParser().parse(request)
+            #serializer = SpaceSerializer(data=data,partial=True)
+            plants = SubSpace.objects.filter(sub_space_id=spaceid)
+            serialize = api.serializers.SubSpaceSerializer(plants, many=True)
+            return JsonResponse( serialize.data, status=200 ,safe=False)
+        else:
+            plants = SubSpace.objects.all()
+            serialize = api.serializers.SubSpaceSerializer(plants, many=True)
+            return JsonResponse( serialize.data, status=200 ,safe=False)
     elif request.method == 'PUT':
         print ('iii')
-
-
     return JsonResponse('error', status=400, safe=False)
 
 def plans(request):

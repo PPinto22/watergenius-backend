@@ -10,6 +10,6 @@ urlpatterns = [
     #  path('', views.usersMail, name='usersMail'),
     #path('', views.login_view, name='login_view'),
     path('', views.subspaces, name='subspaces'),
-
+    
 
 ]

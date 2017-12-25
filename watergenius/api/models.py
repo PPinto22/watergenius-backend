@@ -29,6 +29,8 @@ class Property(models.Model):
 
 
 class UserHasProperty(models.Model):
+    class Meta:
+        unique_together = (('user_has_id', 'prop_has_id'),)
     user_has_id = models.ForeignKey(User, related_name='owner', on_delete=models.CASCADE)
     prop_has_id = models.ForeignKey(Property, related_name='prop', on_delete=models.CASCADE)
 
@@ -46,6 +48,8 @@ class Space(models.Model):
     space_property = models.ForeignKey(Property, related_name='belongs_to_property', on_delete=models.CASCADE)
     space_plant_type = models.ForeignKey(PlantType, related_name='has_plant_type', on_delete=models.CASCADE)
 
+    def __str__(self):
+        return 'id -> ' + str(self.space_id )+ ' Name -> ' + self.space_name + " description -> " + self.space_description + ' irrigation_hour  ' + str(self.space_irrigation_hour)  
 
 class TimeRestrition(models.Model):
     time_restrition_id = models.AutoField(primary_key=True)
@@ -64,7 +68,7 @@ class CentralNode(models.Model):
     node_id = models.AutoField(primary_key=True)
     node_ip = models.GenericIPAddressField()
     node_local = models.ForeignKey(Localization, related_name='is_in_local', on_delete=models.CASCADE)
-
+    node_property = models.OneToOneField(Property , on_delete=models.CASCADE)
 
 class SubSpace(models.Model):
     sub = models.AutoField(primary_key=True)

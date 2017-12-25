@@ -9,6 +9,10 @@ urlpatterns = [
     #re_path('(?P<mail>\w{1,50}[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/', views.usersMail, ),
     #  path('', views.usersMail, name='usersMail'),
     path('', views.properties, name='properties'),
-
+    path('node/', views.propertiesNode, name='propertiesNode'),
+    re_path('(?P<propid>\w+)/managers/(?P<managerid>\w{1,50}[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/', views.propertiesManagers, name='propertiesManagers',),
+	path('managers/', views.propertiesManagers, name='propertiesManagers'),
+    
+    
 
 ]
