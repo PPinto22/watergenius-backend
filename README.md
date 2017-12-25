@@ -57,9 +57,9 @@ python3.6 manage.py runserver
   - [PUT /spaces/{id}](#put-spacesid)
   - [DEL /spaces/{id}](#del-spacesid)
   - [GET /spaces/{id}/restrictions](#get-spacesidrestrictions)
-  - [~~PUT /spaces/{id}/restrictions~~](#post-spacesidrestrictions)
-  - [~~POST /spaces/{id}/restrictions/{id}~~](#put-spacesidrestrictionsid)
-  - [~~DEL /spaces/{id}/restrictions/{id}~~](#del-spacesidrestrictionsid)
+  - [PUT /spaces/{id}/restrictions](#post-spacesidrestrictions)
+  - [POST /spaces/{id}/restrictions/{id}](#put-spacesidrestrictionsid)
+  - [DEL /spaces/{id}/restrictions/{id}](#del-spacesidrestrictionsid)
 - Plants
   - [GET /plants](#get-plants)
 - Subspaces

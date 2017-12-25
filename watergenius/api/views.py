@@ -349,10 +349,60 @@ def spacesRes(request, spaceid, resid=None):
             return JsonResponse(serializer.data, status=200, safe=False)
         else:
             #resid is valid
-            timeRes = TimeRestrition.objects.get(time_restrition_id=resid)
+            try:
+                timeRes = TimeRestrition.objects.get(time_restrition_id=resid)
+            except ObjectDoesNotExist as e:
+                return JsonResponse(' the especified time restrition doesnt exist for that space' , status=400 ,safe=False)
+            
             serializer = api.serializers.TimeRestritionSerializer(timeRes, many=False)
             return JsonResponse(serializer.data, status=200, safe=False)
 
+    elif request.method == 'PUT':
+        instance = TimeRestrition()
+        data = JSONParser().parse(request)
+        serializer = api.serializers.TimeRestritionSerializer(data=data , partial=True)
+        if serializer.is_valid():
+            for attr, value in serializer.validated_data.items():
+                if attr != 'time_restrition_id' :
+                    print (attr)
+                    setattr(instance, attr, value)
+            instance.save()
+            return  JsonResponse( 'OK', status=200, safe=False)
+        else:
+            return JsonResponse('Internal error or malformed json ' , status=500 ,safe=False)
+    
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        serializer = api.serializers.TimeRestritionSerializer(data=data , partial=True)
+        if serializer.is_valid():
+            if resid ==None or resid =="":
+                resid = serializer.validated_data['time_restrition_id']
+            try:
+                instance = TimeRestrition.objects.get(time_restrition_id=resid)
+            except Exception as e:
+                return JsonResponse('Especify the correct restrition id' , status=400 ,safe=False)
+            for attr, value in serializer.validated_data.items():
+                if attr != 'time_restrition_id' :
+                    print (attr)
+                    setattr(instance, attr, value)
+            instance.save()
+            return JsonResponse( 'Time restrition edited with success', status=200, safe=False)
+        else:
+            return JsonResponse('Internal error or malformed json ' , status=500 ,safe=False)
+
+    elif request.method == 'DELETE':
+        if resid!=None and resid !="":
+            try:
+                time = TimeRestrition.objects.filter(time_restrition_id=resid, time_restrition_space=spaceid)
+            except ObjectDoesNotExist:
+                return JsonResponse("That restrition doesn't even exist, fool" , status=400 ,safe=False)
+            if len(time) >0:
+                time.delete()
+                return JsonResponse('restrition deleted', status=200, safe=False)
+
+            return JsonResponse("That restrition doesn't even exist for that space, fool" , status=400 ,safe=False)
+        else:
+            return JsonResponse(' Especify space ID in url' , status=400 ,safe=False)
 
     return JsonResponse('error' + str(spaceid)+ str(resid), status=400, safe=False)
 
