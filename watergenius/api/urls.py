@@ -12,6 +12,7 @@ urlpatterns = [
     path('properties/<int:propid>/',include('api.props')),
     path('spaces/',include('api.spaces')),
     path('spaces/<int:spaceid>/',include('api.spaces')),
+    path('spaces/<int:spaceid>/restritions/<int:resid>',include('api.spaces')),
     path('plants/',include('api.plants')),
     path('subspaces/',include('api.subspaces')),
     path('subspaces/<int:spaceid>/',include('api.subspaces')),

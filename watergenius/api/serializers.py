@@ -42,10 +42,16 @@ class SpaceSerializer(serializers.ModelSerializer):
         fields = ('space_id', 'space_name', 'space_description', 'space_irrigation_hour' ,'space_property','space_plant_type')
         validators = []  # Remove a default "unique together" constraint.
 
-class UserHasPropertyeSerializer(serializers.ModelSerializer):
+class UserHasPropertySerializer(serializers.ModelSerializer):
     class Meta:
         model = UserHasProperty
         fields = ('user_has_id','prop_has_id')
+        validators = []  # Remove a default "unique together" constraint.
+
+class TimeRestritionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TimeRestrition
+        fields = ('time_restrition_id','time_begin', 'time_duration', 'time_restrition_space')
         validators = []  # Remove a default "unique together" constraint.
 
 class PlantTypeSerializer(serializers.ModelSerializer):

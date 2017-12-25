@@ -250,13 +250,14 @@ def properties(request, propid=None):
 
     return JsonResponse('error', status=501, safe=False)
 
+
+
 def spaces(request, spaceid=None):
-    print (request.user)
     if request.method == 'GET':
         print(spaceid)
         if spaceid!=None:
+            #TODO get this user email with the pinto way
             props = Property.objects.filter(prop_owner_id=request.user.email)
-            #serializer = PropertySerializer(prop, many=True)
             queryset = Space.objects.filter(space_property__in=props.values('prop_id'))
             print(list(queryset))
             spaces = api.serializers.SpaceSerializer(list(queryset), many=True)
@@ -281,7 +282,79 @@ def spaces(request, spaceid=None):
             instance.save()
             return JsonResponse( 'OK', status=200, safe=False)
 
+    elif request.method == 'PUT':
+        print('put')
+        if spaceid!=None:
+            try:
+                space = Space.objects.get(space_id=spaceid)
+            except ObjectDoesNotExist as e:
+                #insert
+                print('nao existe')
+                instance = Space()
+                data = JSONParser().parse(request)
+                serializer = api.serializers.SpaceSerializer(data=data , partial=True)
+                if serializer.is_valid():
+                    for attr, value in serializer.validated_data.items():
+                        if attr != 'space_id' :
+                            print (attr)
+                            setattr(instance, attr, value)
+                    try:
+                        space1 = Space.objects.get(space_id=serializer.data['space_id'])
+                    except ObjectDoesNotExist as e:
+                        instance.save()
+                        return  JsonResponse( 'OK', status=200, safe=False)
+                    else:
+                        return JsonResponse('a space with that id already exists. if you want to edit it, use post method' , status=200 ,safe=False)
+                return JsonResponse('Internal error' , status=500 ,safe=False)                                       
+            else:
+                #already exists , overwrite or ignore?? DISCUSS
+                return JsonResponse('This space in url already exists. if you want to edit it, use post method' , status=200 ,safe=False)
+
+        else:
+            instance = Space()
+            data = JSONParser().parse(request)
+            serializer = api.serializers.SpaceSerializer(data=data , partial=True)
+            if serializer.is_valid():
+                for attr, value in serializer.validated_data.items():
+                    if attr != 'space_id' :
+                        print (attr)
+                        setattr(instance, attr, value)
+                instance.save()
+                return  JsonResponse( 'OK', status=200, safe=False)
+                
+            return JsonResponse('Internal error' , status=500 ,safe=False)
+    elif request.method == 'DELETE':
+        if spaceid!=None:
+            try:
+                space = Space.objects.get(space_id=spaceid)
+            except ObjectDoesNotExist:
+                return JsonResponse("That space doesn't even exist, fool" , status=400 ,safe=False)
+            space.delete()
+            return JsonResponse('Space deleted', status=200, safe=False)
+        else:
+            return JsonResponse(' Especify space ID in url' , status=400 ,safe=False)
+
     return JsonResponse('error', status=400, safe=False)
+
+#def spaceResSimple()
+
+#spaces/id/restritions/id
+def spacesRes(request, spaceid, resid=None):
+    if request.method == 'GET':
+        if resid ==None or resid =="":
+            if spaceid==None:
+                return JsonResponse(' Especify space ID in url' , status=400 ,safe=False)
+            timeRes = TimeRestrition.objects.filter(time_restrition_space=spaceid)
+            serializer = api.serializers.TimeRestritionSerializer(list(timeRes), many=True)
+            return JsonResponse(serializer.data, status=200, safe=False)
+        else:
+            #resid is valid
+            timeRes = TimeRestrition.objects.get(time_restrition_id=resid)
+            serializer = api.serializers.TimeRestritionSerializer(timeRes, many=False)
+            return JsonResponse(serializer.data, status=200, safe=False)
+
+
+    return JsonResponse('error' + str(spaceid)+ str(resid), status=400, safe=False)
 
 
 def plants(request):

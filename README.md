@@ -11,7 +11,7 @@ Iniciar o docker-compose no projeto principal e depois executar o seguinte
 ```
 docker-compose exec db bash
 
-psql -h localhost -U postgres
+psql -h localhost -U postgres -d watergenius
 
 CREATE DATABASE watergenius;
 
@@ -52,13 +52,13 @@ python3.6 manage.py runserver
   - [DEL /properties/{id}/managers/{id}](#del-propertiesidmanagersid)
 - Spaces
   - [GET /spaces](#get-spaces)
-  - [~~POST /spaces~~](#post-spaces)
-  - [~~GET /spaces/{id}~~](#get-spacesid)
-  - [~~PUT /spaces/{id}~~](#put-spacesid)
-  - [~~DEL /spaces/{id}~~](#del-spacesid)
-  - [~~GET /spaces/{id}/restrictions~~](#get-spacesidrestrictions)
-  - [~~POST /spaces/{id}/restrictions~~](#post-spacesidrestrictions)
-  - [~~PUT /spaces/{id}/restrictions/{id}~~](#put-spacesidrestrictionsid)
+  - [POST /spaces](#post-spaces)
+  - [GET /spaces/{id}](#get-spacesid)
+  - [PUT /spaces/{id}](#put-spacesid)
+  - [DEL /spaces/{id}](#del-spacesid)
+  - [GET /spaces/{id}/restrictions](#get-spacesidrestrictions)
+  - [~~PUT /spaces/{id}/restrictions~~](#post-spacesidrestrictions)
+  - [~~POST /spaces/{id}/restrictions/{id}~~](#put-spacesidrestrictionsid)
   - [~~DEL /spaces/{id}/restrictions/{id}~~](#del-spacesidrestrictionsid)
 - Plants
   - [GET /plants](#get-plants)
