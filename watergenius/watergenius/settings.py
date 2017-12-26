@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 ]
 
 ROOT_URLCONF = 'watergenius.urls'
+APPEND_SLASH = False
 
 TEMPLATES = [
     {

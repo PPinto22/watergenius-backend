@@ -29,79 +29,79 @@ python3.6 manage.py runserver
 ## API
 
 - Auth
-  - [POST /auth](#post-auth)
-  - [POST /register](#post-register)
+  - [POST /auth/](#post-auth)
+  - [POST /register/](#post-register)
 
 - Users
-  - [GET /users](#get-users)
-  - [GET /users/{id}](#get-usersid)
-  - [PUT /users/{id}](#put-usersid)
-  - [DEL /users/{id}](#del-usersid)
+  - [GET /users/](#get-users)
+  - [GET /users/{id}/](#get-usersid)
+  - [PUT /users/{id}/](#put-usersid)
+  - [DEL /users/{id}/](#del-usersid)
 - Properties
-  - [GET /properties](#get-properties)
-  - [PUT /properties](#put-properties)
-  - [POST /properties/{id}](#post-properties)
-  - [GET /properties/{id}](#get-propertiesid)
-  - [DEL /properties/{id}](#del-propertiesid)
-  - [GET /properties/{id}/node](#get-propertiesidnode)
-  - [POST /properties/{id}/node](#post-propertiesidnode)
-  - [PUT /properties/{id}/node](#put-propertiesidnode)
-  - [GET /properties/{id}/managers/](#get-propertiesidmanagers)
-  - [PUT /properties/{id}/managers/{id}](#post-propertiesidmanagersid)
-  - [DEL /properties/{id}/managers/{id}](#del-propertiesidmanagersid)
+  - [GET /properties/](#get-properties)
+  - [PUT /properties/](#put-properties)
+  - [POST /properties/{id}/](#post-properties)
+  - [GET /properties/{id}/](#get-propertiesid)
+  - [DEL /properties/{id}/](#del-propertiesid)
+  - [GET /properties/{id}/node/](#get-propertiesidnode)
+  - [POST /properties/{id}/node/](#post-propertiesidnode)
+  - [PUT /properties/{id}/node/](#put-propertiesidnode)
+  - [GET /properties/{id}/managers//](#get-propertiesidmanagers)
+  - [PUT /properties/{id}/managers/{id}/](#post-propertiesidmanagersid)
+  - [DEL /properties/{id}/managers/{id}/](#del-propertiesidmanagersid)
 - Spaces
-  - [GET /spaces](#get-spaces)
-  - [POST /spaces](#post-spaces)
-  - [GET /spaces/{id}](#get-spacesid)
-  - [PUT /spaces/{id}](#put-spacesid)
-  - [DEL /spaces/{id}](#del-spacesid)
-  - [GET /spaces/{id}/restrictions](#get-spacesidrestrictions)
-  - [PUT /spaces/{id}/restrictions](#post-spacesidrestrictions)
-  - [POST /spaces/{id}/restrictions/{id}](#put-spacesidrestrictionsid)
-  - [DEL /spaces/{id}/restrictions/{id}](#del-spacesidrestrictionsid)
+  - [GET /spaces/](#get-spaces)
+  - [POST /spaces/](#post-spaces)
+  - [GET /spaces/{id}/](#get-spacesid)
+  - [PUT /spaces/{id}/](#put-spacesid)
+  - [DEL /spaces/{id}/](#del-spacesid)
+  - [GET /spaces/{id}/restrictions/](#get-spacesidrestrictions)
+  - [PUT /spaces/{id}/restrictions/](#post-spacesidrestrictions)
+  - [POST /spaces/{id}/restrictions/{id}/](#put-spacesidrestrictionsid)
+  - [DEL /spaces/{id}/restrictions/{id}/](#del-spacesidrestrictionsid)
 - Plants
-  - [GET /plants](#get-plants)
+  - [GET /plants/](#get-plants)
 - Subspaces
-  - [GET /subspaces](#get-subspaces)
-  - [~~POST /subspaces~~](#post-subspaces)
-  - [~~GET /subspaces/{id}~~](#get-subspacesid)
-  - [~~PUT /subspaces/{id}~~](#put-subspacesid)
-  - [~~DEL /subspaces/{id}~~](#del-subspacesid)
+  - [GET /subspaces/](#get-subspaces)
+  - [~~POST /subspaces/~~](#post-subspaces)
+  - [~~GET /subspaces/{id/}~~](#get-subspacesid)
+  - [~~PUT /subspaces/{id/}~~](#put-subspacesid)
+  - [~~DEL /subspaces/{id/}~~](#del-subspacesid)
 - Plans
-  - [GET /plans](#get-plans)
-  - [~~POST /plans~~](#post-plans)
-  - [~~GET /plans/{id}~~](#get-plansid)
+  - [GET /plans/](#get-plans)
+  - [~~POST /plans/~~](#post-plans)
+  - [~~GET /plans/{id/}~~](#get-plansid)
 - Irrigations
-  - [GET /irrigations](#get-irrigations)
-  - [~~POST /irrigations~~](#post-irrigations)
-  - [~~GET /irrigations/{id}~~](#get-irrigationsid)
-  - [~~PUT /irrigations/{id}~~](#put-irrigationsid)
-  - [~~DEL /irrigations/{id}~~](#del-irrigationsid)
+  - [GET /irrigations/](#get-irrigations)
+  - [~~POST /irrigations/~~](#post-irrigations)
+  - [~~GET /irrigations/{id/}~~](#get-irrigationsid)
+  - [~~PUT /irrigations/{id/}~~](#put-irrigationsid)
+  - [~~DEL /irrigations/{id/}~~](#del-irrigationsid)
 - Embedded systems
-  - [GET /embeddedsys](#get-embeddedsys)
-  - [~~POST /embeddedsys~~](#post-embeddedsys)
-  - [~~GET /embeddedsys/{id}~~](#get-embeddedsysid)
-  - [~~PUT /embeddedsys/{id}~~](#put-embeddedsysid)
-  - [~~DEL /embeddedsys/{id}~~](#del-embeddedsysid)
+  - [GET /embeddedsys/](#get-embeddedsys)
+  - [~~POST /embeddedsys/~~](#post-embeddedsys)
+  - [~~GET /embeddedsys/{id/}~~](#get-embeddedsysid)
+  - [~~PUT /embeddedsys/{id/}~~](#put-embeddedsysid)
+  - [~~DEL /embeddedsys/{id/}~~](#del-embeddedsysid)
 - Sensors
-  - [GET /sensors](#get-sensors)
-  - [~~POST /sensors~~](#post-sensors)
-  - [~~GET /sensors/{id}~~](#get-sensorsid)
-  - [~~PUT /sensors/{id}~~](#put-sensorsid)
-  - [~~DEL /sensors/{id}~~](#del-sensorsid)
+  - [GET /sensors/](#get-sensors)
+  - [~~POST /sensors/~~](#post-sensors)
+  - [~~GET /sensors/{id/}~~](#get-sensorsid)
+  - [~~PUT /sensors/{id/}~~](#put-sensorsid)
+  - [~~DEL /sensors/{id/}~~](#del-sensorsid)
 - Reads
-  - [GET /reads](#get-reads)
-  - [~~POST /reads~~](#post-reads)
-  - [~~GET /reads/{id}~~](#get-readsid)
+  - [GET /reads/](#get-reads)
+  - [~~POST /reads/~~](#post-reads)
+  - [~~GET /reads/{id/}~~](#get-readsid)
 - Warnings
-  - [GET /warnings](#get-warnings)
-  - [~~POST /warnings~~](#post-warnings)
+  - [GET /warnings/](#get-warnings)
+  - [~~POST /warnings/~~](#post-warnings)
 - Operability
-  - [~~POST /node/{i}/poweroff~~](#post-nodeipoweroff)
+  - [~~POST /node/{i}/poweroff/~~](#post-nodeipoweroff)
 
 ---
 
-### POST /auth
+### POST /auth/
 A autenticação é feita por JWT. Esta rota recebe as credenciais do utilizador (email e password) e devolve um token que deve ir em todas as próximas mensagens no campo Authorization do cabeçalho HTTP, da seguinte forma:
 
 > JWT &lt;Token>
@@ -128,7 +128,7 @@ A autenticação é feita por JWT. Esta rota recebe as credenciais do utilizador
 Em comunicações posteriores à autenticação, quando o token não for válido:
 - **Unauthorized (401)**
 
-### POST /register
+### POST /register/
 #### Body
 ```json
 {
@@ -154,7 +154,7 @@ Igual ao Body - a chave é o email.
 }
 ```
 
-### GET /users
+### GET /users/
 #### Response
 ```json
 [
@@ -167,16 +167,16 @@ Igual ao Body - a chave é o email.
   }
 ]
 ```
-### GET /users/{id}
-### PUT /users/{id}
-### DEL /users/{id}
+### GET /users/{id}/
+### PUT /users/{id}/
+### DEL /users/{id}/
 
-### GET /properties
+### GET /properties/
 #### Parameters
 - *owner*: filter by owner id
 - *manager*: filter by manager id
 
-### POST /properties
+### POST /properties/
 #### Body
 ```json
 {
@@ -184,29 +184,29 @@ Igual ao Body - a chave é o email.
   "..."
 }
 ```
-### GET /properties/{id}
-### PUT /properties/{id}
-### DEL /properties/{id}
+### GET /properties/{id}/
+### PUT /properties/{id}/
+### DEL /properties/{id}/
 
-### GET /properties/{id}/node
-### POST /properties/{id}/node
-### PUT /properties/{id}/node
+### GET /properties/{id}/node/
+### POST /properties/{id}/node/
+### PUT /properties/{id}/node/
 
-### GET /properties/{id}/managers
+### GET /properties/{id}/managers/
 
-### POST /properties/{id}/managers/{id}
+### POST /properties/{id}/managers/{id}/
 #### Body
 > Empty body
 
-### DEL /properties/{id}/managers/{id}
+### DEL /properties/{id}/managers/{id}/
 
-### GET /spaces
+### GET /spaces/
 #### Parameters
 - *owner*: filter by owner id
 - *manager*: filter by manager id
 - *property*: filter by property id
 
-### POST /spaces
+### POST /spaces/
 #### Body
 ```json
 {
@@ -215,31 +215,31 @@ Igual ao Body - a chave é o email.
 }
 ```
 
-### GET /spaces/{id}
-### PUT /spaces/{id}
-### DEL /spaces/{id}
+### GET /spaces/{id}/
+### PUT /spaces/{id}/
+### DEL /spaces/{id}/
 
-### GET /spaces/{id}/restrictions
-### POST /spaces/{id}/restrictions
+### GET /spaces/{id}/restrictions/
+### POST /spaces/{id}/restrictions/
 
-### PUT /spaces/{id}/restrictions/{id}
-### DEL /spaces/{id}/restrictions/{id}
+### PUT /spaces/{id}/restrictions/{id}/
+### DEL /spaces/{id}/restrictions/{id}/
 
-### GET /plants
+### GET /plants/
 Ainda está por decidir se isto é para fazer. A ideia é para ter um auto-complete ou algo do género quando o utilizador for inserir o tipo de planta num espaço. **PRIORIDADE BAIXA**
 
-### GET /subspaces
+### GET /subspaces/
 #### Parameters
 - *property*: filter by property id
 - *space*: filter by space id
 
-### POST /subspaces
+### POST /subspaces/
 
-### GET /subspaces/{id}
-### PUT /subspaces/{id}
-### DEL /subspaces/{id}
+### GET /subspaces/{id}/
+### PUT /subspaces/{id}/
+### DEL /subspaces/{id}/
 
-### GET /plans
+### GET /plans/
 #### Parameters
 - *property*: filter by property id
 - *space*: filter by space id
@@ -247,7 +247,7 @@ Ainda está por decidir se isto é para fazer. A ideia é para ter um auto-compl
 - *begin_date*: filter by time interval (datetime)
 - *end_date*: filter by time interval (datetime)
 
-### POST /plans
+### POST /plans/
 #### Body
 ```json
 {
@@ -256,9 +256,9 @@ Ainda está por decidir se isto é para fazer. A ideia é para ter um auto-compl
 }
 ```
 
-### GET /plans/{id}
+### GET /plans/{id}/
 
-### GET /irrigations
+### GET /irrigations/
 #### Parameters
 - *property*: filter by property id
 - *space*: filter by space id
@@ -266,7 +266,7 @@ Ainda está por decidir se isto é para fazer. A ideia é para ter um auto-compl
 - *begin-date*: filter by time interval (datetime)
 - *end-date*: filter by time interval (datetime)
 
-### POST /irrigations
+### POST /irrigations/
 #### Body
 ```json
 {
@@ -275,15 +275,15 @@ Ainda está por decidir se isto é para fazer. A ideia é para ter um auto-compl
 }
 ```
 
-### GET /irrigations/{id}
-### PUT /irrigations/{id}
-### DEL /irrigations/{id}
+### GET /irrigations/{id}/
+### PUT /irrigations/{id}/
+### DEL /irrigations/{id}/
 
-### GET /embeddedsys
+### GET /embeddedsys/
 #### Parameters
 - *subspace*: filter by subspace id
 
-### POST /embeddedsys
+### POST /embeddedsys/
 #### Body
 ```json
 {
@@ -292,16 +292,16 @@ Ainda está por decidir se isto é para fazer. A ideia é para ter um auto-compl
 }
 ```
 
-### GET /embeddedsys/{id}
-### PUT /embeddedsys/{id}
-### DEL /embeddedsys/{id}
+### GET /embeddedsys/{id}/
+### PUT /embeddedsys/{id}/
+### DEL /embeddedsys/{id}/
 
-### GET /sensors
+### GET /sensors/
 #### Parameters
 - *subspace*: filter by subspace id
 - *embeddedsys*: filter by embedded system id
 
-### POST /sensors
+### POST /sensors/
 #### Body
 ```json
 {
@@ -310,17 +310,17 @@ Ainda está por decidir se isto é para fazer. A ideia é para ter um auto-compl
 }
 ```
 
-### GET /sensors/{id}
-### PUT /sensors/{id}
-### DEL /sensors/{id}
+### GET /sensors/{id}/
+### PUT /sensors/{id}/
+### DEL /sensors/{id}/
 
-### GET /reads
+### GET /reads/
 #### Parameters
 - *subspace*: filter by subspace id
 - *embeddedsys*: filter by embedded system id
 - *sensor*: filter by sensor id
 
-### POST /reads
+### POST /reads/
 #### Body
 ```json
 {
@@ -329,13 +329,13 @@ Ainda está por decidir se isto é para fazer. A ideia é para ter um auto-compl
 }
 ```
 
-### GET /reads/{id}
+### GET /reads/{id}/
 
-### GET /warnings
+### GET /warnings/
 #### Parameters
 - *property*: filter by property id
 
-### POST /warnings
+### POST /warnings/
 Estes warnings são para coisas do género: um sensor deixa de funcionar ou o sistema de metereologia não responde. Este POST é muito questionável ... a discutir melhor. **PRIORIDADE BAIXA**
 
 #### Body
@@ -346,7 +346,7 @@ Estes warnings são para coisas do género: um sensor deixa de funcionar ou o si
 }
 ```
 
-### POST /node/{id}/poweroff
+### POST /node/{id}/poweroff/
 Desliga totalmente o nodo central. Depois a ativação teria que ser manual? **PRIORIDADE BAIXA**
 #### Body
 > Empty body
