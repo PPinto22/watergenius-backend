@@ -27,8 +27,7 @@ python3.6 manage.py runserver
 ```
 
 ## API
-#post udpate/modify reosurce
-#put insert/overwrite
+
 - Auth
   - [POST /auth](#post-auth)
   - [POST /register](#post-register)
