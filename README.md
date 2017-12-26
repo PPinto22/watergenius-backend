@@ -62,41 +62,47 @@ python3.6 manage.py runserver
   - [DEL /spaces/{id}/restrictions/{id}](#del-spacesidrestrictionsid)
 - Plants
   - [GET /plants](#get-plants)
+
+#A partir daqui foi PUT -editar
+#Post- criar
+
 - Subspaces
   - [GET /subspaces](#get-subspaces)
-  - [~~POST /subspaces~~](#post-subspaces)
-  - [~~GET /subspaces/{id}~~](#get-subspacesid)
-  - [~~PUT /subspaces/{id}~~](#put-subspacesid)
-  - [~~DEL /subspaces/{id}~~](#del-subspacesid)
+  - [POST /subspaces](#post-subspaces)
+  - [GET /subspaces/{id}](#get-subspacesid)
+  - [PUT /subspaces/{id}](#put-subspacesid)
+  - [DEL /subspaces/{id}](#del-subspacesid)
+
 - Plans
-  - [GET /plans](#get-plans)
-  - [~~POST /plans~~](#post-plans)
-  - [~~GET /plans/{id}~~](#get-plansid)
+  - [GET /plans](#get-plans) # query com ?subspace=x 
+  - [POST /plans](#post-plans)
+  - [GET /plans/{id}](#get-plansid)
+  - [DEL /plans/{id}](#get-plansid)
 - Irrigations
-  - [GET /irrigations](#get-irrigations)
-  - [~~POST /irrigations~~](#post-irrigations)
-  - [~~GET /irrigations/{id}~~](#get-irrigationsid)
-  - [~~PUT /irrigations/{id}~~](#put-irrigationsid)
-  - [~~DEL /irrigations/{id}~~](#del-irrigationsid)
+  - [GET /irrigations](#get-irrigations)  # query com ?subspace=x 
+  - [POST /irrigations](#post-irrigations)
+  - [GET /irrigations/{id}](#get-irrigationsid)
+  - [PUT /irrigations/{id}](#put-irrigationsid)
+  - [DEL /irrigations/{id}](#del-irrigationsid)
 - Embedded systems
   - [GET /embeddedsys](#get-embeddedsys)
-  - [~~POST /embeddedsys~~](#post-embeddedsys)
-  - [~~GET /embeddedsys/{id}~~](#get-embeddedsysid)
-  - [~~PUT /embeddedsys/{id}~~](#put-embeddedsysid)
-  - [~~DEL /embeddedsys/{id}~~](#del-embeddedsysid)
+  - [POST /embeddedsys](#post-embeddedsys)
+  - [GET /embeddedsys/{id}](#get-embeddedsysid)
+  - [PUT /embeddedsys/{id}](#put-embeddedsysid)
+  - [DEL /embeddedsys/{id}](#del-embeddedsysid)
 - Sensors
   - [GET /sensors](#get-sensors)
-  - [~~POST /sensors~~](#post-sensors)
-  - [~~GET /sensors/{id}~~](#get-sensorsid)
-  - [~~PUT /sensors/{id}~~](#put-sensorsid)
-  - [~~DEL /sensors/{id}~~](#del-sensorsid)
+  - [POST /sensors](#post-sensors)
+  - [GET /sensors/{id}](#get-sensorsid)
+  - [PUT /sensors/{id}](#put-sensorsid)
+  - [DEL /sensors/{id}](#del-sensorsid)
 - Reads
   - [GET /reads](#get-reads)
-  - [~~POST /reads~~](#post-reads)
-  - [~~GET /reads/{id}~~](#get-readsid)
+  - [POST /reads](#post-reads)
+  - [GET /reads/{id}](#get-readsid)
 - Warnings
   - [GET /warnings](#get-warnings)
-  - [~~POST /warnings~~](#post-warnings)
+  - [POST /warnings](#post-warnings)
 - Operability
   - [~~POST /node/{i}/poweroff~~](#post-nodeipoweroff)
 

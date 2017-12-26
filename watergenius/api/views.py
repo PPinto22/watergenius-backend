@@ -407,142 +407,424 @@ def spacesRes(request, spaceid, resid=None):
     return JsonResponse('error' + str(spaceid)+ str(resid), status=400, safe=False)
 
 
+def subspaces(request, subspaceid=None):
+    if request.method == 'GET':
+        if subspaceid!=None:
+            plants = SubSpace.objects.filter(sub=subspaceid)
+            serialize = api.serializers.SubSpaceSerializer(plants, many=True)
+            return JsonResponse( serialize.data, status=200 ,safe=False)
+        else:
+            #TODO get all subspaces of logged user
+            plants = SubSpace.objects.all()
+            serialize = api.serializers.SubSpaceSerializer(plants, many=True)
+            return JsonResponse( serialize.data, status=200 ,safe=False)
+    elif request.method == 'POST': # create
+        data = JSONParser().parse(request)
+        serializer = api.serializers.SubSpaceSerializer(data=data , partial=True)
+        instance = SubSpace()
+        if serializer.is_valid():
+            for attr, value in serializer.validated_data.items():
+                if attr != 'sub' :
+                    setattr(instance, attr, value)
+            instance.save()
+            return  JsonResponse( 'OK', status=200, safe=False)
+        else:
+             return JsonResponse('Internal error or malformed JSON ' , status=500 ,safe=False)
+    
+    elif request.method == 'PUT': #edit
+        if subspaceid == None or subspaceid == "":
+            return JsonResponse('Especify the subspace id' , status=400 ,safe=False)
+        data = JSONParser().parse(request)
+        serializer = api.serializers.SubSpaceSerializer(data=data , partial=True)
+        if serializer.is_valid():
+            try:
+                instance = SubSpace.objects.get(sub=subspaceid)
+            except Exception as e:
+                return JsonResponse('Especify the correct restrition id' , status=400 ,safe=False)
+            for attr, value in serializer.validated_data.items():
+                if attr != 'sub' :
+                    print (attr)
+                    setattr(instance, attr, value)
+            instance.save()
+            return JsonResponse( 'Subsapce edited with success', status=200, safe=False)
+        else:
+            return JsonResponse('Internal error or malformed json ' , status=500 ,safe=False)
+    
+    elif request.method == 'DELETE':
+        if subspaceid!=None and subspaceid!="":
+            try:
+                space = SubSpace.objects.get(sub=subspaceid)
+            except ObjectDoesNotExist:
+                return JsonResponse("That subspace doesn't even exist, fool" , status=400 ,safe=False)
+            space.delete()
+            return JsonResponse('SubSpace deleted', status=200, safe=False)
+        else:
+            return JsonResponse(' Especify subspace ID in url' , status=400 ,safe=False)
+    return JsonResponse('error', status=400, safe=False)
+
+
+
+
 def plants(request):
     if request.method == 'GET':
         plants = PlantType.objects.all()
         serializer = api.serializers.PlantTypeSerializer(plants, many=True)
         return JsonResponse( serializer.data, status=200 ,safe=False)
     elif request.method == 'PUT':
-        print ('iii')
+        return JsonResponse('Not supported', status=400, safe=False)
 
     return JsonResponse('error', status=400, safe=False)
 
-def subspaces(request, spaceid=None):
+def plans(request, planid=None):
     if request.method == 'GET':
-        print(spaceid)
-        if spaceid!=None:
-            #data = JSONParser().parse(request)
-            #serializer = SpaceSerializer(data=data,partial=True)
-            plants = SubSpace.objects.filter(sub_space_id=spaceid)
-            serialize = api.serializers.SubSpaceSerializer(plants, many=True)
-            return JsonResponse( serialize.data, status=200 ,safe=False)
-        else:
-            plants = SubSpace.objects.all()
-            serialize = api.serializers.SubSpaceSerializer(plants, many=True)
-            return JsonResponse( serialize.data, status=200 ,safe=False)
-    elif request.method == 'PUT':
-        print ('iii')
-    return JsonResponse('error', status=400, safe=False)
+        if planid!=None and planid!="":
+            try:
+                dayplans = DayPlan.objects.get(dayplan_id=planid)
+            except ObjectDoesNotExist as e:
+                return JsonResponse("That subspace doesn't even exist, fool" , status=400 ,safe=False)
+            serialize = api.serializers.DayPlanSerializer((dayplans), many=False)
+            return JsonResponse( serialize.data , status=200 ,safe=False)
 
-def plans(request):
-    if request.method == 'GET':
         print(request.META['QUERY_STRING'])
         query = (request.META['QUERY_STRING']).split('=')
         if query[0] == 'subspace':
             subspaceid = (query[1])
             dayplans = DayPlan.objects.filter(dayplan_sub=subspaceid)
-        #data = JSONParser().parse(request)
-        #serializer = SpaceSerializer(data=data,partial=True)
-        #plants = SubSpace.objects.filter(sub_space_id=spaceid)
-        serialize = api.serializers.DayPlanSerializer(dayplans, many=True)
+        else:
+            if len(query)>1:
+                return JsonResponse('unknown query', status=400, safe=False)
+            #nao sei se faz sentido seqer. devolver so as do user logaddo
+            #dayplans = DayPlan.objects.filter() 
+            dayplans = DayPlan.objects.all()
+        serialize = api.serializers.DayPlanSerializer(list(dayplans), many=True)
         return JsonResponse( serialize.data , status=200 ,safe=False)
-    elif request.method == 'PUT':
-        print ('iii')
-
+    elif request.method == 'POST':
+        #inserir
+        data = JSONParser().parse(request)
+        serializer = api.serializers.DayPlanSerializer(data=data , partial=True)
+        instance = DayPlan()
+        if serializer.is_valid():
+            for attr, value in serializer.validated_data.items():
+                if attr != 'dayplan_id' :
+                    setattr(instance, attr, value)
+            instance.save()
+            return  JsonResponse( 'OK', status=200, safe=False)
+        else:
+             return JsonResponse('Internal error or malformed JSON ' , status=500 ,safe=False)
+    
+    elif request.method == 'DELETE':
+        if planid!=None and planid!="":
+            try:
+                dayplans = DayPlan.objects.get(dayplan_id=planid)
+            except ObjectDoesNotExist as e:
+                return JsonResponse("That subspace doesn't even exist, fool" , status=400 ,safe=False)
+            dayplans.delete()
+            return JsonResponse( "Dayplan deleted" , status=200 ,safe=False)
+        else:
+            return JsonResponse(' Especify dayplan ID in url' , status=400 ,safe=False)
 
     return JsonResponse('error', status=400, safe=False)
 
-def irrigations(request):
+def irrigations(request, irrigationid=None):
     if request.method == 'GET':
+        if irrigationid!=None and irrigationid!="":
+            try:
+                dayplans = IrrigationTime.objects.get(irrigation_time_id=irrigationid)
+            except ObjectDoesNotExist as e:
+                return JsonResponse("That Irrigation action doesn't even exist, fool" , status=400 ,safe=False)
+            serialize = api.serializers.IrrigationTimeSerializer((dayplans), many=False)
+            return JsonResponse( serialize.data , status=200 ,safe=False)
         print(request.META['QUERY_STRING'])
         query = (request.META['QUERY_STRING']).split('=')
         if query[0] == 'subspace':
             print('é isso evaristo')
             subspaceid = (query[1])
             dayplans = IrrigationTime.objects.filter(irrigation_time_sub=subspaceid)
-        #data = JSONParser().parse(request)
-        #serializer = SpaceSerializer(data=data,partial=True)
-        #plants = SubSpace.objects.filter(sub_space_id=spaceid)
+        else:
+            if len(query)>1:
+                return JsonResponse('unknown query', status=400, safe=False)
+            #nao sei se faz sentido seqer. devolver so as do user logaddo
+            #dayplans = Irrigation.objects.filter() 
+            dayplans = IrrigationTime.objects.all()
         serialize = IrrigationTimeSerializer(dayplans, many=True)
         return JsonResponse( serialize.data , status=200 ,safe=False)
-    elif request.method == 'PUT':
-        print ('iii')
-
+    elif request.method == 'POST':
+        #inserir
+        data = JSONParser().parse(request)
+        serializer = api.serializers.IrrigationTimeSerializer(data=data , partial=True)
+        instance = IrrigationTime()
+        if serializer.is_valid():
+            for attr, value in serializer.validated_data.items():
+                if attr != 'irrigation_time_id' :
+                    setattr(instance, attr, value)
+            instance.save()
+            return  JsonResponse( 'OK', status=200, safe=False)
+        else:
+             return JsonResponse('Internal error or malformed JSON ' , status=500 ,safe=False)
+    
+    elif request.method=='PUT':
+        #EDIT
+        if irrigationid == None or irrigationid == "":
+            return JsonResponse('Especify the Irrigation id' , status=400 ,safe=False)
+        data = JSONParser().parse(request)
+        serializer = api.serializers.IrrigationTimeSerializer(data=data , partial=True)
+        if serializer.is_valid():
+            try:
+                instance = IrrigationTime.objects.get(irrigation_time_id=irrigationid)
+            except Exception as e:
+                return JsonResponse('Especify the correct restrition id' , status=400 ,safe=False)
+            for attr, value in serializer.validated_data.items():
+                if attr != 'irrigation_time_id' :
+                    print (attr)
+                    setattr(instance, attr, value)
+            instance.save()
+            return JsonResponse( 'IrrigationTime edited with success', status=200, safe=False)
+        else:
+            return JsonResponse('Internal error or malformed json ' , status=500 ,safe=False)
+    
+    elif request.method=='DELETE':
+        if irrigationid!=None and irrigationid!="":
+            try:
+                dayplans = IrrigationTime.objects.get(irrigation_time_id=irrigationid)
+            except ObjectDoesNotExist as e:
+                return JsonResponse("That Irrigation time doesn't even exist, fool" , status=400 ,safe=False)
+            dayplans.delete()
+            return JsonResponse( "IrrigationTime deleted" , status=200 ,safe=False)        
+        else:
+            return JsonResponse(' Especify Irrigation ID in url' , status=400 ,safe=False)
 
     return JsonResponse('error', status=400, safe=False)
 
-def reads(request):
+def embeddedsystems(request, sysid=None):
     if request.method == 'GET':
-        #print(request.META['QUERY_STRING'])
-        #query = (request.META['QUERY_STRING']).split('=')
-        #if query[0] == 'subspace':
-        #    print('é isso evaristo')
-        #    subspaceid = (query[1])
-        #    dayplans = IrrigationTime.objects.filter(irrigation_time_sub=subspaceid)
-        #data = JSONParser().parse(request)
-        #serializer = SpaceSerializer(data=data,partial=True)
-        #plants = SubSpace.objects.filter(sub_space_id=spaceid)
-        reads = Read.objects.all()
-        serialize = ReadSerializer(reads, many=True)
+        if sysid!=None and sysid!="":
+            try:
+                dayplans = EmbeddedSystem.objects.get(esys_id=sysid)
+            except ObjectDoesNotExist as e:
+                return JsonResponse("That EmbeddedSystem  doesn't even exist, fool" , status=400 ,safe=False)
+            serialize = api.serializers.EmbeddedSystemSerializer((dayplans), many=False)
+            return JsonResponse( serialize.data , status=200 ,safe=False)
+        print(request.META['QUERY_STRING'])
+        query = (request.META['QUERY_STRING']).split('=')
+        if query[0] == 'subspace':
+            subspaceid = (query[1])
+            dayplans = EmbeddedSystem.objects.filter(esys_id=subspaceid)
+        else:
+            if len(query)>1:
+                return JsonResponse('unknown query', status=400, safe=False)
+            #nao sei se faz sentido seqer. devolver so as do user logaddo
+            dayplans = EmbeddedSystem.objects.all()
+        serialize = EmbeddedSystemSerializer(dayplans, many=True)
         return JsonResponse( serialize.data , status=200 ,safe=False)
-    elif request.method == 'PUT':
-        print ('iii')
-
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        serializer = api.serializers.EmbeddedSystemSerializer(data=data , partial=True)
+        instance = EmbeddedSystem()
+        if serializer.is_valid():
+            for attr, value in serializer.validated_data.items():
+                if attr != 'esys_id' :
+                    setattr(instance, attr, value)
+            instance.save()
+            return  JsonResponse( 'OK', status=200, safe=False)
+        else:
+             return JsonResponse('Internal error or malformed JSON ' , status=500 ,safe=False)
+    
+    elif request.method=='PUT':
+         #EDIT
+        if sysid == None or sysid == "":
+            return JsonResponse('Especify the EmbeddedSystem id in url' , status=400 ,safe=False)
+        data = JSONParser().parse(request)
+        serializer = api.serializers.EmbeddedSystemSerializer(data=data , partial=True)
+        if serializer.is_valid():
+            try:
+                instance = EmbeddedSystem.objects.get(esys_id=sysid)
+            except Exception as e:
+                return JsonResponse('Especify the correct EmbeddedSystem id' , status=400 ,safe=False)
+            for attr, value in serializer.validated_data.items():
+                if attr != 'esys_id' :
+                    print (attr)
+                    setattr(instance, attr, value)
+            instance.save()
+            return JsonResponse( 'EmbeddedSystem edited with success', status=200, safe=False)
+        else:
+            return JsonResponse('Internal error or malformed json ' , status=500 ,safe=False)
+    
+    elif request.method=='DELETE':
+        if sysid!=None and sysid!="":
+            try:
+                dayplans = EmbeddedSystem.objects.get(esys_id=sysid)
+            except ObjectDoesNotExist as e:
+                return JsonResponse("That  EmbeddedSystem doesn't even exist, fool" , status=400 ,safe=False)
+            dayplans.delete()
+            return JsonResponse( "EmbeddedSystem deleted" , status=200 ,safe=False)        
+        else:
+            return JsonResponse(' Especify EmbeddedSystem ID in url' , status=400 ,safe=False)
 
     return JsonResponse('error', status=400, safe=False)
 
 
-def sensors(request):
+def sensors(request, sensid=None):
     if request.method == 'GET':
-        #print(request.META['QUERY_STRING'])
-        #query = (request.META['QUERY_STRING']).split('=')
-        #if query[0] == 'subspace':
-        #    print('é isso evaristo')
-        #    subspaceid = (query[1])
-        #    dayplans = IrrigationTime.objects.filter(irrigation_time_sub=subspaceid)
-        sensores = Sensor.objects.all()
-        serialize = SensorSerializer(sensores, many=True)
+        if sensid!=None and sensid!="":
+            try:
+                dayplans = Sensor.objects.get(sensor_id=sensid)
+            except ObjectDoesNotExist as e:
+                return JsonResponse("That Sensor  doesn't even exist, fool" , status=400 ,safe=False)
+            serialize = api.serializers.SensorSerializer((dayplans), many=False)
+            return JsonResponse( serialize.data , status=200 ,safe=False)
+        print(request.META['QUERY_STRING'])
+        query = (request.META['QUERY_STRING']).split('=')
+        if query[0] == 'embeddedsys':
+            embeddedsys = (query[1])
+            dayplans = Sensor.objects.filter(sensor_sub_id=embeddedsys)
+        else:
+            if len(query)>1:
+                return JsonResponse('unknown query', status=400, safe=False)
+            #nao sei se faz sentido seqer. devolver so as do user logaddo
+            dayplans = Sensor.objects.all()
+        serialize = SensorSerializer(dayplans, many=True)
         return JsonResponse( serialize.data , status=200 ,safe=False)
-    elif request.method == 'PUT':
-        print ('iii')
-
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        serializer = api.serializers.SensorSerializer(data=data , partial=True)
+        instance = Sensor()
+        if serializer.is_valid():
+            for attr, value in serializer.validated_data.items():
+                if attr != 'sensor_id' :
+                    setattr(instance, attr, value)
+            instance.save()
+            return  JsonResponse( 'OK', status=200, safe=False)
+        else:
+             return JsonResponse('Internal error or malformed JSON ' , status=500 ,safe=False)
+    
+    elif request.method=='PUT':
+        #EDIT
+        if sensid == None or sensid == "":
+            return JsonResponse('Especify the Sensor id in url' , status=400 ,safe=False)
+        data = JSONParser().parse(request)
+        serializer = api.serializers.SensorSerializer(data=data , partial=True)
+        if serializer.is_valid():
+            try:
+                instance = Sensor.objects.get(sensor_id=sensid)
+            except Exception as e:
+                return JsonResponse('Especify the correct Sensor id' , status=400 ,safe=False)
+            for attr, value in serializer.validated_data.items():
+                if attr != 'sensor_id' :
+                    print (attr)
+                    setattr(instance, attr, value)
+            instance.save()
+            return JsonResponse( 'Sensor edited with success', status=200, safe=False)
+        else:
+            return JsonResponse('Internal error or malformed json ' , status=500 ,safe=False)
+    
+    elif request.method=='DELETE':
+        if sensid!=None and sensid!="":
+            try:
+                dayplans = Sensor.objects.get(sensor_id=sensid)
+            except ObjectDoesNotExist as e:
+                return JsonResponse("That  Sensor doesn't even exist, fool" , status=400 ,safe=False)
+            dayplans.delete()
+            return JsonResponse( "Sensor deleted" , status=200 ,safe=False)        
+        else:
+            return JsonResponse(' Especify Sensor ID in url' , status=400 ,safe=False)
 
     return JsonResponse('error', status=400, safe=False)
 
-def embeddedsystems(request):
+
+def reads(request, readid=None):
     if request.method == 'GET':
-        #print(request.META['QUERY_STRING'])
-        #query = (request.META['QUERY_STRING']).split('=')
-        #if query[0] == 'subspace':
-        #    print('é isso evaristo')
-        #    subspaceid = (query[1])
-        #    dayplans = IrrigationTime.objects.filter(irrigation_time_sub=subspaceid)
-        embedded = EmbeddedSystem.objects.all()
-        serialize = EmbeddedSystemSerializer(embedded, many=True)
+        if readid!=None and readid!="":
+            try:
+                dayplans = Read.objects.get(read_id=readid)
+            except ObjectDoesNotExist as e:
+                return JsonResponse("That Read  doesn't even exist, fool" , status=400 ,safe=False)
+            serialize = api.serializers.ReadSerializer((dayplans), many=False)
+            return JsonResponse( serialize.data , status=200 ,safe=False)
+        print(request.META['QUERY_STRING'])
+        query = (request.META['QUERY_STRING']).split('=')
+        if query[0] == 'sensor':
+            sensor = (query[1])
+            dayplans = Read.objects.filter(read_sensor_id=sensor)
+        else:
+            if len(query)>1:
+                return JsonResponse('unknown query', status=400, safe=False)
+            #nao sei se faz sentido seqer. devolver so as do user logaddo
+            dayplans = Read.objects.all()
+        serialize = ReadSerializer(dayplans, many=True)
         return JsonResponse( serialize.data , status=200 ,safe=False)
-    elif request.method == 'PUT':
-        print ('iii')
-
-
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        serializer = api.serializers.ReadSerializer(data=data , partial=True)
+        instance = Read()
+        if serializer.is_valid():
+            for attr, value in serializer.validated_data.items():
+                if attr != 'read_id' :
+                    setattr(instance, attr, value)
+            instance.save()
+            return  JsonResponse( 'OK', status=200, safe=False)
+        else:
+             return JsonResponse('Internal error or malformed JSON ' , status=500 ,safe=False)
+    
+    elif request.method=='PUT':
+        #EDIT
+        if readid == None or readid == "":
+            return JsonResponse('Especify the Read id in url' , status=400 ,safe=False)
+        data = JSONParser().parse(request)
+        serializer = api.serializers.ReadSerializer(data=data , partial=True)
+        if serializer.is_valid():
+            try:
+                instance = Read.objects.get(read_id=readid)
+            except Exception as e:
+                return JsonResponse('Especify the correct read id' , status=400 ,safe=False)
+            for attr, value in serializer.validated_data.items():
+                if attr != 'sensor_id' :
+                    print (attr)
+                    setattr(instance, attr, value)
+            instance.save()
+            return JsonResponse( 'Read edited with success', status=200, safe=False)
+        else:
+            return JsonResponse('Internal error or malformed json ' , status=500 ,safe=False)
+    
+    elif request.method=='DELETE':
+        #if readid!=None and readid!="":
+        #    try:
+        #        dayplans = Read.objects.get(read_id=readid)
+        #    except ObjectDoesNotExist as e:
+        #        return JsonResponse("That  Read doesn't even exist, fool" , status=400 ,safe=False)
+        #    dayplans.delete()
+        #    return JsonResponse( "Read deleted" , status=200 ,safe=False)        
+        #else:
+            #return JsonResponse(' Especify Read ID in url' , status=400 ,safe=False)
+        return JsonResponse('Not Implemented', status=400, safe=False)
     return JsonResponse('error', status=400, safe=False)
+
 
 def warnings(request):
     if request.method == 'GET':
-        #print(request.META['QUERY_STRING'])
         #query = (request.META['QUERY_STRING']).split('=')
-        #if query[0] == 'subspace':
-        #    print('é isso evaristo')
-        #    subspaceid = (query[1])
-        #    dayplans = IrrigationTime.objects.filter(irrigation_time_sub=subspaceid)
+        #if query[0] == 'centralnode':
+        #    centralnode = (query[1])
+        #    dayplans = Read.objects.filter(warning_central=centralnode)
+        #else:
+        #    if len(query)>1:
+        #        return JsonResponse('unknown query', status=400, safe=False)
+            #nao sei se faz sentido seqer. devolver so as do user logaddo
         warnings = Warnings.objects.all()
         serialize = WarningsSerializer(warnings, many=True)
         return JsonResponse( serialize.data , status=200 ,safe=False)
-    elif request.method == 'PUT':
-        print ('iii')
-
-
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        serializer = api.serializers.WarningsSerializer(data=data , partial=True)
+        instance = Warnings()
+        if serializer.is_valid():
+            for attr, value in serializer.validated_data.items():
+                if attr != 'warning_id' :
+                    setattr(instance, attr, value)
+            instance.save()
+            return  JsonResponse( 'OK', status=200, safe=False)
+        else:
+             return JsonResponse('Internal error or malformed JSON ' , status=500 ,safe=False)
     return JsonResponse('error', status=400, safe=False)
-
 
 
 
