@@ -2,8 +2,8 @@ from django.urls import path
 
 from . import views
 
-# /subspaces
+# /embeddedsys
 urlpatterns = [
-    path('', views.subspaces, name='subspaces'),
+    path('', views.embeddedsystems, name='embeddedsystems'),
     # TODO - etc...
 ]

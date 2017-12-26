@@ -45,18 +45,6 @@ INSTALLED_APPS = [
     #'django.contrib.gis', for geo coordinates
 ]
 
-MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    #'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.RemoteUserMiddleware',
-    'watergenius.middleware.CustomHeaderMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
-
 ROOT_URLCONF = 'watergenius.urls'
 
 TEMPLATES = [
@@ -93,8 +81,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'watergenius',
-        'USER': 'postgres',
-        'PASSWORD': 'dbrootpass',
+        'USER': 'watergenius',
+        'PASSWORD': 'watergenius',
         'HOST': 'localhost'
     }
 }

@@ -1,10 +1,10 @@
 from rest_framework import serializers
 
-from api.irrigations.models import IrrigationTime
+from api.warnings.models import Warnings
 
 
-class IrrigationTimeSerializer(serializers.ModelSerializer):
+class WarningsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = IrrigationTime
-        fields = ('irrigation_time_id', 'irrigation_time_date', 'irrigation_time_qtd', 'irrigation_time_sub')
+        model = Warnings
+        fields = ( 'warning_id', 'warning_description')
         validators = []  # Remove a default "unique together" constraint.

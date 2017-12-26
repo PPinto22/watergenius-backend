@@ -1,24 +1,19 @@
-from django.urls import include, path , re_path
+from django.urls import include, path
 from rest_framework_jwt.views import obtain_jwt_token
 
-from . import views
+from api.users.views import RegisterView
 
 urlpatterns = [
-    path('register', views.RegisterView.as_view()),
     path('auth', obtain_jwt_token),
-    path('users', views.UserView.as_view()),
-    #re_path('(?P<mail>\w{1,50}[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/', views.usersMail, ),
-    path('properties/',include('api.props')),
-    path('properties/<int:propid>/',include('api.props')),
-    path('spaces/',include('api.spaces')),
-    path('spaces/<int:spaceid>/',include('api.spaces')),
-    path('spaces/<int:spaceid>/restritions/<int:resid>',include('api.spaces')),
-    path('plants/',include('api.plants')),
-    path('subspaces/',include('api.subspaces')),
-    path('subspaces/<int:spaceid>/',include('api.subspaces')),
-    path('plans',include('api.plans')),
-    path('sensors', include('api.sensors')),
-    path('reads', include('api.reads')),
-    path('embeddedsys', include('api.embedded')),
-    path('warnings', include('api.warnings')),
+    path('register', RegisterView.as_view()),
+    path('users', include('api.users.urls')),
+    path('properties', include('api.properties.urls')),
+    path('spaces', include('api.spaces.urls')),
+    path('plants',include('api.plants.urls')),
+    path('subspaces',include('api.subspaces.urls')),
+    path('plans',include('api.plans.urls')),
+    path('sensors', include('api.sensors.urls')),
+    path('reads', include('api.reads.urls')),
+    path('embeddedsys', include('api.embedded.urls')),
+    path('warnings', include('api.warnings.urls')),
 ]

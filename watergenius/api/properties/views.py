@@ -5,10 +5,10 @@ from rest_framework.parsers import JSONParser
 from api.properties.models import Property, CentralNode
 from api.properties.serializers import CentralNodeSerializer, PropertySerializer
 from api.users.models import User, UserManagesProperty
-# /properties/{id}/managers
+
 from api.users.serializers import UserSerializer
 
-
+# /properties/{id}/managers
 def propertiesManagers(request, propid=None, managerid=None):
     print(managerid)
     print(propid)

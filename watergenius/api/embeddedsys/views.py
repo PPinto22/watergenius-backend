@@ -1,22 +1,21 @@
 from django.http import JsonResponse
 
-from api.subspaces.models import SubSpace
-from api.subspaces.serializers import SubSpaceSerializer
+from api.embeddedsys.models import EmbeddedSystem
+from api.embeddedsys.serializers import EmbeddedSystemSerializer
 
 
-def subspaces(request, spaceid=None):
+def embeddedsystems(request):
     if request.method == 'GET':
-        print(spaceid)
-        if spaceid != None:
-            # data = JSONParser().parse(request)
-            # serializer = SpaceSerializer(data=data,partial=True)
-            plants = SubSpace.objects.filter(sub_space_id=spaceid)
-            serialize = SubSpaceSerializer(plants, many=True)
-            return JsonResponse(serialize.data, status=200, safe=False)
-        else:
-            plants = SubSpace.objects.all()
-            serialize = SubSpaceSerializer(plants, many=True)
-            return JsonResponse(serialize.data, status=200, safe=False)
+        # print(request.META['QUERY_STRING'])
+        # query = (request.META['QUERY_STRING']).split('=')
+        # if query[0] == 'subspace':
+        #    print('é isso evaristo')
+        #    subspaceid = (query[1])
+        #    dayplans = IrrigationTime.objects.filter(irrigation_time_sub=subspaceid)
+        embedded = EmbeddedSystem.objects.all()
+        serialize = EmbeddedSystemSerializer(embedded, many=True)
+        return JsonResponse(serialize.data, status=200, safe=False)
     elif request.method == 'PUT':
         print('iii')
+
     return JsonResponse('error', status=400, safe=False)

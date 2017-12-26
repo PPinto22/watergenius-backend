@@ -1,10 +1,11 @@
 from django.db import models
 
-from api.spaces.models import Space
+from api.models import Localization
+from api.subspaces.models import SubSpace
 
 
-class SubSpace(models.Model):
-    sub = models.AutoField(primary_key=True)
-    sub_name = models.CharField(max_length=50)
-    sub_description = models.CharField(max_length=150)
-    sub_space_id = models.ForeignKey(Space, related_name='belongs_to_space', on_delete=models.CASCADE)
+class EmbeddedSystem(models.Model):
+    esys_id = models.AutoField(primary_key=True)
+    esys_local = models.ForeignKey(Localization, related_name='is_in_localization', on_delete=models.CASCADE)
+    esys_sub = models.ForeignKey(SubSpace, related_name='belongs_to_sub', on_delete=models.CASCADE)
+    esys_state = models.IntegerField()

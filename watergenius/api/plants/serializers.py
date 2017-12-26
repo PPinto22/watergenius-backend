@@ -1,4 +1,5 @@
-from api import serializers
+from rest_framework import serializers
+
 from api.plants.models import PlantType
 
 

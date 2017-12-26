@@ -4,6 +4,5 @@ from . import views
 
 # /plants
 urlpatterns = [
-    path('', views.plants()),
-    # path('/<int:plantid>', views.plant()) TODO
+    path('', views.plants())
 ]

@@ -11,12 +11,14 @@ class UserLoginSerializer(serializers.BaseSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('email', 'first_name',  'last_name', 'is_superuser')
+        fields = ('email', 'first_name', 'last_name', 'is_superuser')
         validators = []  # Remove a default "unique together" constraint.
+
 
 # TODO - validar email com regex
 class UserCreateSerializer(serializers.ModelSerializer):
-    is_superuser = serializers.BooleanField(required=False,default=False)
+    is_superuser = serializers.BooleanField(required=False, default=False)
+
     class Meta:
         model = User
         fields = ('email', 'first_name', 'last_name', 'password', 'is_superuser')
@@ -29,8 +31,9 @@ class UserCreateSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         return User(**validated_data)
 
+
 class UserManagesPropertySerializer(serializers.ModelSerializer):
     class Meta:
         model = UserManagesProperty
-        fields = ('user_id','prop_id')
+        fields = ('user_id', 'prop_id')
         validators = []  # Remove a default "unique together" constraint.

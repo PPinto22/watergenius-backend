@@ -1,10 +1,10 @@
 from rest_framework import serializers
 
-from api.sensors.models import Sensor
+from api.reads.models import Read
 
 
-class SensorSerializer(serializers.ModelSerializer):
+class ReadSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Sensor
-        fields = ('sensor_id', 'sensor_state', 'sensor_sub', 'sensor_timerate' ,'sensor_depth','sensor_type')
-        validators = []  # Remove a default "unique together" constraint.
+        model = Read
+        fields = ('read_id', 'read_timestamp', 'read_value', 'read_sensor' ,'read_dayplan','read_type')
+        validators = [] # Remove a default "unique together" constraint.

@@ -2,7 +2,7 @@ from django.urls import include, path, re_path
 
 from . import views
 
-# Path: /users
+# /users
 urlpatterns = [
     # Register and authentication paths are defined on api.urls
 

@@ -3,9 +3,8 @@ from django.db import models
 from api.subspaces.models import SubSpace
 
 
-class DayPlan(models.Model):
-    dayplan_id = models.AutoField(primary_key=True)
-    dayplan_gen_time = models.DateTimeField(auto_now=True)
-    dayplan_time = models.DateTimeField()
-    dayplan_water_qtd = models.IntegerField()
-    dayplan_sub = models.ForeignKey(SubSpace, related_name='belongs_to_subspace', on_delete=models.CASCADE)
+class IrrigationTime(models.Model):
+    irrigation_time_id = models.AutoField(primary_key=True)
+    irrigation_time_date = models.DateTimeField()
+    irrigation_time_qtd = models.IntegerField()
+    irrigation_time_sub = models.ForeignKey(SubSpace, related_name='refers_to', on_delete=models.CASCADE)

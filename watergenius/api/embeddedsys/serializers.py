@@ -1,10 +1,10 @@
 from rest_framework import serializers
 
-from api.subspaces.models import SubSpace
+from api.embeddedsys.models import EmbeddedSystem
 
 
-class SubSpaceSerializer(serializers.ModelSerializer):
+class EmbeddedSystemSerializer(serializers.ModelSerializer):
     class Meta:
-        model = SubSpace
-        fields = ('sub', 'sub_name', 'sub_description', 'sub_space_id')
+        model = EmbeddedSystem
+        fields = ('esys_id', 'esys_local', 'esys_sub', 'esys_state')
         validators = []  # Remove a default "unique together" constraint.
