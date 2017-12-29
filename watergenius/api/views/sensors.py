@@ -49,7 +49,7 @@ def sensors(request, sensid=None):
         if serializer.is_valid():
             try:
                 instance = Sensor.objects.get(sensor_id=sensid)
-            except Exception as e:
+            except ObjectDoesNotExist as e:
                 return JsonResponse('Especify the correct Sensor id', status=400, safe=False)
             for attr, value in serializer.validated_data.items():
                 if attr != 'sensor_id':

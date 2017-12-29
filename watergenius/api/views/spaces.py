@@ -11,20 +11,23 @@ from api.serializers.spaces import SpaceSerializer, TimeRestritionSerializer
 def spaces(request, spaceid=None):
     if request.method == 'GET':
         print(spaceid)
-        if spaceid != None:
-            # TODO get this user email with the pinto way
-            props = Property.objects.filter(prop_owner_id=request.user.email)
-            queryset = Space.objects.filter(space_property__in=props.values('prop_id'))
-            print(list(queryset))
-            spaces = SpaceSerializer(list(queryset), many=True)
+        if spaceid != None and spaceid != "":
+            try:
+                space = Space.objects.get(space_id=spaceid)
+            except ObjectDoesNotExist as e:
+                return JsonResponse("That space doesn't even exist, fool", status=400, safe=False) 
+            spaces = SpaceSerializer(space, many=False)
             return JsonResponse(spaces.data, status=200, safe=False)
         else:
+            # TODO get this user email with the pinto way
+            #isto ja nao funciona!!! -> props = Property.objects.filter(prop_owner_id=request.user.email)
+            #queryset = Space.objects.filter(space_property__in=props.values('prop_id'))
             queryset = Space.objects.all()
             spaces = SpaceSerializer(queryset, many=True)
             return JsonResponse(spaces.data, status=200, safe=False)
 
     elif request.method == 'POST':
-        # edit resource
+        # create resource
         data = JSONParser().parse(request)
         serializer = SpaceSerializer(data=data, partial=True)
         if serializer.is_valid():
@@ -34,18 +37,20 @@ def spaces(request, spaceid=None):
                 print(attr)
                 if attr != 'space_id':
                     setattr(instance, attr, value)
-            print(type(instance))
+            #print(type(instance))
             instance.save()
-            return JsonResponse('OK', status=200, safe=False)
-
+            return JsonResponse('Space created', status=200, safe=False)
+        else:
+            return JsonResponse('Internal error or malformed JSON', status=500, safe=False)
     elif request.method == 'PUT':
-        print('put')
-        if spaceid != None:
+        #edit
+        if spaceid != None and spaceid !="":
             try:
                 space = Space.objects.get(space_id=spaceid)
             except ObjectDoesNotExist as e:
-                # insert
-                print('nao existe')
+                return JsonResponse("That space doesn't even exist, fool", status=400, safe=False)
+            else:
+                # edit
                 instance = Space()
                 data = JSONParser().parse(request)
                 serializer = SpaceSerializer(data=data, partial=True)
@@ -54,32 +59,12 @@ def spaces(request, spaceid=None):
                         if attr != 'space_id':
                             print(attr)
                             setattr(instance, attr, value)
-                    try:
-                        space1 = Space.objects.get(space_id=serializer.data['space_id'])
-                    except ObjectDoesNotExist as e:
-                        instance.save()
-                        return JsonResponse('OK', status=200, safe=False)
-                    else:
-                        return JsonResponse(
-                            'a space with that id already exists. if you want to edit it, use post method', status=200,
-                            safe=False)
-                return JsonResponse('Internal error', status=500, safe=False)
-            else:
-                # already exists , overwrite or ignore?? DISCUSS
-                return JsonResponse('This space in url already exists. if you want to edit it, use post method',
-                                    status=200, safe=False)
-
+                    instance.save()
+                    return JsonResponse('Space updated', status=200, safe=False)
+                else:
+                   return JsonResponse('Internal error or malformed JSON', status=500, safe=False)
         else:
-            instance = Space()
-            data = JSONParser().parse(request)
-            serializer = SpaceSerializer(data=data, partial=True)
-            if serializer.is_valid():
-                for attr, value in serializer.validated_data.items():
-                    if attr != 'space_id':
-                        print(attr)
-                        setattr(instance, attr, value)
-                instance.save()
-                return JsonResponse('OK', status=200, safe=False)
+            return JsonResponse("That space doesn't even exist, fool ", status=200, safe=False)
 
             return JsonResponse('Internal error', status=500, safe=False)
     elif request.method == 'DELETE':
@@ -98,6 +83,7 @@ def spaces(request, spaceid=None):
 
 # FIXME - Remover metodo post de /spaces/<id>/restrictions/<id>; por em /spaces/<id>/restrictions
 def spacesRes(request, spaceid, resid=None):
+    print('here')
     if request.method == 'GET':
         if resid == None or resid == "":
             if spaceid == None:
@@ -116,36 +102,40 @@ def spacesRes(request, spaceid, resid=None):
             serializer = TimeRestritionSerializer(timeRes, many=False)
             return JsonResponse(serializer.data, status=200, safe=False)
 
-    elif request.method == 'PUT':
+    elif request.method == 'POST':
+        #create time restrition for this space
         instance = TimeRestrition()
         data = JSONParser().parse(request)
         serializer = TimeRestritionSerializer(data=data, partial=True)
         if serializer.is_valid():
             for attr, value in serializer.validated_data.items():
-                if attr != 'time_restrition_id':
+                if attr != 'space_id' and attr !='time_restrition_id':
                     print(attr)
                     setattr(instance, attr, value)
+            instance.space_id = spaceid
             instance.save()
             return JsonResponse('OK', status=200, safe=False)
         else:
             return JsonResponse('Internal error or malformed json ', status=500, safe=False)
 
-    elif request.method == 'POST':
+    elif request.method == 'PUT':
+        #edit time restrition
         data = JSONParser().parse(request)
         serializer = TimeRestritionSerializer(data=data, partial=True)
         if serializer.is_valid():
-            if resid == None or resid == "":
-                resid = serializer.validated_data['time_restrition_id']
-            try:
-                instance = TimeRestrition.objects.get(time_restrition_id=resid)
-            except Exception as e:
-                return JsonResponse('Especify the correct restrition id', status=400, safe=False)
-            for attr, value in serializer.validated_data.items():
-                if attr != 'time_restrition_id':
-                    print(attr)
-                    setattr(instance, attr, value)
-            instance.save()
-            return JsonResponse('Time restrition edited with success', status=200, safe=False)
+            if resid != None and resid != "":
+                try:
+                    instance = TimeRestrition.objects.get(time_restrition_id=resid)
+                except Exception as e:
+                    return JsonResponse('Especify the correct restrition id', status=400, safe=False)
+                for attr, value in serializer.validated_data.items():
+                    if attr != 'time_restrition_id' and attr != 'space_id':
+                        print(attr)
+                        setattr(instance, attr, value)
+                instance.save()
+                return JsonResponse('Time restrition edited with success', status=200, safe=False)
+            else:
+                return JsonResponse('Especify correct restrition ID', status=400, safe=False)
         else:
             return JsonResponse('Internal error or malformed json ', status=500, safe=False)
 

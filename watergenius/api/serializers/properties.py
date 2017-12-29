@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from api.models.properties import Property, CentralNode, UserManagesProperty
+from api.models.properties import Property, CentralNode, UserManagesProperty, Localization
 
 
 class PropertySerializer(serializers.ModelSerializer):
@@ -12,7 +12,7 @@ class PropertySerializer(serializers.ModelSerializer):
 class CentralNodeSerializer(serializers.ModelSerializer):
     node_id = serializers.PrimaryKeyRelatedField(queryset=CentralNode.objects.all())
     node_property = serializers.PrimaryKeyRelatedField(queryset=Property.objects.all())
-
+    node_local = serializers.PrimaryKeyRelatedField(queryset=Localization.objects.all())
     class Meta:
         model = CentralNode
         fields = ('node_id', 'node_ip', 'node_local', 'node_property')
