@@ -30,7 +30,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 CORS_ORIGIN_ALLOW_ALL = True
-
+CSRF_COOKIE_SECURE = False
 # Application definition
 
 INSTALLED_APPS = [
@@ -76,8 +76,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'watergenius',
-        'USER': 'watergenius',
-        'PASSWORD': 'watergenius',
+        'USER': 'postgres',
+        'PASSWORD': 'dbrootpass',
         'HOST': 'localhost'
     }
     # 'default': {
@@ -123,7 +123,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',

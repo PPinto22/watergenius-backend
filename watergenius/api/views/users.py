@@ -35,7 +35,7 @@ def populate(request):
     try:
         a = User()
         a.email = "rui.rrua@gmail.com"
-        a.password = "rui"
+        a.set_password("rui")
         a.first_name = "Rui"
         a.last_name = "Rua"
         a.save()
@@ -45,7 +45,7 @@ def populate(request):
     try:
         a = User()
         a.email = "pinto@gmail.com"
-        a.password = "pinto"
+        a.set_password("pinto")
         a.first_name = "Pedro"
         a.last_name = "Pinto"
         a.save()
@@ -55,7 +55,7 @@ def populate(request):
     try:
         a = User()
         a.email = "rafa@gmail.com"
-        a.password = "rafa"
+        a.set_password("rafa")
         a.first_name = "Rafa"
         a.last_name = "Mota"
         a.save()
@@ -65,7 +65,7 @@ def populate(request):
     try:
         a = User()
         a.email = "freitas@gmail.com"
-        a.password = "freitas"
+        a.set_password("freitas")
         a.first_name = "Rui"
         a.last_name = "Freitas"
         a.save()
