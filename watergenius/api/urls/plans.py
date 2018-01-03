@@ -1,9 +1,9 @@
 from django.urls import path
 
-from api.views.plans import plans
+from api.views.plans import PlansListView, PlanDetailView
 
 # /plans
 urlpatterns = [
-    path('', plans, name='plans'),
-    path('<int:planid>/', plans, name='plan'), # TODO - funcao separada?
+    path('', PlansListView.as_view(), name='plans'),
+    path('<int:planid>/', PlanDetailView.as_view(), name='plan'),
 ]

@@ -1,9 +1,9 @@
 from django.urls import path
 
-from api.views.subspaces import subspaces
+from api.views.subspaces import SubspacesListView, SubspaceDetailView
 
 # /subspaces
 urlpatterns = [
-    path('', subspaces, name='subspaces'),
-    path('<int:subspaceid>/', subspaces, name='subspace'), # TODO - funcao separada?
+    path('', SubspacesListView.as_view(), name='subspaces'),
+    path('<int:subspaceid>/', SubspaceDetailView.as_view(), name='subspace'),
 ]

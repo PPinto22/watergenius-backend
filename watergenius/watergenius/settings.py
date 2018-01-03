@@ -30,8 +30,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 CORS_ORIGIN_ALLOW_ALL = True
-CSRF_COOKIE_SECURE = False
-# Application definition
 
 INSTALLED_APPS = [
     'api.apps.ApiConfig',
@@ -76,8 +74,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'watergenius',
-        'USER': 'postgres',
-        'PASSWORD': 'dbrootpass',
+        'USER': 'watergenius',
+        'PASSWORD': 'watergenius',
         'HOST': 'localhost'
     }
     # 'default': {

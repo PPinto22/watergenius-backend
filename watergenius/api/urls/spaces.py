@@ -1,11 +1,13 @@
 from django.urls import path
 
-from api.views.spaces import spaces, spacesRes
+from api.views.spaces import SpacesListView, SpaceDetailView, SpaceRestrictionsListView, \
+    SpaceRestrictionDetailView
 
 # /spaces
 urlpatterns = [
-    path('', spaces, name='spaces'),
-    path('<int:spaceid>/', spaces, name='spaces'), # TODO - Funcao separada?
-    path('<int:spaceid>/restritions/<int:resid>/', spacesRes, name='spacesRes'),
-    path('<int:spaceid>/restritions/', spacesRes, name='spacesRes')
+    path('', SpacesListView.as_view(), name='spaces'),
+    path('<int:spaceid>/', SpaceDetailView.as_view(), name='spaceDetail'),
+    path('<int:spaceid>/restritions/', SpaceRestrictionsListView.as_view(), name='spaceRestrictions'),
+    path('<int:spaceid>/restritions/<int:resid>/', SpaceRestrictionDetailView.as_view(), name='spaceRestriction'),
 ]
+

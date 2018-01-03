@@ -1,9 +1,9 @@
 from django.urls import path
 
-from api.views.embeddedsys import embeddedsystems
+from api.views.embeddedsys import EmbeddedSysListView, EmbeddedSysDetailView
 
 # /embeddedsys
 urlpatterns = [
-    path('', embeddedsystems, name='embeddedsystems'),
-    path('<int:sysid>/', embeddedsystems, name='embeddedsystem'),  # TODO - funcao separada?
+    path('', EmbeddedSysListView, name='embeddedsystems'),
+    path('<int:sysid>/', EmbeddedSysDetailView, name='embeddedsystem'),
 ]

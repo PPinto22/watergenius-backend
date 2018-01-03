@@ -1,34 +1,24 @@
-from django.http import JsonResponse
 from rest_framework.parsers import JSONParser
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.status import *
 
 from api.models.warnings import Warning
 from api.serializers.warnings import WarningSerializer
 
 
-def warnings(request):
-    if request.method == 'GET':
-        #query = (request.META['QUERY_STRING']).split('=')
-        #if query[0] == 'centralnode':
-        #    centralnode = (query[1])
-        #    dayplans = Read.objects.filter(warning_central=centralnode)
-        #else:
-        #    if len(query)>1:
-        #        return JsonResponse('unknown query', status=400, safe=False)
-            #nao sei se faz sentido seqer. devolver so as do user logaddo
+class WarningsListView(APIView):
+    def get(self, request):
         warnings = Warning.objects.all()
         serialize = WarningSerializer(warnings, many=True)
-        return JsonResponse( serialize.data , status=200 ,safe=False)
-    elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        serializer = WarningSerializer(data=data , partial=True)
-        instance = Warning()
-        if serializer.is_valid():
-            for attr, value in serializer.validated_data.items():
-                if attr != 'warning_id' :
-                    setattr(instance, attr, value)
-            instance.save()
-            return  JsonResponse( 'OK', status=200, safe=False)
-        else:
-             return JsonResponse('Internal error or malformed JSON ' , status=500 ,safe=False)
-    return JsonResponse('error', status=400, safe=False)
+        return Response(serialize.data, HTTP_200_OK)
 
+    def post(self, request):
+        data = JSONParser().parse(request)
+        serializer = WarningSerializer(data=data, partial=True)
+        if serializer.is_valid():
+            instance = serializer.create(serializer.validated_data)
+            instance.save()
+            return Response('OK', HTTP_200_OK)
+        else:
+            return Response('Internal error or malformed JSON ', HTTP_400_BAD_REQUEST)

@@ -1,61 +1,56 @@
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import JsonResponse
 from rest_framework.parsers import JSONParser
+from rest_framework.response import Response
+from rest_framework.status import *
+from rest_framework.views import APIView
 
 from api.models.subspaces import SubSpace
 from api.serializers.subspaces import SubSpaceSerializer
 
-def subspaces(request, subspaceid=None):
-    if request.method == 'GET':
-        if subspaceid != None:
-            plants = SubSpace.objects.filter(sub=subspaceid)
-            serialize = SubSpaceSerializer(plants, many=True)
-            return JsonResponse(serialize.data, status=200, safe=False)
-        else:
-            # TODO get all subspaces of logged user
-            plants = SubSpace.objects.all()
-            serialize = SubSpaceSerializer(plants, many=True)
-            return JsonResponse(serialize.data, status=200, safe=False)
-    elif request.method == 'POST':  # create
+
+class SubspacesListView(APIView):
+    def get(self, request):
+        plants = SubSpace.objects.all()
+        serialize = SubSpaceSerializer(plants, many=True)
+        return Response(serialize.data, HTTP_200_OK)
+
+    def post(self, request):
         data = JSONParser().parse(request)
         serializer = SubSpaceSerializer(data=data, partial=True)
-        instance = SubSpace()
         if serializer.is_valid():
-            for attr, value in serializer.validated_data.items():
-                if attr != 'sub':
-                    setattr(instance, attr, value)
+            instance = serializer.create(serializer.validated_data)
             instance.save()
-            return JsonResponse('OK', status=200, safe=False)
+            return Response('OK', HTTP_200_OK)
         else:
-            return JsonResponse('Internal error or malformed JSON ', status=500, safe=False)
+            return Response('Internal error or malformed JSON ', HTTP_400_BAD_REQUEST)
 
-    elif request.method == 'PUT':  # edit
-        if subspaceid == None or subspaceid == "":
-            return JsonResponse('Especify the subspace id', status=400, safe=False)
+class SubspaceDetailView(APIView):
+    def get(self, request, subspaceid):
+        plants = SubSpace.objects.filter(sub=subspaceid)
+        serialize = SubSpaceSerializer(plants, many=True)
+        return Response(serialize.data, HTTP_200_OK)
+
+    def put(self, request, subspaceid):
         data = JSONParser().parse(request)
         serializer = SubSpaceSerializer(data=data, partial=True)
         if serializer.is_valid():
             try:
                 instance = SubSpace.objects.get(sub=subspaceid)
             except Exception as e:
-                return JsonResponse('Especify the correct restrition id', status=400, safe=False)
+                return Response('Especify the correct restrition id', HTTP_400_BAD_REQUEST)
             for attr, value in serializer.validated_data.items():
                 if attr != 'sub':
                     print(attr)
                     setattr(instance, attr, value)
             instance.save()
-            return JsonResponse('Subsapce edited with success', status=200, safe=False)
+            return Response('Subsapce edited with success', HTTP_200_OK)
         else:
-            return JsonResponse('Internal error or malformed json ', status=500, safe=False)
+            return Response('Internal error or malformed json ', HTTP_400_BAD_REQUEST)
 
-    elif request.method == 'DELETE':
-        if subspaceid != None and subspaceid != "":
-            try:
-                space = SubSpace.objects.get(sub=subspaceid)
-            except ObjectDoesNotExist:
-                return JsonResponse("That subspace doesn't even exist, fool", status=400, safe=False)
-            space.delete()
-            return JsonResponse('SubSpace deleted', status=200, safe=False)
-        else:
-            return JsonResponse(' Especify subspace ID in url', status=400, safe=False)
-    return JsonResponse('error', status=400, safe=False)
+    def delete(self, request, subspaceid):
+        try:
+            space = SubSpace.objects.get(sub=subspaceid)
+        except ObjectDoesNotExist:
+            return Response("That subspace doesn't even exist, fool", HTTP_400_BAD_REQUEST)
+        space.delete()
+        return Response('SubSpace deleted', HTTP_204_NO_CONTENT)

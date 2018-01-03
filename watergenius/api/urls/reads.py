@@ -1,9 +1,9 @@
 from django.urls import path
 
-from api.views.reads import reads
+from api.views.reads import ReadsListView, ReadDetailView
 
 # /reads
 urlpatterns = [
-    path('', reads, name='reads'),
-    path('<int:readid>/', reads, name='read'),  # TODO - funcao separada?
+    path('', ReadsListView.as_view(), name='reads'),
+    path('<int:readid>/', ReadDetailView.as_view(), name='read'),
 ]

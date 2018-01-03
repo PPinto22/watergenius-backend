@@ -28,10 +28,11 @@ python3.6 manage.py runserver
 
 ## API
 
+- Populate
+  - [POST /populate/](#get-populate)
 - Auth
   - [POST /auth/](#post-auth)
   - [POST /register/](#post-register)
-
 - Users
   - [GET /users/](#get-users)
   - [GET /users/{id}/](#get-usersid)
@@ -46,7 +47,7 @@ python3.6 manage.py runserver
   - [GET /properties/{id}/node/](#get-propertiesidnode)
   - [POST /properties/{id}/node/](#post-propertiesidnode)
   - [PUT /properties/{id}/node/](#put-propertiesidnode)
-  - [GET /properties/{id}/managers//](#get-propertiesidmanagers)
+  - [GET /properties/{id}/managers/](#get-propertiesidmanagers)
   - [POST /properties/{id}/managers/{id}/](#post-propertiesidmanagersid)
   - [DEL /properties/{id}/managers/{id}/](#del-propertiesidmanagersid)
 - Spaces
@@ -106,6 +107,9 @@ Post- criar
   - [~~POST /node/{i}/poweroff/~~](#post-nodeipoweroff)
 
 ---
+
+### POST /populate/
+Povoa a BD com alguns registos de utilizadores, espaços, etc... Apenas para ambiente de desenvolvimento.
 
 ### POST /auth/
 A autenticação é feita por JWT. Esta rota recebe as credenciais do utilizador (email e password) e devolve um token que deve ir em todas as próximas mensagens no campo Authorization do cabeçalho HTTP, da seguinte forma:

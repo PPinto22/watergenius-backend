@@ -1,74 +1,74 @@
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import JsonResponse
 from rest_framework.parsers import JSONParser
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.status import *
 
 from api.models.reads import Read
 from api.serializers.reads import ReadSerializer
 
 
-def reads(request, readid=None):
-    if request.method == 'GET':
-        if readid != None and readid != "":
-            try:
-                dayplans = Read.objects.get(read_id=readid)
-            except ObjectDoesNotExist as e:
-                return JsonResponse("That Read  doesn't even exist, fool", status=400, safe=False)
-            serialize = ReadSerializer((dayplans), many=False)
-            return JsonResponse(serialize.data, status=200, safe=False)
+class ReadsListView(APIView):
+    def get(self, request):
         print(request.META['QUERY_STRING'])
         query = (request.META['QUERY_STRING']).split('=')
         if query[0] == 'sensor':
             sensor = (query[1])
-            dayplans = Read.objects.filter(read_sensor_id=sensor)
+            reads = Read.objects.filter(read_sensor_id=sensor)
         else:
             if len(query) > 1:
-                return JsonResponse('unknown query', status=400, safe=False)
+                return Response('unknown query', HTTP_400_BAD_REQUEST)
             # nao sei se faz sentido seqer. devolver so as do user logaddo
-            dayplans = Read.objects.all()
-        serialize = ReadSerializer(dayplans, many=True)
-        return JsonResponse(serialize.data, status=200, safe=False)
-    elif request.method == 'POST':
+            reads = Read.objects.all()
+        serialize = ReadSerializer(reads, many=True)
+        return Response(serialize.data, HTTP_200_OK)
+
+    def post(self, request):
         data = JSONParser().parse(request)
         serializer = ReadSerializer(data=data, partial=True)
-        instance = Read()
         if serializer.is_valid():
-            for attr, value in serializer.validated_data.items():
-                if attr != 'read_id':
-                    setattr(instance, attr, value)
+            instance = serializer.create(serializer.validated_data)
             instance.save()
-            return JsonResponse('OK', status=200, safe=False)
+            return Response('OK', HTTP_200_OK)
         else:
-            return JsonResponse('Internal error or malformed JSON ', status=500, safe=False)
+            return Response('Internal error or malformed JSON ', HTTP_400_BAD_REQUEST)
 
-    elif request.method == 'PUT':
-        # EDIT
+class ReadDetailView(APIView):
+    def get(self, request, readid):
+        try:
+            read = Read.objects.get(read_id=readid)
+        except ObjectDoesNotExist as e:
+            return Response("That Read  doesn't even exist, fool", HTTP_400_BAD_REQUEST)
+        serialize = ReadSerializer(read, many=False)
+        return Response(serialize.data, HTTP_200_OK)
+
+    def put(self, request, readid):
         if readid == None or readid == "":
-            return JsonResponse('Especify the Read id in url', status=400, safe=False)
+            return Response('Especify the Read id in url', HTTP_400_BAD_REQUEST)
         data = JSONParser().parse(request)
         serializer = ReadSerializer(data=data, partial=True)
         if serializer.is_valid():
             try:
                 instance = Read.objects.get(read_id=readid)
             except Exception as e:
-                return JsonResponse('Especify the correct read id', status=400, safe=False)
+                return Response('Especify the correct read id', HTTP_400_BAD_REQUEST)
             for attr, value in serializer.validated_data.items():
                 if attr != 'sensor_id':
                     print(attr)
                     setattr(instance, attr, value)
             instance.save()
-            return JsonResponse('Read edited with success', status=200, safe=False)
+            return Response('Read edited with success', HTTP_200_OK)
         else:
-            return JsonResponse('Internal error or malformed json ', status=500, safe=False)
+            return Response('Internal error or malformed json ', HTTP_400_BAD_REQUEST)
 
-    elif request.method == 'DELETE':
+    def delete(self, request, readid):
         # if readid!=None and readid!="":
         #    try:
-        #        dayplans = Read.objects.get(read_id=readid)
+        #        reads = Read.objects.get(read_id=readid)
         #    except ObjectDoesNotExist as e:
-        #        return JsonResponse("That  Read doesn't even exist, fool" , status=400 ,safe=False)
-        #    dayplans.delete()
-        #    return JsonResponse( "Read deleted" , status=200 ,safe=False)
+        #        return Response("That  Read doesn't even exist, fool" , HTTP_400_BAD_REQUEST)
+        #    reads.delete()
+        #    return Response( "Read deleted" , HTTP_200_OK)
         # else:
-        # return JsonResponse(' Especify Read ID in url' , status=400 ,safe=False)
-        return JsonResponse('Not Implemented', status=400, safe=False)
-    return JsonResponse('error', status=400, safe=False)
+        # return Response(' Especify Read ID in url' , HTTP_400_BAD_REQUEST)
+        return Response('Not Implemented', HTTP_400_BAD_REQUEST)

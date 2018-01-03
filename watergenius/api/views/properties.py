@@ -1,205 +1,135 @@
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import JsonResponse
 from rest_framework.parsers import JSONParser
+from rest_framework.status import *
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from api.models.properties import Property, CentralNode, UserManagesProperty
 from api.serializers.properties import CentralNodeSerializer, PropertySerializer
 from api.models.users import User
 from api.serializers.users import UserSerializer
 
-# /properties/{id}/managers
-def propertiesManagers(request, propid=None, managerid=None):
-    print(managerid)
-    print(propid)
-    if propid == None:
-        return JsonResponse(' Please especify the property id', status=400, safe=False)
-    if request.method == 'GET':
-        if managerid == None or managerid=="":
-            # return all managers of that property
-            managersOfProperty = UserManagesProperty.objects.filter(prop_has_id=propid)
-            queryset = User.objects.filter(email__in=managersOfProperty.values('user_has_id'))
-            print(list(queryset))
-            serializer = UserSerializer(list(queryset), many=True)
-            return JsonResponse(serializer.data, safe=False)
-        else:
-            managersOfProperty = UserManagesProperty.objects.filter(prop_has_id=propid)
-            queryset = User.objects.filter(email__in=managersOfProperty.values('user_has_id'), )
 
-    if request.method == 'POST':
-        if managerid != None or managerid=="":
-            #CREATE
-            try:
-                user = User.objects.get(email=managerid)
-            except ObjectDoesNotExist as e:
-                return JsonResponse(' Invalid user mail ', status=400, safe=False)
-            manager = UserManagesProperty()
-            manager.user_has_id = user
-            manager.prop_has_id = Property.objects.get(prop_id=propid)
-            try:
-                manager.save()
-            except Exception:
-                return JsonResponse(managerid + ' is the manager already', status=200, safe=False)
-            return JsonResponse('New Manager added', status=200, safe=False)
-        else:
-            return JsonResponse(' Please especify the property id', status=400, safe=False)
+class PropertiesListView(APIView):
+    def get(self, request):
+        # TODO  check authenticated user and get only the properties of that user
+        prop = Property.objects
+        serializer = PropertySerializer(list(prop), many=True)
+        return Response(serializer.data, status=HTTP_200_OK)
 
-    if request.method == 'DELETE':
-        if managerid != None or managerid=="":
-            try:
-                usp = UserManagesProperty.objects.get(user_has_id=managerid, prop_has_id=propid)
-            except ObjectDoesNotExist:
-                return JsonResponse("That manager doesn't manage this property", status=400, safe=False)
-            usp.delete()
-            return JsonResponse('OK', status=200, safe=False)
-        else:
-            return JsonResponse('Especify the property id', status=400, safe=False)
-
-    return JsonResponse('Not supported' + str(propid) + str(), status=400, safe=False)
-
-
-# /properties/{id}/node
-def propertiesNode(request, propid=None):
-    if propid == None:
-        return JsonResponse(' Please especify the property id', status=400, safe=False)
-
-    if request.method == 'GET':
-        try:
-            node = CentralNode.objects.get(node_property_id=propid)
-        except ObjectDoesNotExist as e:
-            return JsonResponse("That property doesn't have a central node", status=404, safe=False)
-
-        serializer = CentralNodeSerializer(node, many=False)
-        return JsonResponse(serializer.data, safe=False)
-    elif request.method == 'PUT':
-        #EDIT
-        try:
-            node = CentralNode.objects.get(node_property_id=propid)
-        except ObjectDoesNotExist as e:
-            return JsonResponse("That property doesn't even exist", status=400, safe=False)
-        else:
-            data = JSONParser().parse(request)
-            serializer = CentralNodeSerializer(data=data, partial=True)
-            print(serializer)
-            print(serializer.is_valid())
-            if serializer.is_valid():
-                try:
-                    instance = node
-                except ObjectDoesNotExist as e:
-                    return JsonResponse('Especify the correct Property id', status=400, safe=False)
-                for attr, value in serializer.validated_data.items():
-                    if attr != 'node_property' and attr != 'node_id':
-                        print(attr)
-                        setattr(instance, attr, value)
-                instance.save()
-                return JsonResponse('Central Node edited with success', status=200, safe=False)
-            return JsonResponse('Internal error or malformed JSON ', status=500, safe=False)
-        
-        #try:
-        #    node = CentralNode.objects.get(node_property_id=propid)
-        #except ObjectDoesNotExist as e:
-        #    data = JSONParser().parse(request)
-        #    serializer = CentralNodeSerializer(data=data, partial=True)
-        #    if serializer.is_valid():
-        #        serializer.node_id = -1
-        #        serializer.save()
-        #        return JsonResponse('Central Node created', status=200, safe=False)
-        #else:
-            # already exists, error
-        #    return JsonResponse(
-        #        'That property already has a central node. if you want to edit the central node, use post method',
-        #        status=200, safe=False)
-    elif request.method == 'POST':
-        #CREATE
-        try:
-            node = CentralNode.objects.get(node_property_id=propid)
-        except ObjectDoesNotExist as e:
-            node = CentralNode()
-            data = JSONParser().parse(request)
-            print(data)
-            serializer = CentralNodeSerializer(data=data, partial=True)
-            print(serializer.is_valid())
-            print(serializer)
-            if serializer.is_valid():
-                for attr, value in serializer.validated_data.items():
-                    if attr != 'node_id':
-                        setattr(node, attr, value)
-                node.save()
-                return JsonResponse('Central Node created', status=200, safe=False)
-            return JsonResponse('Internal error or malformed JSON ', status=500, safe=False)
-        else:
-            return JsonResponse("That property already have a central node", status=404, safe=False)
-        
-    return JsonResponse('NOT SUPPORTED' + str(propid), status=400, safe=False)
-
-
-# Propertys/{id}
-def properties(request, propid=None):
-    if request.method == 'GET':
-        # data = JSONParser().parse(request)
-        if propid != None:
-            # TODO  check authenticated user and get only the properties of that user
-            prop = Property.objects.filter(prop_id=propid)
-            print(prop)
-            serializer = PropertySerializer(list(prop), many=True)
-            return JsonResponse(serializer.data, status=200, safe=False)
-        else:
-            owner = request.user
-            print(owner)
-            prop = Property.objects.filter(prop_owner_id=owner)
-            serializer = PropertySerializer(prop, many=True)
-            return JsonResponse(serializer.data, status=200, safe=False)
-
-    elif request.method == 'POST':
-        print('ao poste')
-        #if propid != None:
-        #try:
-        #    instance = Property.objects.get(prop_id=propid)
-        #except ObjectDoesNotExist:
-        #    return JsonResponse("That property doesn't even exist", status=400, safe=False)
-        
-        # NOTE : not inserting in api_usermanagesproperty DISCUSS
+    def post(self, request):
         data = JSONParser().parse(request)
         serializer = PropertySerializer(data=data, partial=True)
         if serializer.is_valid():
-            for attr, value in serializer.validated_data.items():
-                print(attr)
-                #if attr != 'prop_id' and attr != 'prop_owner':
-                if attr != 'prop_id':
-                    setattr(instance, attr, value)
-            print(type(instance))
-            instance.save()
-            return JsonResponse('Property created', status=200, safe=False)
+            property = serializer.create(serializer.validated_data)
+            property.save()
+            return Response('Property created', status=HTTP_200_OK)
         else:
-            return JsonResponse('Internal error or malformed JSON', status=500, safe=False)
-    elif request.method == 'PUT':
-        #EDIT 
+            return Response(status=HTTP_400_BAD_REQUEST)
+
+class PropertyDetailView(APIView):
+    def get(self, request, propid):
+        owner = request.user
+        prop = Property.objects.filter(prop_owner_id=owner)
+        serializer = PropertySerializer(prop, many=True)
+        return Response(serializer.data, status=HTTP_200_OK)
+
+    def put(self, request, propid):
         if propid == None and propid == "":
-            return JsonResponse('Especify the Property id in url', status=400, safe=False)
+            return Response('Especify the Property id in url', status=HTTP_400_BAD_REQUEST)
         data = JSONParser().parse(request)
         serializer = PropertySerializer(data=data, partial=True)
         if serializer.is_valid():
             try:
                 instance = Property.objects.get(prop_id=propid)
             except ObjectDoesNotExist as e:
-                return JsonResponse('Especify the correct Property id', status=400, safe=False)
+                return Response('Specify the correct Property id', status=HTTP_400_BAD_REQUEST)
             for attr, value in serializer.validated_data.items():
                 if attr != 'prop_id':
                     print(attr)
                     setattr(instance, attr, value)
             instance.save()
-            return JsonResponse('Property edited with success', status=200, safe=False)
+            return Response('Property edited with success', status=HTTP_200_OK)
         else:
-            return JsonResponse('Internal error or malformed json ', status=500, safe=False)
+            return Response('Internal error or malformed json ', status=HTTP_500_INTERNAL_SERVER_ERROR)
 
-    elif request.method == 'DELETE':
-        if propid != None and propid !="":
+    def delete(self, request, propid):
+        if propid != None and propid != "":
             try:
                 prop = Property.objects.get(prop_id=propid)
             except ObjectDoesNotExist:
-                return JsonResponse("That property doesn't even exist", status=400, safe=False)
+                return Response("That property doesn't even exist", status=HTTP_400_BAD_REQUEST)
             prop.delete()
-            return JsonResponse('OK', status=200, safe=False)
+            return Response('OK', status=HTTP_204_NO_CONTENT)
         else:
-            return JsonResponse('Especify the property id', status=400, safe=False)
+            return Response('Especify the property id', status=HTTP_400_BAD_REQUEST)
 
-    return JsonResponse('error', status=501, safe=False)
+
+class PropertyManagersListView(APIView):
+    def get(self, request, propid):
+        managersOfProperty = UserManagesProperty.objects.filter(prop_id=propid)
+        queryset = User.objects.filter(email__in=managersOfProperty.values('user_id'))
+        serializer = UserSerializer(list(queryset), many=True)
+        return Response(serializer.data, status=HTTP_200_OK)
+
+class PropertyManagerDetailView(APIView):
+    def post(self, request, propid, managerid):
+        try:
+            user = User.objects.get(email=managerid)
+        except ObjectDoesNotExist as e:
+            return Response(' Invalid user mail ', status=HTTP_400_BAD_REQUEST)
+        manager = UserManagesProperty()
+        manager.user = user
+        manager.prop = Property.objects.get(prop_id=propid)
+        try:
+            manager.save()
+        except Exception:
+            return Response(managerid + ' is the manager already', status=HTTP_204_NO_CONTENT)
+        return Response('New Manager added', status=HTTP_200_OK)
+
+    def delete(self, request, propid, managerid):
+        try:
+            usp = UserManagesProperty.objects.get(user_id=managerid, prop_id=propid)
+        except ObjectDoesNotExist:
+            return Response("That manager doesn't manage this property", status=HTTP_400_BAD_REQUEST)
+        usp.delete()
+        return Response('OK', status=HTTP_204_NO_CONTENT)
+
+
+class PropertyNodeView(APIView):
+    def get(self, request, propid):
+        try:
+            node = CentralNode.objects.get(node_property_id=propid)
+        except ObjectDoesNotExist as e:
+            return Response("That property doesn't have a central node", status=HTTP_204_NO_CONTENT)
+        serializer = CentralNodeSerializer(node, many=False)
+        return Response(serializer.data, status=HTTP_200_OK)
+
+    def post(self, request, propid):
+        try:
+            node = CentralNode.objects.get(node_property_id=propid)
+        except ObjectDoesNotExist as e:
+            data = JSONParser().parse(request)
+            serializer = CentralNodeSerializer(data=data, partial=True)
+            if serializer.is_valid():
+                node = serializer.create(serializer.validated_data)
+                node.save()
+                return Response('Central Node created', status=HTTP_200_OK)
+            return Response('Internal error or malformed JSON ', status=HTTP_400_BAD_REQUEST)
+        return Response("That property already have a central node", status=HTTP_400_BAD_REQUEST)
+
+    def put(self, request, propid):
+        try:
+            node = CentralNode.objects.get(node_property_id=propid)
+        except ObjectDoesNotExist as e:
+            return Response("That property does not have a node", status=HTTP_400_BAD_REQUEST)
+        data = JSONParser().parse(request)
+        serializer = CentralNodeSerializer(data=data, partial=True)
+        if serializer.is_valid():
+            instance = node
+            for attr, value in serializer.validated_data.items():
+                if attr != 'node_property' and attr != 'node_id':
+                    setattr(instance, attr, value)
+            instance.save()
+            return Response('Central Node edited with success', status=HTTP_200_OK)
+        return Response('Internal error or malformed JSON ', status=HTTP_400_BAD_REQUEST)

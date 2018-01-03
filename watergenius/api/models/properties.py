@@ -14,10 +14,10 @@ class Property(models.Model):
 
 class UserManagesProperty(models.Model):
     class Meta:
-        unique_together = (('user_id', 'prop_id'),)
+        unique_together = (('user', 'prop'),)
 
-    user_id = models.ForeignKey(User, related_name='manager', on_delete=models.CASCADE)
-    prop_id = models.ForeignKey(Property, related_name='prop', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='manager', on_delete=models.CASCADE)
+    prop = models.ForeignKey(Property, related_name='prop', on_delete=models.CASCADE)
 
 
 class CentralNode(models.Model):

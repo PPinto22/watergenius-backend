@@ -1,8 +1,8 @@
 from django.urls import path
 
-from api.views.warnings import warnings
+from api.views.warnings import WarningsListView
 
 # /warnings
 urlpatterns = [
-    path('', warnings, name='warnings'),
+    path('', WarningsListView.as_view(), name='warnings'),
 ]

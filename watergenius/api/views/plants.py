@@ -1,15 +1,13 @@
-from django.http import JsonResponse
+from rest_framework.response import Response
+from rest_framework.status import *
+from rest_framework.views import APIView
 
 from api.models.plants import PlantType
 from api.serializers.plants import PlantTypeSerializer
 
 
-def plants(request):
-    if request.method == 'GET':
+class PlantsListView(APIView):
+    def get(self, request):
         plants = PlantType.objects.all()
         serializer = PlantTypeSerializer(plants, many=True)
-        return JsonResponse(serializer.data, status=200, safe=False)
-    elif request.method == 'PUT':
-        return JsonResponse('Not supported', status=400, safe=False)
-
-    return JsonResponse('error', status=400, safe=False)
+        return Response(serializer.data, status=HTTP_200_OK)
