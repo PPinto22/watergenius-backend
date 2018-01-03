@@ -44,6 +44,16 @@ def populate(request):
 
     try:
         a = User()
+        a.email = "pinto@gmail.com"
+        a.password = "pinto"
+        a.first_name = "Pedro"
+        a.last_name = "Pinto"
+        a.save()
+    except Exception as e:
+        print(e)
+
+    try:
+        a = User()
         a.email = "rafa@gmail.com"
         a.password = "rafa"
         a.first_name = "Rafa"
@@ -119,7 +129,7 @@ def populate(request):
     try:
         c = UserManagesProperty()
         c.user_id_id = "pinto@gmail.com"
-        c.prop_id_id = 3
+        c.prop_id_id = 2
         c.save()
     except Exception as e:
         print(e)
@@ -157,7 +167,7 @@ def populate(request):
         rest = TimeRestrition()
         rest.time_begin = "2017-12-21T00:00:00Z"
         rest.time_duration = "00:22:00"
-        rest.time_restrition_space = 1
+        rest.time_restrition_space = Space.objects.get(space_id=2)
         rest.save()
     except Exception as e:
         print(e)
@@ -166,7 +176,7 @@ def populate(request):
         rest = TimeRestrition()
         rest.time_begin = "2017-12-29T00:00:00Z"
         rest.time_duration = "00:12:00"
-        rest.time_restrition_space = 1
+        rest.time_restrition_space = Space.objects.get(space_id=1)
         rest.save()
     except Exception as e:
         print(e)
@@ -210,32 +220,17 @@ def populate(request):
         print(e)
 
     try:
-        h = Localization()
-        h.local_long = 120
-        h.local_lat = 130
-        h.save()
-    except Exception as e:
-        print(e)
-
-    try:
-        h = Localization()
-        h.local_long = 1201
-        h.local_lat = 1301
-        h.save()
-    except Exception as e:
-        print(e)
-    try:
         irrigation = IrrigationTime()
         irrigation.irrigation_time_date = "2017-12-21T00:00:00Z"
         irrigation.irrigation_time_qtd = 10
-        irrigation.irrigation_time_sub = 1
+        irrigation.irrigation_time_sub = SubSpace.objects.get(sub=1)
         irrigation.save()
     except Exception as e:
         print(e)
     try:
         g = CentralNode()
         g.node_ip = "127.0.0.1"
-        g.node_local_id = 1
+        #g.node_local_id = 1
         g.node_property_id = 1
         g.save()
     except Exception as e:
@@ -243,7 +238,7 @@ def populate(request):
     try:
         g = CentralNode()
         g.node_ip = "127.0.1.1"
-        g.node_local_id = 2
+        #g.node_local_id = 2
         g.node_property_id = 2
         g.save()
     except Exception as e:
@@ -252,7 +247,7 @@ def populate(request):
     try:
         i = EmbeddedSystem()
         i.esys_state = 1
-        i.esys_local_id = 2
+        #i.esys_local_id = 2
         i.esys_sub_id = 1 
         i.esys_name = "arduino 1"
         i.esys_network_pass = "laura"
@@ -263,7 +258,7 @@ def populate(request):
     try:
         i = EmbeddedSystem()
         i.esys_state = 1
-        i.esys_local_id = 2
+        #i.esys_local_id = 2
         i.esys_sub_id = 1 
         i.esys_name = "arduino 1"
         i.esys_network_pass = "laura"
@@ -274,7 +269,7 @@ def populate(request):
     try:
         i = EmbeddedSystem()
         i.esys_state = 1
-        i.esys_local_id = 1
+        #i.esys_local_id = 1
         i.esys_sub_id = 2 
         i.esys_name = "arduino 2"
         i.esys_network_pass = "laurinda"
@@ -316,7 +311,7 @@ def populate(request):
         read.read_type_name = "leitura"
         read.read_type_units= "ua"
         read.read_type_coef= 10
-        read_type_sensor_id = 1
+        read.read_type_sensor_id = 1
         read.save()
     except Exception as e:
         print(e)
@@ -326,7 +321,7 @@ def populate(request):
         read.read_type_name = " leitura"
         read.read_type_units= "ua"
         read.read_type_coef= 10
-        read_type_sensor_id = 2
+        read.read_type_sensor_id = 2
         read.save()
     except Exception as e:
         print(e)
@@ -335,7 +330,7 @@ def populate(request):
         read.read_type_name = " leitura"
         read.read_type_units= "ua"
         read.read_type_coef= 10
-        read_type_sensor_id = 1
+        read.read_type_sensor_id = 1
         read.save()
     except Exception as e:
         print(e)
@@ -343,7 +338,7 @@ def populate(request):
         day = DayPlan()
         day.dayplan_time = "2017-12-21T00:00:00Z"
         day.dayplan_water_qtd = 2
-        day.dayplan_sub = 1
+        day.dayplan_sub = SubSpace.objects.get(sub=1)
         day.save()
     except Exception as e:
         print(e)
@@ -351,7 +346,7 @@ def populate(request):
         day = DayPlan()
         day.dayplan_time = "2017-12-22T00:03:00Z"
         day.dayplan_water_qtd = 21
-        day.dayplan_sub = 2
+        day.dayplan_sub = SubSpace.objects.get(sub=2)
         day.save()
     except Exception as e:
         print(e)

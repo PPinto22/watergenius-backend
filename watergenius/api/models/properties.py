@@ -1,6 +1,6 @@
 from django.db import models
 
-from api.models.localizations import Localization
+#from api.models.localizations import Localization
 from api.models.users import User
 
 
@@ -23,5 +23,8 @@ class UserManagesProperty(models.Model):
 class CentralNode(models.Model):
     node_id = models.AutoField(primary_key=True)
     node_ip = models.GenericIPAddressField()
-    node_local = models.ForeignKey(Localization, related_name='is_in_local', on_delete=models.CASCADE)
+    #node_local = models.ForeignKey(Localization, related_name='is_in_local', on_delete=models.CASCADE)
+    node_local_lat = models.FloatField(default = 0)
+    node_local_long = models.FloatField(default = 0)
+    node_local_alt =models.FloatField(default = 0)
     node_property = models.OneToOneField(Property, on_delete=models.CASCADE)

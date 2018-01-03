@@ -25,12 +25,12 @@ def propertiesManagers(request, propid=None, managerid=None):
             managersOfProperty = UserManagesProperty.objects.filter(prop_has_id=propid)
             queryset = User.objects.filter(email__in=managersOfProperty.values('user_has_id'), )
 
-    if request.method == 'PUT':
+    if request.method == 'POST':
         if managerid != None or managerid=="":
-            # NOTE: put = set user has manager??
+            #CREATE
             try:
                 user = User.objects.get(email=managerid)
-            except Exception as e:
+            except ObjectDoesNotExist as e:
                 return JsonResponse(' Invalid user mail ', status=400, safe=False)
             manager = UserManagesProperty()
             manager.user_has_id = user
@@ -173,7 +173,7 @@ def properties(request, propid=None):
             return JsonResponse('Internal error or malformed JSON', status=500, safe=False)
     elif request.method == 'PUT':
         #EDIT 
-        if propid == None or propid == "":
+        if propid == None and propid == "":
             return JsonResponse('Especify the Property id in url', status=400, safe=False)
         data = JSONParser().parse(request)
         serializer = PropertySerializer(data=data, partial=True)
@@ -192,7 +192,7 @@ def properties(request, propid=None):
             return JsonResponse('Internal error or malformed json ', status=500, safe=False)
 
     elif request.method == 'DELETE':
-        if propid != None:
+        if propid != None and propid !="":
             try:
                 prop = Property.objects.get(prop_id=propid)
             except ObjectDoesNotExist:

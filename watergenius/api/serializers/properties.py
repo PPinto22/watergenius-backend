@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from api.models.properties import Property, CentralNode, UserManagesProperty, Localization
+from api.models.properties import Property, CentralNode, UserManagesProperty
 
 
 class PropertySerializer(serializers.ModelSerializer):
@@ -12,10 +12,10 @@ class PropertySerializer(serializers.ModelSerializer):
 class CentralNodeSerializer(serializers.ModelSerializer):
     node_id = serializers.PrimaryKeyRelatedField(queryset=CentralNode.objects.all())
     node_property = serializers.PrimaryKeyRelatedField(queryset=Property.objects.all())
-    node_local = serializers.PrimaryKeyRelatedField(queryset=Localization.objects.all())
+    #node_local = serializers.PrimaryKeyRelatedField(queryset=Localization.objects.all())
     class Meta:
         model = CentralNode
-        fields = ('node_id', 'node_ip', 'node_local', 'node_property')
+        fields = ('node_id', 'node_ip', 'node_local_lat',  'node_local_long', 'node_local_alt', 'node_property')
         validators = []  # Remove a default "unique together" constraint.
 
 class UserManagesPropertySerializer(serializers.ModelSerializer):
