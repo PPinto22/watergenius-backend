@@ -179,8 +179,8 @@ Igual ao Body - a chave é o email.
 
 ### GET /properties/
 #### Parameters
-- *owner*: filter by owner id
-- *manager*: filter by manager id
+- *ownerid*: filter by owner id
+- *managerid*: filter by manager id
 
 ### POST /properties/
 #### Body
@@ -208,9 +208,9 @@ Igual ao Body - a chave é o email.
 
 ### GET /spaces/
 #### Parameters
-- *owner*: filter by owner id
-- *manager*: filter by manager id
-- *property*: filter by property id
+- *ownerid*: filter by owner id
+- *managerid*: filter by manager id
+- *propertyid*: filter by property id
 
 ### POST /spaces/
 #### Body
@@ -236,8 +236,8 @@ Ainda está por decidir se isto é para fazer. A ideia é para ter um auto-compl
 
 ### GET /subspaces/
 #### Parameters
-- *property*: filter by property id
-- *space*: filter by space id
+- *propertyid*: filter by property id
+- *spaceid*: filter by space id
 
 ### POST /subspaces/
 
@@ -247,9 +247,9 @@ Ainda está por decidir se isto é para fazer. A ideia é para ter um auto-compl
 
 ### GET /plans/
 #### Parameters
-- *property*: filter by property id
-- *space*: filter by space id
-- *subspace*: filter by subspace id
+- *propertyid*: filter by property id
+- *spaceid*: filter by space id
+- *subspaceid*: filter by subspace id
 - *begin_date*: filter by time interval (datetime)
 - *end_date*: filter by time interval (datetime)
 
@@ -266,11 +266,11 @@ Ainda está por decidir se isto é para fazer. A ideia é para ter um auto-compl
 
 ### GET /irrigations/
 #### Parameters
-- *property*: filter by property id
-- *space*: filter by space id
-- *subspace*: filter by subspace id
-- *begin-date*: filter by time interval (datetime)
-- *end-date*: filter by time interval (datetime)
+- *propertyid*: filter by property id
+- *spaceid*: filter by space id
+- *subspaceid*: filter by subspace id
+- *begin_date*: filter by time interval (datetime)
+- *end_date*: filter by time interval (datetime)
 
 ### POST /irrigations/
 #### Body
@@ -287,7 +287,7 @@ Ainda está por decidir se isto é para fazer. A ideia é para ter um auto-compl
 
 ### GET /embeddedsys/
 #### Parameters
-- *subspace*: filter by subspace id
+- *subspaceid*: filter by subspace id
 
 ### POST /embeddedsys/
 #### Body
@@ -304,8 +304,8 @@ Ainda está por decidir se isto é para fazer. A ideia é para ter um auto-compl
 
 ### GET /sensors/
 #### Parameters
-- *subspace*: filter by subspace id
-- *embeddedsys*: filter by embedded system id
+- *subspaceid*: filter by subspace id
+- *embeddedsysid*: filter by embedded system id
 
 ### POST /sensors/
 #### Body
@@ -322,9 +322,9 @@ Ainda está por decidir se isto é para fazer. A ideia é para ter um auto-compl
 
 ### GET /reads/
 #### Parameters
-- *subspace*: filter by subspace id
-- *embeddedsys*: filter by embedded system id
-- *sensor*: filter by sensor id
+- *subspaceid*: filter by subspace id
+- *embeddedsysid*: filter by embedded system id
+- *sensorid*: filter by sensor id
 
 ### POST /reads/
 #### Body
@@ -339,7 +339,7 @@ Ainda está por decidir se isto é para fazer. A ideia é para ter um auto-compl
 
 ### GET /warnings/
 #### Parameters
-- *property*: filter by property id
+- *propertyid*: filter by property id
 
 ### POST /warnings/
 Estes warnings são para coisas do género: um sensor deixa de funcionar ou o sistema de metereologia não responde. Este POST é muito questionável ... a discutir melhor. **PRIORIDADE BAIXA**
