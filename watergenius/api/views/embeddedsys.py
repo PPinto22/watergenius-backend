@@ -10,16 +10,19 @@ from api.serializers.embeddedsys import EmbeddedSystemSerializer
 
 class EmbeddedSysListView(APIView):
     def get(self, request):
-        print(request.META['QUERY_STRING'])
-        query = (request.META['QUERY_STRING']).split('=')
-        if query[0] == 'subspace':
-            subspaceid = (query[1])
-            embsystems = EmbeddedSystem.objects.filter(esys_id=subspaceid)
-        else:
-            if len(query) > 1:
-                return Response('unknown query', HTTP_400_BAD_REQUEST)
-            # nao sei se faz sentido seqer. devolver so as do user logaddo
-            embsystems = EmbeddedSystem.objects.all()
+        embsystems = EmbeddedSystem.objects.all()
+        fullquery = (request.META['QUERY_STRING']).split('&')
+        querylist = []
+        for query in fullquery :
+            querylist = querylist + (query.split('='))
+        try:
+            subspace_index = querylist.index('subspace')
+            subspaceid = querylist[subspace_index + 1]
+            print(subspaceid)
+            embsystems = embsystems.filter(esys_sub=subspaceid)
+        except Exception as e:
+            print (e)
+            pass
         serialize = EmbeddedSystemSerializer(embsystems, many=True)
         return Response(serialize.data, HTTP_200_OK)
 

@@ -8,7 +8,7 @@ from api.models.irrigations import IrrigationTime
 from api.serializers.irrigations import IrrigationTimeSerializer
 
 
-class IrrigationsListView(APIView):
+class IrrigationTimeListView(APIView):
     def get(self, request):
         print(request.META['QUERY_STRING'])
         query = (request.META['QUERY_STRING']).split('=')
@@ -35,7 +35,7 @@ class IrrigationsListView(APIView):
         else:
             return Response('Internal error or malformed JSON ', HTTP_400_BAD_REQUEST)
 
-class IrrigationDetailView(APIView):
+class IrrigationTimeDetailView(APIView):
     def get(self, request, irrigationid):
         try:
             irrigation = IrrigationTime.objects.get(irrigation_time_id=irrigationid)

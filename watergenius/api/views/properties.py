@@ -13,7 +13,26 @@ from api.serializers.users import UserSerializer
 class PropertiesListView(APIView):
     def get(self, request):
         # TODO  check authenticated user and get only the properties of that user
-        prop = Property.objects
+        prop = Property.objects.all()
+        fullquery = (request.META['QUERY_STRING']).split('&')
+        querylist = []
+        for query in fullquery :
+            querylist = querylist + (query.split('='))
+        try:
+            owner_index = querylist.index('ownerid')
+            ownerid = querylist[owner_index+1]
+            prop = prop.filter(prop_owner_id=ownerid)
+        except Exception as e:
+            print( e)
+            pass
+        try:
+            manager_index = querylist.index('managerid')
+            managerid = querylist[manager_index+1]
+            properties_managed = UserManagesProperty.objects.filter(user_id=managerid)
+            prop = prop.filter(prop_id__in=properties_managed.values('prop_id'))
+        except Exception as e:
+            print( e)
+            pass
         serializer = PropertySerializer(list(prop), many=True)
         return Response(serializer.data, status=HTTP_200_OK)
 
@@ -24,6 +43,11 @@ class PropertiesListView(APIView):
             property = serializer.create(serializer.validated_data)
             property.save()
             return Response('Property created', status=HTTP_200_OK)
+            # adiciona o owner como manager
+            managers = UserManagesProperty()
+            managers.prop_id = property.prop_id
+            managers.user_id =  prop_owner_id 
+            managers.save()
         else:
             return Response(status=HTTP_400_BAD_REQUEST)
 

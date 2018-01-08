@@ -4,7 +4,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.status import *
 
-from api.models import Property
+from api.models import Property 
+from api.models.properties import UserManagesProperty
 from api.models.spaces import Space, TimeRestrition
 from api.serializers.spaces import SpaceSerializer, TimeRestritionSerializer
 
@@ -12,8 +13,36 @@ from api.serializers.spaces import SpaceSerializer, TimeRestritionSerializer
 class SpacesListView(APIView):
     def get(self, request):
         props = Property.objects.filter(prop_owner_id=request.user.email)
-        queryset = Space.objects.filter(space_property__in=props.values('prop_id'))
-        spaces = SpaceSerializer(queryset, many=True)
+        all_spaces = Space.objects.filter(space_property__in=props.values('prop_id'))
+        fullquery = (request.META['QUERY_STRING']).split('&')
+        querylist = []
+        for query in fullquery :
+            querylist = querylist + (query.split('='))
+        try:
+            owner_index = querylist.index('ownerid')
+            ownerid = querylist[owner_index+1]
+            props = Property.objects.filter(prop_owner_id=ownerid)
+            all_spaces = all_spaces.filter(space_property_id__in =props.values('prop_id'))
+        except Exception as e:
+            print( e)
+            pass
+        try:
+            manager_index = querylist.index('managerid')
+            managerid = querylist[manager_index+1]
+            properties_managed = UserManagesProperty.objects.filter(user_id=managerid)
+            all_spaces = all_spaces.filter(space_property_id__in=properties_managed.values('prop_id'))
+        except Exception as e:
+            print( e)
+            pass
+
+        try:
+            property_index = querylist.index('propertyid')
+            propertyid = querylist[property_index+1]
+            all_spaces = all_spaces.filter(space_property_id__in=propertyid)
+        except Exception as e:
+            print( e)
+            pass
+        spaces = SpaceSerializer(all_spaces, many=True)
         return Response(spaces.data, status=HTTP_200_OK)
 
     def post(self, request):

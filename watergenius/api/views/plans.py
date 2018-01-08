@@ -3,24 +3,73 @@ from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.status import *
-
+#from time import gmtime, strftime
+import datetime
 from api.models.plans import DayPlan
 from api.serializers.plans import DayPlanSerializer
+from api.models.properties import UserManagesProperty, Property
+from api.models.spaces import Space
+from api.models.subspaces import SubSpace
+
+def getPlansOfUser(email):
+    properties_managed = UserManagesProperty.objects.filter(user_id=email)
+    spaces_managed = Space.objects.filter(space_property_id__in=properties_managed.values('prop_id'))
+    subspaces_of_user = SubSpace.objects.filter(sub_space_id_id__in=spaces_managed.values('space_id'))
+    dayplans = DayPlan.objects.filter(dayplan_sub__in=subspaces_of_user.values('sub'))
+    print(dayplans)
+    return dayplans
 
 class PlansListView(APIView):
     def get(self, request):
-        print(request.META['QUERY_STRING'])
-        query = (request.META['QUERY_STRING']).split('=')
-        if query[0] == 'subspace':
-            subspaceid = (query[1])
-            dayplans = DayPlan.objects.filter(dayplan_sub=subspaceid)
-        else:
-            if len(query) > 1:
-                return Response('unknown query', HTTP_400_BAD_REQUEST)
-            # nao sei se faz sentido seqer. devolver so as do user logaddo
-            # dayplans = DayPlan.objects.filter()
-            dayplans = DayPlan.objects.all()
-        serialize = DayPlanSerializer(list(dayplans), many=True)
+        dayplans = getPlansOfUser(request.user.email)
+        print(dayplans)
+        fullquery = (request.META['QUERY_STRING']).split('&')
+        querylist = []
+        for query in fullquery :
+            querylist = querylist + (query.split('='))
+        try:
+            property_index = querylist.index('propertyid')
+            propertyid = querylist[property_index+1]
+            props = Property.objects.get(prop_id=propertyid)
+            spaces = Space.objects.filter(space_property_id = props.prop_id)
+            subspaces = SubSpace.objects.filter(sub_space_id_id__in=spaces.values('space_id'))
+            dayplans = dayplans.filter(dayplan_sub_id__in=subspaces.values('sub'))
+        except Exception as e:
+            print( e)
+            pass
+        try:
+            space_index = querylist.index('spaceid')
+            spaceid = querylist[space_index+1]
+            space = Space.objects.get(space_id=spaceid)
+            subspaces = SubSpace.objects.filter(sub_space_id_id=space.space_id)
+            dayplans = dayplans.filter(dayplan_sub_id__in=subspaces.values('sub'))
+        except Exception as e:
+            print( e)
+            pass
+        try:
+            subspace_index = querylist.index('subspaceid')
+            subspaceid = querylist[subspace_index+1]
+            dayplans = dayplans.filter(dayplan_sub_id__in=subspaceid)
+        except Exception as e:
+            print( e)
+            pass
+        try:
+            begin_date_index = querylist.index('begin_date')
+            begin_date = querylist[begin_date_index+1]
+            dt = datetime.datetime.utcfromtimestamp(float(begin_date))
+            dayplans = dayplans.filter(dayplan_gen_time__gte=dt)
+        except Exception as e:
+            print( e)
+            pass
+        try:
+            end_date_index = querylist.index('end_date')
+            end_date = querylist[end_date_index+1]
+            dt = datetime.datetime.utcfromtimestamp(float(end_date))
+            dayplans = dayplans.filter(dayplan_gen_time__lte=dt)
+        except Exception as e:
+            print( e)
+            pass
+        serialize = DayPlanSerializer((dayplans), many=True)
         return Response(serialize.data, HTTP_200_OK)
 
     def post(self, request):

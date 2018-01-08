@@ -13,6 +13,7 @@ urlpatterns = [
     path('spaces/', include('api.urls.spaces')),
     path('plants/',include('api.urls.plants')),
     path('subspaces/',include('api.urls.subspaces')),
+    path('irrigations/',include('api.urls.irrigations')),
     path('plans/', include('api.urls.plans')),
     path('sensors/', include('api.urls.sensors')),
     path('reads/', include('api.urls.reads')),

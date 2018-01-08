@@ -4,14 +4,45 @@ from rest_framework.response import Response
 from rest_framework.status import *
 from rest_framework.views import APIView
 
+from api.models.properties import Property , UserManagesProperty
+from api.models.spaces import Space
 from api.models.subspaces import SubSpace
 from api.serializers.subspaces import SubSpaceSerializer
 
 
+
+def getSubspacesByEmail(email):
+    properties_managed = UserManagesProperty.objects.filter(user_id=email)
+    spaces_managed = Space.objects.filter(space_property_id__in=properties_managed.values('prop_id'))
+    subspaces_of_user = SubSpace.objects.filter(sub_space_id_id__in=spaces_managed.values('space_id'))
+    return subspaces_of_user
+
 class SubspacesListView(APIView):
     def get(self, request):
-        plants = SubSpace.objects.all()
-        serialize = SubSpaceSerializer(plants, many=True)
+        subspaces = getSubspacesByEmail(request.user.email)
+        print(subspaces)
+        fullquery = (request.META['QUERY_STRING']).split('&')
+        querylist = []
+        for query in fullquery :
+            querylist = querylist + (query.split('='))
+        try:
+            property_index = querylist.index('propertyid')
+            propertyid = querylist[property_index+1]
+            props = Property.objects.get(prop_id=propertyid)
+            spaces = Space.objects.filter(space_property_id = props.prop_id)
+            subspaces = subspaces.filter(sub_space_id_id__in=spaces.values('space_id'))
+        except Exception as e:
+            print( e)
+            pass
+        try:
+            space_index = querylist.index('spaceid')
+            spaceid = querylist[space_index+1]
+            #spaces = Space.objects.get(space_id = props.values(space_id))
+            subspaces = subspaces.filter(sub_space_id_id=spaceid)
+        except Exception as e:
+            print( e)
+            pass
+        serialize = SubSpaceSerializer(subspaces, many=True)
         return Response(serialize.data, HTTP_200_OK)
 
     def post(self, request):
@@ -26,7 +57,8 @@ class SubspacesListView(APIView):
 
 class SubspaceDetailView(APIView):
     def get(self, request, subspaceid):
-        plants = SubSpace.objects.filter(sub=subspaceid)
+        subspaces = getSubspacesByEmail(request.user.email)
+        plants = subspaces.filter(sub=subspaceid)
         serialize = SubSpaceSerializer(plants, many=True)
         return Response(serialize.data, HTTP_200_OK)
 
@@ -49,8 +81,9 @@ class SubspaceDetailView(APIView):
 
     def delete(self, request, subspaceid):
         try:
-            space = SubSpace.objects.get(sub=subspaceid)
+            subspaces = getSubspacesByEmail(request.user.email)
+            space = subspaces.objects.get(sub=subspaceid)
         except ObjectDoesNotExist:
-            return Response("That subspace doesn't even exist, fool", HTTP_400_BAD_REQUEST)
+            return Response("That subspace doesn't even exist or isn't yours, fool", HTTP_400_BAD_REQUEST)
         space.delete()
         return Response('SubSpace deleted', HTTP_204_NO_CONTENT)
