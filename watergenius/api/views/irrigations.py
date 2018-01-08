@@ -3,25 +3,69 @@ from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.status import *
-
+import datetime
 from api.models.irrigations import IrrigationTime
 from api.serializers.irrigations import IrrigationTimeSerializer
+from api.models.properties import UserManagesProperty, Property
+from api.models.spaces import Space
+from api.models.subspaces import SubSpace
 
+def getIrrigationsOfUser(email):
+    properties_managed = UserManagesProperty.objects.filter(user_id=email)
+    spaces_managed = Space.objects.filter(space_property_id__in=properties_managed.values('prop_id'))
+    subspaces_of_user = SubSpace.objects.filter(sub_space_id_id__in=spaces_managed.values('space_id'))
+    irrigations = IrrigationTime.objects.filter(irrigation_time_sub__in=subspaces_of_user.values('sub'))
+    return irrigations
 
 class IrrigationTimeListView(APIView):
     def get(self, request):
-        print(request.META['QUERY_STRING'])
-        query = (request.META['QUERY_STRING']).split('=')
-        if query[0] == 'subspace':
-            print('é isso evaristo')
-            subspaceid = (query[1])
-            irrigations = IrrigationTime.objects.filter(irrigation_time_sub=subspaceid)
-        else:
-            if len(query) > 1:
-                return Response('unknown query', HTTP_400_BAD_REQUEST)
-            # nao sei se faz sentido seqer. devolver so as do user logaddo
-            # irrigations = Irrigation.objects.filter()
-            irrigations = IrrigationTime.objects.all()
+        irrigations = getIrrigationsOfUser(request.user.email)
+        fullquery = (request.META['QUERY_STRING']).split('&')
+        querylist = []
+        for query in fullquery :
+            querylist = querylist + (query.split('='))
+        try:
+            property_index = querylist.index('propertyid')
+            propertyid = querylist[property_index+1]
+            props = Property.objects.get(prop_id=propertyid)
+            spaces = Space.objects.filter(space_property_id = props.prop_id)
+            subspaces = SubSpace.objects.filter(sub_space_id_id__in=spaces.values('space_id'))
+            irrigations = irrigations.filter(irrigation_time_sub__in=subspaces.values('sub'))
+        except Exception as e:
+            print( e)
+            pass
+        try:
+            space_index = querylist.index('spaceid')
+            spaceid = querylist[space_index+1]
+            space = Space.objects.get(space_id=spaceid)
+            subspaces = SubSpace.objects.filter(sub_space_id_id=space.space_id)
+            irrigations = irrigations.filter(irrigation_time_sub__in=subspaces.values('sub'))
+        except Exception as e:
+            print( e)
+            pass
+        try:
+            subspace_index = querylist.index('subspaceid')
+            subspaceid = querylist[subspace_index+1]
+            irrigations = irrigations.filter(irrigation_time_sub__in=subspaceid)
+        except Exception as e:
+            print( e)
+            pass
+        try:
+            begin_date_index = querylist.index('begin_date')
+            begin_date = querylist[begin_date_index+1]
+            dt = datetime.datetime.utcfromtimestamp(float(begin_date))
+            irrigations = irrigations.filter(irrigation_time_date__gte=dt)
+        except Exception as e:
+            print( e)
+            pass
+        try:
+            end_date_index = querylist.index('end_date')
+            end_date = querylist[end_date_index+1]
+            dt = datetime.datetime.utcfromtimestamp(float(end_date))
+            irrigations = irrigations.filter(irrigation_time_date__lte=dt)
+        except Exception as e:
+            print( e)
+            pass
         serialize = IrrigationTimeSerializer(irrigations, many=True)
         return Response(serialize.data, HTTP_200_OK)
 

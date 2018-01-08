@@ -49,7 +49,7 @@ class PlansListView(APIView):
         try:
             subspace_index = querylist.index('subspaceid')
             subspaceid = querylist[subspace_index+1]
-            dayplans = dayplans.filter(dayplan_sub_id__in=subspaceid)
+            dayplans = dayplans.filter(dayplan_sub_id=subspaceid)
         except Exception as e:
             print( e)
             pass
