@@ -16,7 +16,7 @@ class EmbeddedSysListView(APIView):
         for query in fullquery :
             querylist = querylist + (query.split('='))
         try:
-            subspace_index = querylist.index('subspace')
+            subspace_index = querylist.index('subspaceid')
             subspaceid = querylist[subspace_index + 1]
             print(subspaceid)
             embsystems = embsystems.filter(esys_sub=subspaceid)
