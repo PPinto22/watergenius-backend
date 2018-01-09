@@ -56,7 +56,8 @@ class PlansListView(APIView):
         try:
             begin_date_index = querylist.index('begin_date')
             begin_date = querylist[begin_date_index+1]
-            dt = datetime.datetime.utcfromtimestamp(float(begin_date))
+            dt = datetime.datetime.utcfromtimestamp(float(begin_date)/1000)
+            print(dt)
             dayplans = dayplans.filter(dayplan_gen_time__gte=dt)
         except Exception as e:
             print( e)
@@ -64,7 +65,8 @@ class PlansListView(APIView):
         try:
             end_date_index = querylist.index('end_date')
             end_date = querylist[end_date_index+1]
-            dt = datetime.datetime.utcfromtimestamp(float(end_date))
+            dt = datetime.datetime.utcfromtimestamp(float(end_date)/1000)
+            print(dt)
             dayplans = dayplans.filter(dayplan_gen_time__lte=dt)
         except Exception as e:
             print( e)
