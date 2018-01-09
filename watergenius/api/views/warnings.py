@@ -32,6 +32,7 @@ class WarningsListView(APIView):
         if serializer.is_valid():
             instance = serializer.create(serializer.validated_data)
             instance.save()
-            return Response('OK', HTTP_200_OK)
+            serialize = WarningSerializer(instance, many=False)
+            return Response(serialize.data, HTTP_200_OK)
         else:
             return Response('Internal error or malformed JSON ', HTTP_400_BAD_REQUEST)

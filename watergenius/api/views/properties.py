@@ -48,6 +48,8 @@ class PropertiesListView(APIView):
             managers.prop_id = property.prop_id
             managers.user_id =  prop_owner_id 
             managers.save()
+            serializer = PropertySerializer(property, many=False)
+            return Response(serializer.data, status=HTTP_200_OK)
         else:
             return Response(status=HTTP_400_BAD_REQUEST)
 
@@ -73,7 +75,8 @@ class PropertyDetailView(APIView):
                     print(attr)
                     setattr(instance, attr, value)
             instance.save()
-            return Response('Property edited with success', status=HTTP_200_OK)
+            serializer = PropertySerializer(instance, many=False)
+            return Response(serializer.data, status=HTTP_200_OK)
         else:
             return Response('Internal error or malformed json ', status=HTTP_500_INTERNAL_SERVER_ERROR)
 

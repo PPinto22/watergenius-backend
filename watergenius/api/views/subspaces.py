@@ -51,7 +51,8 @@ class SubspacesListView(APIView):
         if serializer.is_valid():
             instance = serializer.create(serializer.validated_data)
             instance.save()
-            return Response('OK', HTTP_200_OK)
+            serialize = SubSpaceSerializer(instance, many=False)
+            return Response(serialize.data, HTTP_200_OK)
         else:
             return Response('Internal error or malformed JSON ', HTTP_400_BAD_REQUEST)
 
@@ -75,7 +76,8 @@ class SubspaceDetailView(APIView):
                     print(attr)
                     setattr(instance, attr, value)
             instance.save()
-            return Response('Subsapce edited with success', HTTP_200_OK)
+            serialize = SubSpaceSerializer(instance, many=False)
+            return Response(serialize.data, HTTP_200_OK)
         else:
             return Response('Internal error or malformed json ', HTTP_400_BAD_REQUEST)
 

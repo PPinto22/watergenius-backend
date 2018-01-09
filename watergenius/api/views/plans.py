@@ -83,7 +83,9 @@ class PlansListView(APIView):
                 if attr != 'dayplan_id':
                     setattr(instance, attr, value)
             instance.save()
-            return Response('OK', HTTP_200_OK)
+            serialize = DayPlanSerializer(instance, many=False)
+            return Response(serialize.data, HTTP_200_OK)
+
         else:
             return Response('Internal error or malformed JSON ', HTTP_400_BAD_REQUEST)
 

@@ -50,7 +50,8 @@ class SensorsListView(APIView):
         if serializer.is_valid():
             instance = serializer.create(serializer.validated_data)
             instance.save()
-            return Response('OK', HTTP_200_OK)
+            serialize = SensorSerializer(instance, many=False)
+            return Response(serialize.data, HTTP_200_OK)
         else:
             return Response('Internal error or malformed JSON ', HTTP_400_BAD_REQUEST)
 
@@ -75,7 +76,8 @@ class SensorDetailView(APIView):
                 if attr != 'sensor_id':
                     setattr(instance, attr, value)
             instance.save()
-            return Response('Sensor edited with success', HTTP_200_OK)
+            serialize = SensorSerializer(instance, many=False)
+            return Response(serialize.data, HTTP_200_OK)
         else:
             return Response('Internal error or malformed json ', HTTP_400_BAD_REQUEST)
 

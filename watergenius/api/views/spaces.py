@@ -51,7 +51,8 @@ class SpacesListView(APIView):
         if serializer.is_valid():
             instance = serializer.create(serializer.validated_data)
             instance.save()
-            return Response('Space created', status=HTTP_200_OK)
+            spaces = SpaceSerializer(instance, many=False)
+            return Response(spaces.data, status=HTTP_200_OK)
         else:
             return Response('Internal error or malformed JSON', status=HTTP_400_BAD_REQUEST)
 
@@ -78,7 +79,8 @@ class SpaceDetailView(APIView):
                     if attr != 'space_id':
                         setattr(instance, attr, value)
                 instance.save()
-                return Response('Space updated', status=HTTP_200_OK)
+                spaces = SpaceSerializer(instance, many=False)
+                return Response(spaces.data, status=HTTP_200_OK)
             else:
                 return Response('Internal error or malformed JSON', status=HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -103,7 +105,8 @@ class SpaceRestrictionsListView(APIView):
             instance = serializer.create(serializer.validated_data)
             instance.space_id = spaceid
             instance.save()
-            return Response('OK', status=HTTP_200_OK)
+            spaces = TimeRestritionSerializer(instance, many=False)
+            return Response(spaces.data, status=HTTP_200_OK)
         else:
             return Response('Internal error or malformed json ', status=HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -129,7 +132,8 @@ class SpaceRestrictionDetailView(APIView):
                     print(attr)
                     setattr(instance, attr, value)
             instance.save()
-            return Response('Time restrition edited with success', status=HTTP_200_OK)
+            spaces = TimeRestritionSerializer(instance, many=False)
+            return Response(spaces.data, status=HTTP_200_OK)
         else:
             return Response('Internal error or malformed json ', status=HTTP_400_BAD_REQUEST)
 
