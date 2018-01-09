@@ -51,7 +51,7 @@ class ReadsListView(APIView):
             reads= reads.filter(read_sensor_id__in=sensors.sensor_id)
         except Exception as e:
             print( e)
-        serialize = ReadSerializer(reads, many=True)
+        serialize = ReadSerializer(reads.order_by('read_timestamp'), many=True)
         return Response(serialize.data, HTTP_200_OK)
 
     def post(self, request):

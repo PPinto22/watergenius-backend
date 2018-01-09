@@ -69,7 +69,7 @@ class PlansListView(APIView):
         except Exception as e:
             print( e)
             pass
-        serialize = DayPlanSerializer((dayplans), many=True)
+        serialize = DayPlanSerializer(dayplans.order_by('dayplan_time'), many=True)
         return Response(serialize.data, HTTP_200_OK)
 
     def post(self, request):

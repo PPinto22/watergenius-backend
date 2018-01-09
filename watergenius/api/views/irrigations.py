@@ -66,7 +66,7 @@ class IrrigationTimeListView(APIView):
         except Exception as e:
             print( e)
             pass
-        serialize = IrrigationTimeSerializer(irrigations, many=True)
+        serialize = IrrigationTimeSerializer(irrigations.order_by('irrigation_time_date') , many=True)
         return Response(serialize.data, HTTP_200_OK)
 
     def post(self, request):
