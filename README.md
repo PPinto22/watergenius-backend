@@ -70,12 +70,12 @@ python3.6 manage.py runserver
   - [DEL /subspaces/{id}/](#del-subspacesid)
 
 - Plans
-  - [GET /plans/](#get-plans) query com ?subspace=x
+  - [GET /plans/](#get-plans)
   - [POST /plans/](#post-plans)
   - [GET /plans/{id}/](#get-plansid)
   - [DEL /plans/{id}/](#get-plansid)
 - Irrigations
-  - [GET /irrigations/](#get-irrigations) query com ?subspace=x
+  - [GET /irrigations/](#get-irrigations)
   - [POST /irrigations/](#post-irrigations)
   - [GET /irrigations/{id}/](#get-irrigationsid)
   - [PUT /irrigations/{id}/](#put-irrigationsid)
@@ -246,12 +246,8 @@ Ainda está por decidir se isto é para fazer. A ideia é para ter um auto-compl
 ### DEL /subspaces/{id}/
 
 ### GET /plans/
-#### Parameters
-- *propertyid*: filter by property id
-- *spaceid*: filter by space id
-- *subspaceid*: filter by subspace id
-- *begin_date*: filter by time interval (datetime)
-- *end_date*: filter by time interval (datetime)
+#### Query parameters
+- *subspace*: fiter by propertyid
 
 ### POST /plans/
 #### Body
@@ -266,11 +262,7 @@ Ainda está por decidir se isto é para fazer. A ideia é para ter um auto-compl
 
 ### GET /irrigations/
 #### Parameters
-- *propertyid*: filter by property id
-- *spaceid*: filter by space id
-- *subspaceid*: filter by subspace id
-- *begin_date*: filter by time interval (datetime)
-- *end_date*: filter by time interval (datetime)
+- *subspace*: filter by subspace id
 
 ### POST /irrigations/
 #### Body
