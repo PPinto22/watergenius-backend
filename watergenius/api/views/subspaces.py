@@ -59,8 +59,12 @@ class SubspacesListView(APIView):
 class SubspaceDetailView(APIView):
     def get(self, request, subspaceid):
         subspaces = getSubspacesByEmail(request.user.email)
-        plants = subspaces.filter(sub_id=subspaceid)
-        serialize = SubSpaceSerializer(plants, many=False)
+        subspace = None
+        try:
+            subspace = subspaces.get(sub_id=subspaceid)
+        except ObjectDoesNotExist:
+            return Response("That subspace doesn't even exist or isn't yours, fool", HTTP_400_BAD_REQUEST)
+        serialize = SubSpaceSerializer(subspace, many=False)
         return Response(serialize.data, HTTP_200_OK)
 
     def put(self, request, subspaceid):
