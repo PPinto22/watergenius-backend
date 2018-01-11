@@ -62,6 +62,7 @@ python3.6 manage.py runserver
   - [DEL /spaces/{id}/restrictions/{id}/](#del-spacesidrestrictionsid)
 - Plants
   - [GET /plants/](#get-plants)
+  - [~~GET /plants/{id}~~](#get-plantsid)
 - Subspaces
   - [GET /subspaces/](#get-subspaces)
   - [POST /subspaces/](#post-subspaces)
@@ -166,118 +167,304 @@ Igual ao Body - a chave é o email.
 [
   {
     "email": "john@gmail.com",
-    "password": "password",
     "first_name": "John",
     "last_name": "Doe",
-    "is_superuser": true
+    "is_superuser": true,
+    "is_active": true,
+    "date_joined": "2017-12-22T00:09:12.694391Z"
   }
 ]
 ```
 ### GET /users/{id}/
+O id  é o email.\
+Resposta: ver [GET /users/](#get-users) - é igual, só que apenas um utilizador é devolvido.
 ### PUT /users/{id}/
+O put é usado para fazer update. Apenas os atributos que forem no pedido são alterados; o que não for indicado fica igual. O email pode ir na mensagem mas não pode ser alterado.
+
 ### DEL /users/{id}/
+Resposta: OK
 
 ### GET /properties/
-#### Parameters
+#### Query Parameters
 - *ownerid*: filter by owner id
 - *managerid*: filter by manager id
+
+### Response
+```json
+[
+    {
+        "prop_id": 1,
+        "prop_name": "Property name",
+        "prop_description": "Property description",
+        "prop_address": "Property address",
+        "prop_owner": "john@gmail.com"
+    }
+]
+```
 
 ### POST /properties/
 #### Body
 ```json
 {
-  "user": 1,
-  "..."
+  "prop_name": "Prop name",
+  "prop_description": "Prop description",
+  "prop_address": "Prop address",
+  "prop_owner": "john@gmail.com"
 }
 ```
+
+#### Response
+Igual ao pedido, mais o identificador: *prop_id*.
+
 ### GET /properties/{id}/
+Resposta: semelhante a [GET /properties/](#get-properties)
+
 ### PUT /properties/{id}/
+Atualiza apenas os atributos indicados; o id pode ir na mensagem mas é ignorado.
+
 ### DEL /properties/{id}/
+Response: OK
 
 ### GET /properties/{id}/node/
+#### Response
+```json
+{
+  "node_id": 1,
+	"node_ip": "123.123.123.123",
+	"node_local_lat": -70.0,
+	"node_local_long": 150.0,
+	"node_local_alt": 20,
+	"node_property": 11
+}
+```
+Ou
+> 'That property doesn't have a central node' (Codigo 200 OK)
+
 ### POST /properties/{id}/node/
+**Acho que isto podia ser apenas o put, afinal só há um nodo por propriedade**
+```json
+{
+	"node_ip": "123.123.123.123",
+	"node_local_lat": -70.0,
+	"node_local_long": 150.0,
+	"node_local_alt": 20,
+	"node_property": 11
+}
+```
 ### PUT /properties/{id}/node/
+... \
+Neste momento dá erro 400 se o nodo ainda não existir; mas acho que se podia alterar para ficar o put como criação ou update.
 
 ### GET /properties/{id}/managers/
+Resposta: lista de utilizadores. Igual a [GET /users/](#get-users)
 
 ### POST /properties/{id}/managers/{id}/
-#### Body
-> Empty body
+O corpo da mensagem pode (e deve) ir vazio.\
+A resposta são os dados do utilizador que se inseriu como manager.
 
 ### DEL /properties/{id}/managers/{id}/
+Resposta: OK
 
 ### GET /spaces/
-#### Parameters
+#### Query Parameters
 - *ownerid*: filter by owner id
 - *managerid*: filter by manager id
 - *propertyid*: filter by property id
+
+#### Response
+```json
+[
+    {
+        "space_id": 1,
+        "space_name": "Space name",
+        "space_description": "Space description",
+        "space_irrigation_hour": 23,
+        "space_property": 2,
+        "space_plant_type": 1
+    },
+]
+```
 
 ### POST /spaces/
 #### Body
 ```json
 {
-  "property": 1,
-  "..."
+    "space_name": "Space name",
+    "space_description": "Space description",
+    "space_irrigation_hour": 23,
+    "space_property": 2,
+    "space_plant_type": 1
 }
 ```
 
 ### GET /spaces/{id}/
+Ver [GET /spaces/](#get-spaces)
 ### PUT /spaces/{id}/
+...
 ### DEL /spaces/{id}/
+...
 
 ### GET /spaces/{id}/restrictions/
+#### Response
+```json
+[
+    {
+        "time_restriction_id": 1,
+        "time_restriction_begin": "2017-12-23T00:00:00Z",
+        "time_restriction_end": "2017-12-23T00:23:00Z",
+        "time_restriction_space": 3
+    }
+]
+```
 ### POST /spaces/{id}/restrictions/
+#### Body
+```json
+{
+	"time_restriction_begin": "2018-01-11T13:00:00Z",
+	"time_restriction_end": "2018-01-12T01:00:00Z",
+	"time_restriction_space": 3
+}
+```
 
 ### PUT /spaces/{id}/restrictions/{id}/
+...
 ### DEL /spaces/{id}/restrictions/{id}/
+...
 
 ### GET /plants/
-Ainda está por decidir se isto é para fazer. A ideia é para ter um auto-complete ou algo do género quando o utilizador for inserir o tipo de planta num espaço. **PRIORIDADE BAIXA**
+#### Response
+```json
+[
+    {
+        "plant_type_id": 1,
+        "plant_type_name": "relva",
+        "plant_param1": "Parametros para o algoritmo de rega",
+        "plant_param2": "Para ja nao estao implementados"
+    },
+]
+```
+### GET /plants/{id}
+...
 
 ### GET /subspaces/
+#### Reponse
+```json
+[
+    {
+        "sub_id": 5,
+        "sub_name": "SubEspa22222ço 23",
+        "sub_description": "Ao lado da1 estatua do ze",
+        "sub_space_id": 3
+    },
+]
+```
 #### Parameters
 - *propertyid*: filter by property id
 - *spaceid*: filter by space id
 
 ### POST /subspaces/
+#### Body
+```json
+{
+    "sub_name": "SubEspa22222ço 23",
+    "sub_description": "Ao lado da1 estatua do ze",
+    "sub_space_id": 3
+}
+```
 
 ### GET /subspaces/{id}/
+...
 ### PUT /subspaces/{id}/
+...
 ### DEL /subspaces/{id}/
+...
 
 ### GET /plans/
+#### Response
+```json
+[
+    {
+        "dayplan_id": 2,
+        "dayplan_gen_time": "2018-01-11T16:51:23.819500Z",
+        "dayplan_time": "2017-12-22T00:03:00Z",
+        "dayplan_water_qtd": 21,
+        "dayplan_sub": 2
+    },
+]
+```
+
 #### Query parameters
-- *subspace*: fiter by propertyid
+- *propertyid*: filter by property
+- *spaceid*: fiter by space
+- *subspaceid*: fiter by subspace
+- *begin_date*: fiter by date > begin_date
+- *end_date*: fiter by date < end_date
 
 ### POST /plans/
 #### Body
 ```json
 {
-  "subspace": 1,
-  "..."
+  "dayplan_gen_time": "2018-01-11T16:51:23.819500Z",
+  "dayplan_time": "2017-12-22T00:03:00Z",
+  "dayplan_water_qtd": 21,
+  "dayplan_sub": 2
 }
 ```
 
 ### GET /plans/{id}/
+...
 
 ### GET /irrigations/
-#### Parameters
-- *subspace*: filter by subspace id
+#### Response
+```json
+[
+    {
+        "irrigation_time_id": 5,
+        "irrigation_time_date": "2018-01-02T00:00:00Z",
+        "irrigation_time_qtd": 10,
+        "irrigation_time_sub": 4
+    },
+]
+```
+#### Query parameters
+- *propertyid*: filter by property
+- *spaceid*: fiter by space
+- *subspaceid*: fiter by subspace
+- *begin_date*: fiter by date > begin_date
+- *end_date*: fiter by date < end_date
 
 ### POST /irrigations/
 #### Body
 ```json
 {
-  "subspace": 1,
-  "..."
+  "irrigation_time_date": "2018-01-02T00:00:00Z",
+  "irrigation_time_qtd": 10,
+  "irrigation_time_sub": 4
 }
 ```
 
 ### GET /irrigations/{id}/
+...
 ### PUT /irrigations/{id}/
+Está feito, mas será que faz sentido editar isto?
+
 ### DEL /irrigations/{id}/
+...
 
 ### GET /embeddedsys/
+#### Response
+```json
+{
+    "esys_id": 1,
+    "esys_local_long": 150.0,
+    "esys_local_lat": -75.0,
+    "esys_local_alt": 5,
+    "esys_sub": 1,
+    "esys_state": 1,
+    "esys_name": "Name",
+    "esys_network_pass": "Local network password"
+},
+```
 #### Parameters
 - *subspaceid*: filter by subspace id
 
@@ -285,16 +472,37 @@ Ainda está por decidir se isto é para fazer. A ideia é para ter um auto-compl
 #### Body
 ```json
 {
-  "subspace": 1,
-  "..."
+  "esys_local_long": 150.0,
+  "esys_local_lat": -75.0,
+  "esys_local_alt": 5,
+  "esys_sub": 1,
+  "esys_state": 1,
+  "esys_name": "Name",
+  "esys_network_pass": "Local network password"
 }
 ```
 
 ### GET /embeddedsys/{id}/
+...
 ### PUT /embeddedsys/{id}/
+...
 ### DEL /embeddedsys/{id}/
+...
 
 ### GET /sensors/
+```json
+[
+    {
+        "sensor_id": 2,
+        "sensor_name": "Name",
+        "sensor_state": 1,
+        "sensor_esys": 2,
+        "sensor_timerate": 101,
+        "sensor_depth": 201,
+        "sensor_type": 1
+    },
+]
+```
 #### Parameters
 - *subspaceid*: filter by subspace id
 - *embeddedsysid*: filter by embedded system id
@@ -303,16 +511,37 @@ Ainda está por decidir se isto é para fazer. A ideia é para ter um auto-compl
 #### Body
 ```json
 {
-  "embeddedsys": 1,
-  "..."
+    "sensor_name": "Name",
+    "sensor_state": 1,
+    "sensor_esys": 2,
+    "sensor_timerate": 101,
+    "sensor_depth": 201,
+    "sensor_type": 1
 }
 ```
 
 ### GET /sensors/{id}/
+...
 ### PUT /sensors/{id}/
+...
 ### DEL /sensors/{id}/
+...
 
 ### GET /reads/
+#### Response
+```json
+[
+    {
+        "read_id": 2,
+        "read_timestamp": "2018-01-11T16:51:23.860205Z",
+        "read_value": 100,
+        "read_sensor": 2,
+        "read_dayplan": 2,
+        "read_type": 1
+    },
+]
+```
+
 #### Parameters
 - *subspaceid*: filter by subspace id
 - *embeddedsysid*: filter by embedded system id
@@ -322,19 +551,23 @@ Ainda está por decidir se isto é para fazer. A ideia é para ter um auto-compl
 #### Body
 ```json
 {
-  "sensor": 1,
-  "..."
+  "read_timestamp": "2018-01-11T16:51:23.860205Z",
+  "read_value": 100,
+  "read_sensor": 2,
+  "read_dayplan": 2,
+  "read_type": 1
 }
 ```
 
 ### GET /reads/{id}/
+...
 
 ### GET /warnings/
 #### Parameters
 - *propertyid*: filter by property id
 
 ### POST /warnings/
-Estes warnings são para coisas do género: um sensor deixa de funcionar ou o sistema de metereologia não responde. Este POST é muito questionável ... a discutir melhor. **PRIORIDADE BAIXA**
+Estes warnings são para coisas do género: um sensor deixa de funcionar ou o sistema de metereologia não responde. Ainda não está bem definido.
 
 #### Body
 ```json
@@ -343,6 +576,10 @@ Estes warnings são para coisas do género: um sensor deixa de funcionar ou o si
   "error_code": "001",
 }
 ```
+
+#### Query Parameters
+- *propertyid*: filter by property
+
 
 ### POST /node/{id}/poweroff/
 Desliga totalmente o nodo central. Depois a ativação teria que ser manual? **PRIORIDADE BAIXA**
