@@ -20,6 +20,6 @@ class Space(models.Model):
 
 class TimeRestriction(models.Model):
     time_restriction_id = models.AutoField(primary_key=True)
-    time_begin = models.DateTimeField()
-    time_duration = models.DurationField()
+    time_restriction_begin = models.DateTimeField()
+    time_restriction_end = models.DurationField()
     time_restriction_space = models.ForeignKey(Space, related_name='belongs_to_spaceid', on_delete=models.CASCADE)

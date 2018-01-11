@@ -13,5 +13,5 @@ class SpaceSerializer(serializers.ModelSerializer):
 class TimeRestrictionSerializer(serializers.ModelSerializer):
     class Meta:
         model = TimeRestriction
-        fields = ('time_restriction_id','time_begin', 'time_duration', 'time_restriction_space')
+        fields = ('time_restriction_id','time_restriction_begin', 'time_restriction_end', 'time_restriction_space')
         validators = []  # Remove a default "unique together" constraint.

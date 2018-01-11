@@ -264,8 +264,8 @@ class PopulateView(APIView):
 
         try:
             rest = TimeRestriction()
-            rest.time_begin = "2017-12-21T00:00:00Z"
-            rest.time_duration = "00:22:00"
+            rest.time_restriction_begin = "2017-12-21T00:00:00Z"
+            rest.time_restriction_end = "2017-12-21T00:00:22:00"
             rest.time_restriction_space = Space.objects.get(space_id=2)
             rest.save()
         except Exception as e:
@@ -273,16 +273,16 @@ class PopulateView(APIView):
 
         try:
             rest = TimeRestriction()
-            rest.time_begin = "2017-12-29T00:00:00Z"
-            rest.time_duration = "00:12:00"
+            rest.time_restriction_begin = "2017-12-29T00:00:00Z"
+            rest.time_restriction_end = "2017-12-29T00:00:12:00"
             rest.time_restriction_space = Space.objects.get(space_id=1)
             rest.save()
         except Exception as e:
             print(e)
         try:
             rest = TimeRestriction()
-            rest.time_begin = "2017-12-23T00:00:00Z"
-            rest.time_duration = "00:23:00"
+            rest.time_restriction_begin = "2017-12-23T00:00:00Z"
+            rest.time_restriction_end = "2017-12-23T00:00:23:00"
             rest.time_restriction_space = Space.objects.get(space_id=3)
             rest.save()
         except Exception as e:
@@ -290,8 +290,8 @@ class PopulateView(APIView):
 
         try:
             rest = TimeRestriction()
-            rest.time_begin = "2017-12-25T00:00:00Z"
-            rest.time_duration = "00:13:00"
+            rest.time_restriction_begin = "2017-12-25T00:00:00Z"
+            rest.time_restriction_end = "2017-12-25T00:00:13:00"
             rest.time_restriction_space = Space.objects.get(space_id=4)
             rest.save()
         except Exception as e:
@@ -299,8 +299,8 @@ class PopulateView(APIView):
 
         try:
             rest = TimeRestriction()
-            rest.time_begin = "2017-12-23T00:00:00Z"
-            rest.time_duration = "00:22:00"
+            rest.time_restriction_begin = "2017-12-23T00:00:00Z"
+            rest.time_restriction_end = "2017-12-23T00:00:22:00"
             rest.time_restriction_space = Space.objects.get(space_id=2)
             rest.save()
         except Exception as e:
@@ -308,8 +308,8 @@ class PopulateView(APIView):
 
         try:
             rest = TimeRestriction()
-            rest.time_begin = "2017-12-29T00:00:00Z"
-            rest.time_duration = "00:11:00"
+            rest.time_restriction_begin = "2017-12-29T00:00:00Z"
+            rest.time_restriction_end = "2017-12-29T00:00:11:00"
             rest.time_restriction_space = Space.objects.get(space_id=1)
             rest.save()
         except Exception as e:
@@ -317,8 +317,8 @@ class PopulateView(APIView):
 
         try:
             rest = TimeRestriction()
-            rest.time_begin = "2017-12-21T00:00:00Z"
-            rest.time_duration = "00:22:00"
+            rest.time_restriction_begin = "2017-12-21T00:00:00Z"
+            rest.time_restriction_end = "2017-12-21T00:00:22:00"
             rest.time_restriction_space = Space.objects.get(space_id=4)
             rest.save()
         except Exception as e:
@@ -326,8 +326,8 @@ class PopulateView(APIView):
 
         try:
             rest = TimeRestriction()
-            rest.time_begin = "2017-12-29T00:00:00Z"
-            rest.time_duration = "00:12:00"
+            rest.time_restriction_begin = "2017-12-29T00:00:00Z"
+            rest.time_restriction_end = "2017-12-29T00:00:12:00"
             rest.time_restriction_space = Space.objects.get(space_id=3)
             rest.save()
         except Exception as e:
