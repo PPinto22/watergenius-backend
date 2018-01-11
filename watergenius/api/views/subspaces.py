@@ -59,7 +59,7 @@ class SubspacesListView(APIView):
 class SubspaceDetailView(APIView):
     def get(self, request, subspaceid):
         subspaces = getSubspacesByEmail(request.user.email)
-        plants = subspaces.filter(sub=subspaceid)
+        plants = subspaces.filter(sub_id=subspaceid)
         serialize = SubSpaceSerializer(plants, many=False)
         return Response(serialize.data, HTTP_200_OK)
 
@@ -68,11 +68,11 @@ class SubspaceDetailView(APIView):
         serializer = SubSpaceSerializer(data=data, partial=True)
         if serializer.is_valid():
             try:
-                instance = SubSpace.objects.get(sub=subspaceid)
+                instance = SubSpace.objects.get(sub_id=subspaceid)
             except Exception as e:
                 return Response('Especify the correct restriction id', HTTP_400_BAD_REQUEST)
             for attr, value in serializer.validated_data.items():
-                if attr != 'sub':
+                if attr != 'sub_id':
                     print(attr)
                     setattr(instance, attr, value)
             instance.save()
@@ -84,7 +84,7 @@ class SubspaceDetailView(APIView):
     def delete(self, request, subspaceid):
         try:
             subspaces = getSubspacesByEmail(request.user.email)
-            space = subspaces.get(sub=subspaceid)
+            space = subspaces.get(sub_id=subspaceid)
         except ObjectDoesNotExist:
             return Response("That subspace doesn't even exist or isn't yours, fool", HTTP_400_BAD_REQUEST)
         space.delete()

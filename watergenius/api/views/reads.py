@@ -33,7 +33,7 @@ class ReadsListView(APIView):
         try:
             subspace_index = querylist.index('subspaceid')
             subspaceid = querylist[subspace_index + 1]
-            embeddedsys = EmbeddedSystem.objects.filter(esys_sub_id=SubSpace.objects.get(sub=subspaceid).sub)
+            embeddedsys = EmbeddedSystem.objects.filter(esys_sub_id=SubSpace.objects.get(sub_id=subspaceid).sub)
             sensors = Sensor.objects.filter(sensor_esys_id__in=embeddedsys.values('esys_sub_id'))
             reads = reads.filter(read_sensor_id__in=sensors.values('sensor_id'))
         except Exception as e:

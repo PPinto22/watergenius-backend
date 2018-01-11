@@ -14,7 +14,7 @@ def getIrrigationsOfUser(email):
     properties_managed = UserManagesProperty.objects.filter(user_id=email)
     spaces_managed = Space.objects.filter(space_property_id__in=properties_managed.values('prop_id'))
     subspaces_of_user = SubSpace.objects.filter(sub_space_id_id__in=spaces_managed.values('space_id'))
-    irrigations = IrrigationTime.objects.filter(irrigation_time_sub__in=subspaces_of_user.values('sub'))
+    irrigations = IrrigationTime.objects.filter(irrigation_time_sub__in=subspaces_of_user.values('sub_id'))
     return irrigations
 
 class IrrigationTimeListView(APIView):
@@ -30,7 +30,7 @@ class IrrigationTimeListView(APIView):
             props = Property.objects.get(prop_id=propertyid)
             spaces = Space.objects.filter(space_property_id = props.prop_id)
             subspaces = SubSpace.objects.filter(sub_space_id_id__in=spaces.values('space_id'))
-            irrigations = irrigations.filter(irrigation_time_sub__in=subspaces.values('sub'))
+            irrigations = irrigations.filter(irrigation_time_sub__in=subspaces.values('sub_id'))
         except Exception as e:
             print( e)
         try:
@@ -38,7 +38,7 @@ class IrrigationTimeListView(APIView):
             spaceid = querylist[space_index+1]
             space = Space.objects.get(space_id=spaceid)
             subspaces = SubSpace.objects.filter(sub_space_id_id=space.space_id)
-            irrigations = irrigations.filter(irrigation_time_sub__in=subspaces.values('sub'))
+            irrigations = irrigations.filter(irrigation_time_sub__in=subspaces.values('sub_id'))
         except Exception as e:
             print( e)
             pass
