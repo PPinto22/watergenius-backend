@@ -9,11 +9,16 @@ from api.serializers.properties import CentralNodeSerializer, PropertySerializer
 from api.models.users import User
 from api.serializers.users import UserSerializer
 
+def getPropertiesOfUser(email):
+    properties_managed = UserManagesProperty.objects.filter(user_id=email)
+    props = Property.objects.filter(prop_id__in=properties_managed.values('prop_id'))    
+    return props
+
 
 class PropertiesListView(APIView):
     def get(self, request):
         # TODO  check authenticated user and get only the properties of that user
-        prop = Property.objects.all()
+        prop = getPropertiesOfUser(request.user.email)
         fullquery = (request.META['QUERY_STRING']).split('&')
         querylist = []
         for query in fullquery :
@@ -54,13 +59,17 @@ class PropertiesListView(APIView):
 
 class PropertyDetailView(APIView):
     def get(self, request, propid):
-        owner = request.user
-        prop = Property.objects.filter(prop_owner_id=owner)
-        serializer = PropertySerializer(prop, many=True)
+        props = getPropertiesOfUser(request.user.email)
+        try:
+            prop = props.get(prop_id=propid)
+        except Exception as e:
+            return Response(status=HTTP_400_BAD_REQUEST)
+        
+        serializer = PropertySerializer(prop, many=False)
         return Response(serializer.data, status=HTTP_200_OK)
 
     def put(self, request, propid):
-        if propid == None and propid == "":
+        if propid == None or propid == "":
             return Response('Especify the Property id in url', status=HTTP_400_BAD_REQUEST)
         data = JSONParser().parse(request)
         serializer = PropertySerializer(data=data, partial=True)
