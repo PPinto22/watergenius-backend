@@ -11,7 +11,7 @@ class UserLoginSerializer(serializers.BaseSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('email', 'first_name', 'last_name', 'is_superuser')
+        fields = ('email', 'first_name', 'last_name', 'is_superuser', 'is_active', 'date_joined')
         validators = []  # Remove a default "unique together" constraint.
 
 
@@ -28,5 +28,5 @@ class UserCreateSerializer(serializers.ModelSerializer):
             }
         }
 
-    def create(self, validated_data):
-        return User(**validated_data)
+class UserUpdateSerializer(UserCreateSerializer):
+    email = serializers.EmailField(validators=[])

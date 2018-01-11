@@ -7,7 +7,7 @@ from rest_framework.status import *
 from rest_framework.views import APIView
 
 from api.models import *
-from api.serializers.users import UserCreateSerializer, UserSerializer
+from api.serializers.users import UserCreateSerializer, UserSerializer, UserUpdateSerializer
 
 
 class RegisterView(APIView):
@@ -22,7 +22,7 @@ class RegisterView(APIView):
         user = user_ser.create(user_ser.validated_data)
         user.set_password(user.password)
         user.save()
-        return Response(UserSerializer(user).data)
+        return Response(UserSerializer(user).data, HTTP_200_OK)
 
 
 class UserListView(APIView):
@@ -41,16 +41,18 @@ class UserDetailView(APIView):
     def put(self, request, mail):
         user = User.objects.get(email=mail)
         data = JSONParser().parse(request)
-        serializer = UserSerializer(data=data, partial=True)
-        print(serializer.is_valid())
-        # assuming that serializer is valid. TODO
-        # TODO - Acertar isto
-        if serializer.data['email'] == user.email:
-            user.first_name = serializer.data['first_name']
-            user.last_name = serializer.data['last_name']
-            user.is_superuser = serializer.data['is_superuser']
-            user.save()
-            return Response(serializer.data, status=HTTP_202_ACCEPTED)
+        serializer = UserUpdateSerializer(data=data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        if 'email' in serializer.validated_data and \
+                user.email != serializer.validated_data['email']:
+            return Response('Cannot change email', status=HTTP_400_BAD_REQUEST)
+        for attr, value in serializer.validated_data.items():
+            if attr == 'password':
+                user.set_password(serializer.validated_data['password'])
+            setattr(user, attr, value)
+        user.save()
+        out_serializer = UserSerializer(user)
+        return Response(out_serializer.data, status=HTTP_200_OK)
 
     def delete(self, request, mail):
         user = User.objects.get(email=mail)

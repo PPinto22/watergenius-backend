@@ -87,7 +87,7 @@ class ReadDetailView(APIView):
             except Exception as e:
                 return Response('Especify the correct read id', HTTP_400_BAD_REQUEST)
             for attr, value in serializer.validated_data.items():
-                if attr != 'sensor_id':
+                if attr != 'read_id':
                     print(attr)
                     setattr(instance, attr, value)
             instance.save()

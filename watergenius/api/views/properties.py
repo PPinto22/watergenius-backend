@@ -42,11 +42,10 @@ class PropertiesListView(APIView):
         if serializer.is_valid():
             property = serializer.create(serializer.validated_data)
             property.save()
-            return Response('Property created', status=HTTP_200_OK)
             # adiciona o owner como manager
             managers = UserManagesProperty()
             managers.prop_id = property.prop_id
-            managers.user_id =  prop_owner_id 
+            managers.user_id = property.prop_owner_id
             managers.save()
             serializer = PropertySerializer(property, many=False)
             return Response(serializer.data, status=HTTP_200_OK)
@@ -141,7 +140,7 @@ class PropertyNodeView(APIView):
             if serializer.is_valid():
                 node = serializer.create(serializer.validated_data)
                 node.save()
-                return Response('Central Node created', status=HTTP_200_OK)
+                return Response(CentralNodeSerializer(node).data, status=HTTP_200_OK)
             return Response('Internal error or malformed JSON ', status=HTTP_400_BAD_REQUEST)
         return Response("That property already have a central node", status=HTTP_400_BAD_REQUEST)
 
