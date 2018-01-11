@@ -42,7 +42,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name='sensor',
-            name='sensor_esys',
+            name='sensor_sub',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='belongs_to_embsys', to='api.EmbeddedSystem'),
         ),
         migrations.AlterField(

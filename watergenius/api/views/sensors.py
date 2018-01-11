@@ -17,7 +17,7 @@ def getSensorsOfUser(email):
     spaces_managed = Space.objects.filter(space_property_id__in=properties_managed.values('prop_id'))
     subspaces_of_user = SubSpace.objects.filter(sub_space_id_id__in=spaces_managed.values('space_id'))
     embeddedsys = EmbeddedSystem.objects.filter(esys_sub_id__in=subspaces_of_user)
-    sensors = Sensor.objects.filter(sensor_sub_id__in=embeddedsys.values('esys_sub_id'))
+    sensors = Sensor.objects.filter(sensor_esys_id__in=embeddedsys.values('esys_sub_id'))
     return sensors
 
 
@@ -32,13 +32,13 @@ class SensorsListView(APIView):
             subspace_index = querylist.index('subspaceid')
             subspaceid = querylist[subspace_index+1]
             embeddedsys = EmbeddedSystem.objects.filter(esys_sub_id=SubSpace.objects.get(sub=subspaceid).sub)
-            sensors = sensors.filter(sensor_sub_id__in=embeddedsys.values('esys_sub_id'))
+            sensors = sensors.filter(sensor_esys_id__in=embeddedsys.values('esys_sub_id'))
         except Exception as e:
             print( e)
         try:
             embeddedsysid_index = querylist.index('embeddedsysid')
             embeddedsysid = querylist[embeddedsysid_index+1]
-            sensors = sensors.filter(sensor_sub_id__in=embeddedsysid)
+            sensors = sensors.filter(sensor_esys_id__in=embeddedsysid)
         except Exception as e:
             print( e)
         serialize = SensorSerializer(sensors, many=True)

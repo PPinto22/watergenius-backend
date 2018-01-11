@@ -569,7 +569,7 @@ class PopulateView(APIView):
             sensor.sensor_state = 0
             sensor.sensor_timerate = 10
             sensor.sensor_depth = 20
-            sensor.sensor_sub_id = 1
+            sensor.sensor_esys_id = 1
             sensor.sensor_type_id = 1
             sensor.save()
         except Exception as e:
@@ -580,7 +580,7 @@ class PopulateView(APIView):
             sensor.sensor_state = 1
             sensor.sensor_timerate = 101
             sensor.sensor_depth = 201
-            sensor.sensor_sub_id = 2
+            sensor.sensor_esys_id = 2
             sensor.sensor_type_id = 1
             sensor.save()
         except Exception as e:
@@ -591,7 +591,7 @@ class PopulateView(APIView):
             sensor.sensor_state = 1
             sensor.sensor_timerate = 13
             sensor.sensor_depth = 202
-            sensor.sensor_sub_id = 2
+            sensor.sensor_esys_id = 2
             sensor.sensor_type_id = 1
             sensor.save()
         except Exception as e:
@@ -602,7 +602,7 @@ class PopulateView(APIView):
             sensor.sensor_state = 1
             sensor.sensor_timerate = 101
             sensor.sensor_depth = 201
-            sensor.sensor_sub_id = 2
+            sensor.sensor_esys_id = 2
             sensor.sensor_type_id = 1
             sensor.save()
         except Exception as e:
@@ -613,7 +613,7 @@ class PopulateView(APIView):
             sensor.sensor_state = 0
             sensor.sensor_timerate = 210
             sensor.sensor_depth = 2
-            sensor.sensor_sub_id = 3
+            sensor.sensor_esys_id = 3
             sensor.sensor_type_id = 1
             sensor.save()
         except Exception as e:
@@ -624,7 +624,7 @@ class PopulateView(APIView):
             sensor.sensor_state = 1
             sensor.sensor_timerate = 1011
             sensor.sensor_depth = 1
-            sensor.sensor_sub_id = 4
+            sensor.sensor_esys_id = 4
             sensor.sensor_type_id = 1
             sensor.save()
         except Exception as e:

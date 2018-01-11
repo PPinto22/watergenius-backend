@@ -111,7 +111,7 @@ class Migration(migrations.Migration):
                 ('sensor_state', models.IntegerField()),
                 ('sensor_timerate', models.IntegerField()),
                 ('sensor_depth', models.IntegerField()),
-                ('sensor_esys', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='belongs_to_subspace', to='api.EmbeddedSystem')),
+                ('sensor_sub', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='belongs_to_subspace', to='api.EmbeddedSystem')),
             ],
         ),
         migrations.CreateModel(
