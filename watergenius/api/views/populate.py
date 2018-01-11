@@ -144,7 +144,7 @@ class PopulateView(APIView):
             print(e)
         try:
             c = UserManagesProperty()
-            c.user_id= "rafa@gmail.com"
+            c.user_id = "rafa@gmail.com"
             c.prop_id = 3
             c.save()
         except Exception as e:
@@ -194,8 +194,8 @@ class PopulateView(APIView):
 
         try:
             c = UserManagesProperty()
-            c.user_id_id = "pinto@gmail.com"
-            c.prop_id_id = 2
+            c.user_id = "pinto@gmail.com"
+            c.prop_id = 2
             c.save()
         except Exception as e:
             print(e)
@@ -265,7 +265,7 @@ class PopulateView(APIView):
         try:
             rest = TimeRestriction()
             rest.time_restriction_begin = "2017-12-21T00:00:00Z"
-            rest.time_restriction_end = "2017-12-21T00:00:22:00Z"
+            rest.time_restriction_end = "2017-12-21T00:22:00Z"
             rest.time_restriction_space = Space.objects.get(space_id=2)
             rest.save()
         except Exception as e:
@@ -274,7 +274,7 @@ class PopulateView(APIView):
         try:
             rest = TimeRestriction()
             rest.time_restriction_begin = "2017-12-29T00:00:00Z"
-            rest.time_restriction_end = "2017-12-29T00:00:12:00Z"
+            rest.time_restriction_end = "2017-12-29T00:12:00Z"
             rest.time_restriction_space = Space.objects.get(space_id=1)
             rest.save()
         except Exception as e:
@@ -282,7 +282,7 @@ class PopulateView(APIView):
         try:
             rest = TimeRestriction()
             rest.time_restriction_begin = "2017-12-23T00:00:00Z"
-            rest.time_restriction_end = "2017-12-23T00:00:23:00Z"
+            rest.time_restriction_end = "2017-12-23T00:23:00Z"
             rest.time_restriction_space = Space.objects.get(space_id=3)
             rest.save()
         except Exception as e:
@@ -291,7 +291,7 @@ class PopulateView(APIView):
         try:
             rest = TimeRestriction()
             rest.time_restriction_begin = "2017-12-25T00:00:00Z"
-            rest.time_restriction_end = "2017-12-25T00:00:13:00Z"
+            rest.time_restriction_end = "2017-12-25T00:13:00Z"
             rest.time_restriction_space = Space.objects.get(space_id=4)
             rest.save()
         except Exception as e:
@@ -300,7 +300,7 @@ class PopulateView(APIView):
         try:
             rest = TimeRestriction()
             rest.time_restriction_begin = "2017-12-23T00:00:00Z"
-            rest.time_restriction_end = "2017-12-23T00:00:22:00Z"
+            rest.time_restriction_end = "2017-12-23T00:22:00Z"
             rest.time_restriction_space = Space.objects.get(space_id=2)
             rest.save()
         except Exception as e:
@@ -309,7 +309,7 @@ class PopulateView(APIView):
         try:
             rest = TimeRestriction()
             rest.time_restriction_begin = "2017-12-29T00:00:00Z"
-            rest.time_restriction_end = "2017-12-29T00:00:11:00Z"
+            rest.time_restriction_end = "2017-12-29T00:11:00Z"
             rest.time_restriction_space = Space.objects.get(space_id=1)
             rest.save()
         except Exception as e:
@@ -318,7 +318,7 @@ class PopulateView(APIView):
         try:
             rest = TimeRestriction()
             rest.time_restriction_begin = "2017-12-21T00:00:00Z"
-            rest.time_restriction_end = "2017-12-21T00:00:22:00Z"
+            rest.time_restriction_end = "2017-12-21T00:22:00Z"
             rest.time_restriction_space = Space.objects.get(space_id=4)
             rest.save()
         except Exception as e:
@@ -327,7 +327,7 @@ class PopulateView(APIView):
         try:
             rest = TimeRestriction()
             rest.time_restriction_begin = "2017-12-29T00:00:00Z"
-            rest.time_restriction_end = "2017-12-29T00:00:12:00Z"
+            rest.time_restriction_end = "2017-12-29T00:12:00Z"
             rest.time_restriction_space = Space.objects.get(space_id=3)
             rest.save()
         except Exception as e:
@@ -489,7 +489,6 @@ class PopulateView(APIView):
             g.save()
         except Exception as e:
             print(e)
-
 
         try:
             i = EmbeddedSystem()
