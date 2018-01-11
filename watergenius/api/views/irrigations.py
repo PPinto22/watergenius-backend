@@ -110,4 +110,4 @@ class IrrigationTimeDetailView(APIView):
         except ObjectDoesNotExist as e:
             return Response("That Irrigation time doesn't even exist, fool", HTTP_400_BAD_REQUEST)
         dayplans.delete()
-        return Response("IrrigationTime deleted", HTTP_204_NO_CONTENT)
+        return Response("IrrigationTime deleted", HTTP_200_OK)

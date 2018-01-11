@@ -71,7 +71,7 @@ class SpaceDetailView(APIView):
         except ObjectDoesNotExist as e:
             return Response("That space doesn't even exist, fool", status=HTTP_400_BAD_REQUEST)
         else:
-            instance = Space()
+            instance = space
             data = JSONParser().parse(request)
             serializer = SpaceSerializer(data=data, partial=True)
             if serializer.is_valid():
@@ -90,7 +90,7 @@ class SpaceDetailView(APIView):
         except ObjectDoesNotExist:
             return Response("That space doesn't even exist, fool", status=HTTP_400_BAD_REQUEST)
         space.delete()
-        return Response('Space deleted', status=HTTP_204_NO_CONTENT)
+        return Response('Space deleted', status=HTTP_200_OK)
 
 class SpaceRestrictionsListView(APIView):
     def get(self, request, spaceid):
@@ -144,5 +144,5 @@ class SpaceRestrictionDetailView(APIView):
             return Response("That restriction doesn't even exist, fool", status=HTTP_400_BAD_REQUEST)
         if len(time) > 0:
             time.delete()
-            return Response('restriction deleted', status=HTTP_204_NO_CONTENT)
+            return Response('restriction deleted', status=HTTP_200_OK)
         return Response("That restriction doesn't even exist for that space, fool", status=HTTP_400_BAD_REQUEST)

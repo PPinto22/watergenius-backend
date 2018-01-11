@@ -104,4 +104,4 @@ class PlanDetailView(APIView):
         except ObjectDoesNotExist as e:
             return Response("That subspace doesn't even exist, fool", HTTP_400_BAD_REQUEST)
         dayplans.delete()
-        return Response("Dayplan deleted", HTTP_204_NO_CONTENT)
+        return Response("Dayplan deleted", HTTP_200_OK)

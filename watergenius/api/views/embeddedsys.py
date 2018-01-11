@@ -69,4 +69,4 @@ class EmbeddedSysDetailView(APIView):
         except ObjectDoesNotExist as e:
             return Response("That  EmbeddedSystem doesn't even exist, fool", HTTP_400_BAD_REQUEST)
         embsystems.delete()
-        return Response("EmbeddedSystem deleted", HTTP_204_NO_CONTENT)
+        return Response("EmbeddedSystem deleted", HTTP_200_OK)

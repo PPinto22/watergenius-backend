@@ -84,8 +84,8 @@ class SubspaceDetailView(APIView):
     def delete(self, request, subspaceid):
         try:
             subspaces = getSubspacesByEmail(request.user.email)
-            space = subspaces.objects.get(sub=subspaceid)
+            space = subspaces.get(sub=subspaceid)
         except ObjectDoesNotExist:
             return Response("That subspace doesn't even exist or isn't yours, fool", HTTP_400_BAD_REQUEST)
         space.delete()
-        return Response('SubSpace deleted', HTTP_204_NO_CONTENT)
+        return Response('SubSpace deleted', HTTP_200_OK)

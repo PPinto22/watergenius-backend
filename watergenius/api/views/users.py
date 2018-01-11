@@ -57,5 +57,5 @@ class UserDetailView(APIView):
         print(user)
         if user:
             user.delete()
-            return JsonResponse('OK', status=HTTP_204_NO_CONTENT, safe=False)
+            return JsonResponse('OK', status=HTTP_200_OK, safe=False)
         return Response(status=HTTP_400_BAD_REQUEST)

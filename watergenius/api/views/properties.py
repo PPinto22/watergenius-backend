@@ -87,7 +87,7 @@ class PropertyDetailView(APIView):
             except ObjectDoesNotExist:
                 return Response("That property doesn't even exist", status=HTTP_400_BAD_REQUEST)
             prop.delete()
-            return Response('OK', status=HTTP_204_NO_CONTENT)
+            return Response('OK', status=HTTP_200_OK)
         else:
             return Response('Especify the property id', status=HTTP_400_BAD_REQUEST)
 
@@ -111,7 +111,7 @@ class PropertyManagerDetailView(APIView):
         try:
             manager.save()
         except Exception:
-            return Response(managerid + ' is the manager already', status=HTTP_204_NO_CONTENT)
+            return Response(managerid + ' is the manager already', status=HTTP_200_OK)
         return Response('New Manager added', status=HTTP_200_OK)
 
     def delete(self, request, propid, managerid):
@@ -120,7 +120,7 @@ class PropertyManagerDetailView(APIView):
         except ObjectDoesNotExist:
             return Response("That manager doesn't manage this property", status=HTTP_400_BAD_REQUEST)
         usp.delete()
-        return Response('OK', status=HTTP_204_NO_CONTENT)
+        return Response('OK', status=HTTP_200_OK)
 
 
 class PropertyNodeView(APIView):
@@ -128,7 +128,7 @@ class PropertyNodeView(APIView):
         try:
             node = CentralNode.objects.get(node_property_id=propid)
         except ObjectDoesNotExist as e:
-            return Response("That property doesn't have a central node", status=HTTP_204_NO_CONTENT)
+            return Response("That property doesn't have a central node", status=HTTP_200_OK)
         serializer = CentralNodeSerializer(node, many=False)
         return Response(serializer.data, status=HTTP_200_OK)
 
