@@ -7,7 +7,7 @@ from rest_framework.status import *
 from api.models import Property 
 from api.models.properties import UserManagesProperty
 from api.models.spaces import Space, TimeRestriction
-from api.serializers.spaces import SpaceSerializer, TimeRestritionSerializer
+from api.serializers.spaces import SpaceSerializer, TimeRestrictionSerializer
 
 
 def getSpacesOfUser(email):
@@ -107,17 +107,17 @@ class SpaceRestrictionsListView(APIView):
             return Response("That space doesnt belong to you!", status=HTTP_400_BAD_REQUEST)
         
         timeRes = TimeRestriction.objects.filter(time_restrition_space=spaceid)
-        serializer = TimeRestritionSerializer(list(timeRes), many=True)
+        serializer = TimeRestrictionSerializer(list(timeRes), many=True)
         return Response(serializer.data, status=HTTP_200_OK)
 
     def post(self, request, spaceid):
         data = JSONParser().parse(request)
-        serializer = TimeRestritionSerializer(data=data, partial=True)
+        serializer = TimeRestrictionSerializer(data=data, partial=True)
         if serializer.is_valid():
             instance = serializer.create(serializer.validated_data)
             instance.space_id = spaceid
             instance.save()
-            spaces = TimeRestritionSerializer(instance, many=False)
+            spaces = TimeRestrictionSerializer(instance, many=False)
             return Response(spaces.data, status=HTTP_200_OK)
         else:
             return Response('Internal error or malformed json ', status=HTTP_500_INTERNAL_SERVER_ERROR)
@@ -128,12 +128,12 @@ class SpaceRestrictionDetailView(APIView):
             timeRes = TimeRestriction.objects.get(time_restrition_id=resid)
         except ObjectDoesNotExist as e:
             return Response('The specified time restriction doesnt exist for that space', status=HTTP_400_BAD_REQUEST)
-        serializer = TimeRestritionSerializer(timeRes, many=False)
+        serializer = TimeRestrictionSerializer(timeRes, many=False)
         return Response(serializer.data, status=HTTP_200_OK)
 
     def put(self, request, spaceid, resid):
         data = JSONParser().parse(request)
-        serializer = TimeRestritionSerializer(data=data, partial=True)
+        serializer = TimeRestrictionSerializer(data=data, partial=True)
         if serializer.is_valid():
             try:
                 instance = TimeRestriction.objects.get(time_restrition_id=resid)
@@ -144,7 +144,7 @@ class SpaceRestrictionDetailView(APIView):
                     print(attr)
                     setattr(instance, attr, value)
             instance.save()
-            spaces = TimeRestritionSerializer(instance, many=False)
+            spaces = TimeRestrictionSerializer(instance, many=False)
             return Response(spaces.data, status=HTTP_200_OK)
         else:
             return Response('Internal error or malformed json ', status=HTTP_400_BAD_REQUEST)
