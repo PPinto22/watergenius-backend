@@ -60,13 +60,17 @@ class PropertiesListView(APIView):
 
 class PropertyDetailView(APIView):
     def get(self, request, propid):
-        owner = request.user
-        prop = Property.objects.filter(prop_owner_id=owner)
-        serializer = PropertySerializer(prop, many=True)
+        props = getPropertiesOfUser(request.user.email)
+        try:
+            prop = props.get(prop_id=propid)
+        except Exception as e:
+            return Response(status=HTTP_400_BAD_REQUEST)
+        
+        serializer = PropertySerializer(prop, many=False)
         return Response(serializer.data, status=HTTP_200_OK)
 
     def put(self, request, propid):
-        if propid == None and propid == "":
+        if propid == None or propid == "":
             return Response('Especify the Property id in url', status=HTTP_400_BAD_REQUEST)
         data = JSONParser().parse(request)
         serializer = PropertySerializer(data=data, partial=True)

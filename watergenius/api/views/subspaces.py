@@ -60,7 +60,7 @@ class SubspaceDetailView(APIView):
     def get(self, request, subspaceid):
         subspaces = getSubspacesByEmail(request.user.email)
         plants = subspaces.filter(sub=subspaceid)
-        serialize = SubSpaceSerializer(plants, many=True)
+        serialize = SubSpaceSerializer(plants, many=False)
         return Response(serialize.data, HTTP_200_OK)
 
     def put(self, request, subspaceid):
