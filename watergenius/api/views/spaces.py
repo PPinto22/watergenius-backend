@@ -10,10 +10,15 @@ from api.models.spaces import Space, TimeRestriction
 from api.serializers.spaces import SpaceSerializer, TimeRestritionSerializer
 
 
+def getSpacesOfUser(email):
+    properties_managed = UserManagesProperty.objects.filter(user_id=email)
+    props = Property.objects.filter(prop_id__in=email)
+    all_spaces = Space.objects.filter(space_property__in=props.values('prop_id'))
+    return all_spaces
+
 class SpacesListView(APIView):
     def get(self, request):
-        props = Property.objects.filter(prop_owner_id=request.user.email)
-        all_spaces = Space.objects.filter(space_property__in=props.values('prop_id'))
+        all_spaces = getSpacesOfUser(request.user.email)
         fullquery = (request.META['QUERY_STRING']).split('&')
         querylist = []
         for query in fullquery :
@@ -58,8 +63,9 @@ class SpacesListView(APIView):
 
 class SpaceDetailView(APIView):
     def get(self, request, spaceid):
+        all_spaces = getSpacesOfUser(request.user.email)
         try:
-            space = Space.objects.get(space_id=spaceid)
+            space = all_spaces.get(space_id=spaceid)
         except ObjectDoesNotExist as e:
             return Response("That space doesn't even exist, fool", status=HTTP_400_BAD_REQUEST)
         spaces = SpaceSerializer(space, many=False)
@@ -94,6 +100,12 @@ class SpaceDetailView(APIView):
 
 class SpaceRestrictionsListView(APIView):
     def get(self, request, spaceid):
+        all_spaces = getSpacesOfUser(request.user.email)
+        try:
+            space = all_spaces.get(space_id=spaceid)
+        except ObjectDoesNotExist as e:
+            return Response("That space doesnt belong to you!", status=HTTP_400_BAD_REQUEST)
+        
         timeRes = TimeRestriction.objects.filter(time_restrition_space=spaceid)
         serializer = TimeRestritionSerializer(list(timeRes), many=True)
         return Response(serializer.data, status=HTTP_200_OK)

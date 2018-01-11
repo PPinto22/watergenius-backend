@@ -9,11 +9,16 @@ from api.serializers.properties import CentralNodeSerializer, PropertySerializer
 from api.models.users import User
 from api.serializers.users import UserSerializer
 
+def getPropertiesOfUser(email):
+    properties_managed = UserManagesProperty.objects.filter(user_id=email)
+    props = Property.objects.filter(prop_id__in=properties_managed.values('prop_id'))    
+    return props
+
 
 class PropertiesListView(APIView):
     def get(self, request):
         # TODO  check authenticated user and get only the properties of that user
-        prop = Property.objects.all()
+        prop = getPropertiesOfUser(request.user.email)
         fullquery = (request.META['QUERY_STRING']).split('&')
         querylist = []
         for query in fullquery :
