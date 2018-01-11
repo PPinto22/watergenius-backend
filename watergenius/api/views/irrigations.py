@@ -42,10 +42,13 @@ class IrrigationTimeListView(APIView):
         except Exception as e:
             print( e)
             pass
-        
-        subspace_index = querylist.index('subspaceid')
-        subspaceid = querylist[subspace_index+1]
-        irrigations = irrigations.filter(irrigation_time_sub__in=subspaceid)
+
+        try:
+            subspace_index = querylist.index('subspaceid')
+            subspaceid = querylist[subspace_index+1]
+            irrigations = irrigations.filter(irrigation_time_sub__in=subspaceid)
+        except Exception as e:
+            print(e)
         
         try:
             begin_date_index = querylist.index('begin_date')
