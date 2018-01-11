@@ -70,7 +70,7 @@ class SubspaceDetailView(APIView):
             try:
                 instance = SubSpace.objects.get(sub=subspaceid)
             except Exception as e:
-                return Response('Especify the correct restrition id', HTTP_400_BAD_REQUEST)
+                return Response('Especify the correct restriction id', HTTP_400_BAD_REQUEST)
             for attr, value in serializer.validated_data.items():
                 if attr != 'sub':
                     print(attr)

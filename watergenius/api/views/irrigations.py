@@ -93,7 +93,7 @@ class IrrigationTimeDetailView(APIView):
             try:
                 instance = IrrigationTime.objects.get(irrigation_time_id=irrigationid)
             except Exception as e:
-                return Response('Especify the correct restrition id', HTTP_400_BAD_REQUEST)
+                return Response('Especify the correct restriction id', HTTP_400_BAD_REQUEST)
             for attr, value in serializer.validated_data.items():
                 if attr != 'irrigation_time_id':
                     print(attr)

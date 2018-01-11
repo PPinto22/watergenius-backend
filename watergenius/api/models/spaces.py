@@ -18,8 +18,8 @@ class Space(models.Model):
                ' irrigation_hour  ' + str(self.space_irrigation_hour)
 
 
-class TimeRestrition(models.Model):
-    time_restrition_id = models.AutoField(primary_key=True)
+class TimeRestriction(models.Model):
+    time_restriction_id = models.AutoField(primary_key=True)
     time_begin = models.DateTimeField()
     time_duration = models.DurationField()
-    time_restrition_space = models.ForeignKey(Space, related_name='belongs_to_spaceid', on_delete=models.CASCADE)
+    time_restriction_space = models.ForeignKey(Space, related_name='belongs_to_spaceid', on_delete=models.CASCADE)

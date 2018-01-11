@@ -6,7 +6,7 @@ from rest_framework.status import *
 
 from api.models import Property 
 from api.models.properties import UserManagesProperty
-from api.models.spaces import Space, TimeRestrition
+from api.models.spaces import Space, TimeRestriction
 from api.serializers.spaces import SpaceSerializer, TimeRestritionSerializer
 
 
@@ -94,7 +94,7 @@ class SpaceDetailView(APIView):
 
 class SpaceRestrictionsListView(APIView):
     def get(self, request, spaceid):
-        timeRes = TimeRestrition.objects.filter(time_restrition_space=spaceid)
+        timeRes = TimeRestriction.objects.filter(time_restrition_space=spaceid)
         serializer = TimeRestritionSerializer(list(timeRes), many=True)
         return Response(serializer.data, status=HTTP_200_OK)
 
@@ -113,9 +113,9 @@ class SpaceRestrictionsListView(APIView):
 class SpaceRestrictionDetailView(APIView):
     def get(self, request, spaceid, resid):
         try:
-            timeRes = TimeRestrition.objects.get(time_restrition_id=resid)
+            timeRes = TimeRestriction.objects.get(time_restrition_id=resid)
         except ObjectDoesNotExist as e:
-            return Response('The specified time restrition doesnt exist for that space', status=HTTP_400_BAD_REQUEST)
+            return Response('The specified time restriction doesnt exist for that space', status=HTTP_400_BAD_REQUEST)
         serializer = TimeRestritionSerializer(timeRes, many=False)
         return Response(serializer.data, status=HTTP_200_OK)
 
@@ -124,9 +124,9 @@ class SpaceRestrictionDetailView(APIView):
         serializer = TimeRestritionSerializer(data=data, partial=True)
         if serializer.is_valid():
             try:
-                instance = TimeRestrition.objects.get(time_restrition_id=resid)
+                instance = TimeRestriction.objects.get(time_restrition_id=resid)
             except Exception as e:
-                return Response('Especify the correct restrition id', status=HTTP_400_BAD_REQUEST)
+                return Response('Especify the correct restriction id', status=HTTP_400_BAD_REQUEST)
             for attr, value in serializer.validated_data.items():
                 if attr != 'time_restrition_id' and attr != 'space_id':
                     print(attr)
@@ -139,10 +139,10 @@ class SpaceRestrictionDetailView(APIView):
 
     def delete(self, request, spaceid, resid):
         try:
-            time = TimeRestrition.objects.filter(time_restrition_id=resid, time_restrition_space=spaceid)
+            time = TimeRestriction.objects.filter(time_restrition_id=resid, time_restrition_space=spaceid)
         except ObjectDoesNotExist:
-            return Response("That restrition doesn't even exist, fool", status=HTTP_400_BAD_REQUEST)
+            return Response("That restriction doesn't even exist, fool", status=HTTP_400_BAD_REQUEST)
         if len(time) > 0:
             time.delete()
-            return Response('restrition deleted', status=HTTP_204_NO_CONTENT)
-        return Response("That restrition doesn't even exist for that space, fool", status=HTTP_400_BAD_REQUEST)
+            return Response('restriction deleted', status=HTTP_204_NO_CONTENT)
+        return Response("That restriction doesn't even exist for that space, fool", status=HTTP_400_BAD_REQUEST)
