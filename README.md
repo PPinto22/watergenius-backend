@@ -472,6 +472,7 @@ Está feito, mas será que faz sentido editar isto?
 #### Body
 ```json
 {
+  "esys_id": 1,
   "esys_local_long": 150.0,
   "esys_local_lat": -75.0,
   "esys_local_alt": 5,
