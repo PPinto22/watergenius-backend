@@ -1,4 +1,4 @@
-from api.tests.testSubSpacesSetup import SubSpaceTestSetup
+from api.tests.setup.subspacesSetup import SubSpaceTestSetup
 
 
 class SubSpaceTest(SubSpaceTestSetup):

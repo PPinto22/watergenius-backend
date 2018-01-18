@@ -1,5 +1,5 @@
 from api.models import PlantType
-from api.tests.testPropertiesSetup import PropertyTestSetup
+from api.tests.setup.propertiesSetup import PropertyTestSetup
 import datetime
 
 

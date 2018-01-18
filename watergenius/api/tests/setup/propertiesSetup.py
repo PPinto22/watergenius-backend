@@ -1,6 +1,4 @@
-from functools import reduce
-
-from api.tests.testUsersSetup import UserTestSetup
+from api.tests.setup.usersSetup import UserTestSetup
 
 
 class PropertyTestSetup(UserTestSetup):

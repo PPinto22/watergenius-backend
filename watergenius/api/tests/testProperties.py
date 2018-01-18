@@ -1,4 +1,4 @@
-from api.tests.testPropertiesSetup import PropertyTestSetup
+from api.tests.setup.propertiesSetup import PropertyTestSetup
 
 
 class PropertyTest(PropertyTestSetup):

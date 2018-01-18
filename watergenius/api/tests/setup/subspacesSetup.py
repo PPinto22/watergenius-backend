@@ -1,5 +1,4 @@
-from api.models import PlantType
-from api.tests.testSpacesSetup import SpaceTestSetup
+from api.tests.setup.spacesSetup import SpaceTestSetup
 
 
 class SubSpaceTestSetup(SpaceTestSetup):
