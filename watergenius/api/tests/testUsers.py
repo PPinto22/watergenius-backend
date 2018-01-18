@@ -2,9 +2,7 @@ from datetime import datetime
 
 from django.utils import timezone
 from rest_framework import status
-from rest_framework.test import APIClient, APITestCase
 
-from api.models import User
 from api.tests.testUsersSetup import UserTestSetup
 
 
