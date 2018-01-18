@@ -4,7 +4,7 @@ from api.tests.testSpacesSetup import SpaceTestSetup
 class SpaceTest(SpaceTestSetup):
 
     def test_quantity_of_spaces_per_property(self):
-        spaceID = next(iter(self.spaceIDs))
+        spaceID = next(iter(self.spaceIDs.keys()))
         propID = self.spaceIDs[spaceID]
         apiClient = self.getSpaceOwnerAPIClient(spaceID)
         spaces = apiClient.get('/spaces/?propertyid='+str(propID))
