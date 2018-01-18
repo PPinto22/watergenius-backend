@@ -70,7 +70,6 @@ WSGI_APPLICATION = 'watergenius.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-    # FIXME - Definir as credenciais da DB
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'watergenius',
@@ -78,13 +77,6 @@ DATABASES = {
         'PASSWORD': 'watergenius',
         'HOST': 'localhost'
     }
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'NAME': 'watergenius',
-    #     'USER': 'postgres',
-    #     'PASSWORD': 'dbrootpass',
-    #     'HOST': 'localhost'
-    # }
 }
 
 
