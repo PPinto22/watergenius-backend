@@ -29,7 +29,28 @@
     "prop_owner": "nine@gmail.com"
   }
 },
-
+{
+  "model": "api.centralnode",
+  "pk": 1,
+  "fields": {
+    "node_ip": "100.100.30.2",
+    "node_local_lat": 38.736945,
+    "node_local_long": -9.142684,
+    "node_local_alt": 4.5,
+    "node_property": 1
+  }
+},
+{
+  "model": "api.centralnode",
+  "pk": 3,
+  "fields": {
+    "node_ip": "101.101.10.2",
+    "node_local_lat": 38.746855,
+    "node_local_long": -9.16284,
+    "node_local_alt": 15,
+    "node_property": 3
+  }
+},
 {
   "model": "api.usermanagesproperty",
   "pk": 1,

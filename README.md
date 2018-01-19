@@ -534,7 +534,6 @@ Está feito, mas será que faz sentido editar isto?
         "read_timestamp": "2018-01-11T16:51:23.860205Z",
         "read_value": 100,
         "read_sensor": 2,
-        "read_dayplan": 2,
         "read_type": 1
     },
 ]
@@ -552,7 +551,6 @@ Está feito, mas será que faz sentido editar isto?
   "read_timestamp": "2018-01-11T16:51:23.860205Z",
   "read_value": 100,
   "read_sensor": 2,
-  "read_dayplan": 2,
   "read_type": 1
 }
 ```

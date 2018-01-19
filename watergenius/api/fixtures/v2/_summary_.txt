@@ -15,14 +15,17 @@ users:
 properties:
   - 1
     - owner: rua@gmail.com
+    - has_node: True
     - managers: ['rua@gmail.com', 'nine@gmail.com']
     - spaces: [1, 2]
   - 2
     - owner: rua@gmail.com
+    - has_node: False
     - managers: ['rua@gmail.com']
     - spaces: []
   - 3
     - owner: nine@gmail.com
+    - has_node: True
     - managers: ['nine@gmail.com', 'freitas@gmail.com']
     - spaces: [3]
 
@@ -50,3 +53,28 @@ subspaces:
   - 3
     - space: 3
     - embeddedsystems: [3]
+
+embeddedsystems:
+  - 1
+    - subspace: 1
+    - sensors: [1, 2]
+  - 2
+    - subspace: 1
+    - sensors: []
+  - 3
+    - subspace: 3
+    - sensors: [3]
+
+sensors:
+  - 1
+    - embeddedsystem: 1
+    - type: 1
+    - reads: [1, 2, 3]
+  - 2
+    - embeddedsystem: 1
+    - type: 1
+    - reads: []
+  - 3
+    - embeddedsystem: 3
+    - type: 1
+    - reads: [4, 5]

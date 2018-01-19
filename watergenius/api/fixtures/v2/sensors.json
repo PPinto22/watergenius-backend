@@ -1,0 +1,45 @@
+[
+{
+  "model": "api.sensortype",
+  "pk": 1,
+  "fields": {
+    "sensor_type_name": "Humidity"
+  }
+},
+{
+  "model": "api.sensor",
+  "pk": 1,
+  "fields":{
+    "sensor_name": "Humidity sensor 1",
+    "sensor_state": 1,
+    "sensor_esys": 1,
+    "sensor_timerate": 10,
+    "sensor_depth": 20,
+    "sensor_type": 1
+  }
+},
+{
+  "model": "api.sensor",
+  "pk": 2,
+  "fields":{
+    "sensor_name": "Humidity sensor 2",
+    "sensor_state": 1,
+    "sensor_esys": 1,
+    "sensor_timerate": 5,
+    "sensor_depth": 25,
+    "sensor_type": 1
+  }
+},
+{
+  "model": "api.sensor",
+  "pk": 3,
+  "fields":{
+    "sensor_name": "Sensor 3",
+    "sensor_state": 1,
+    "sensor_esys": 3,
+    "sensor_timerate": 10,
+    "sensor_depth": 20,
+    "sensor_type": 1
+  }
+}
+]
