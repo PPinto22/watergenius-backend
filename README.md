@@ -235,8 +235,8 @@ O nodo central não tem id próprio. A chave é igual ao id da respetiva proprie
 	"node_local_long": 150.0,
 	"node_local_alt": 20,
 	"node_property": 1,
-  "node_network_name": "LAN",
-  "node_network_password": "password"
+  	"node_network_name": "LAN",
+  	"node_network_password": "password"
 }
 ```
 Ou
@@ -251,8 +251,8 @@ Criação ou update
 	"node_local_lat": -70.0,
 	"node_local_long": 150.0,
 	"node_local_alt": 20,
-  "node_network_name": "LAN",
-  "node_network_password": "password"
+  	"node_network_name": "LAN",
+  	"node_network_password": "password"
 }
 ```
 
