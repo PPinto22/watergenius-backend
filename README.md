@@ -234,7 +234,9 @@ O nodo central não tem id próprio. A chave é igual ao id da respetiva proprie
 	"node_local_lat": -70.0,
 	"node_local_long": 150.0,
 	"node_local_alt": 20,
-	"node_property": 1
+	"node_property": 1,
+  "node_network_name": "LAN",
+  "node_network_password": "password"
 }
 ```
 Ou
@@ -248,7 +250,9 @@ Criação ou update
 	"node_ip": "123.123.123.123",
 	"node_local_lat": -70.0,
 	"node_local_long": 150.0,
-	"node_local_alt": 20
+	"node_local_alt": 20,
+  "node_network_name": "LAN",
+  "node_network_password": "password"
 }
 ```
 
@@ -458,8 +462,7 @@ Está feito, mas será que faz sentido editar isto?
     "esys_local_alt": 5,
     "esys_sub": 1,
     "esys_state": 1,
-    "esys_name": "Name",
-    "esys_network_pass": "Local network password"
+    "esys_name": "Name"
 },
 ```
 #### Parameters
@@ -474,8 +477,7 @@ Está feito, mas será que faz sentido editar isto?
   "esys_local_alt": 5,
   "esys_sub": 1,
   "esys_state": 1,
-  "esys_name": "Name",
-  "esys_network_pass": "Local network password"
+  "esys_name": "Name"
 }
 ```
 
