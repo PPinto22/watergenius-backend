@@ -5,7 +5,7 @@ from rest_framework.status import *
 
 from api.models.warnings import Warning
 from api.serializers.warnings import WarningSerializer
-from api.models.properties import Property , UserManagesProperty
+from api.models.properties import Property, UserManagesProperty
 
 
 class WarningsListView(APIView):
@@ -14,14 +14,14 @@ class WarningsListView(APIView):
         warnings = Warning.objects.filter(warning_property__in=properties_managed.values('prop_id'))
         fullquery = (request.META['QUERY_STRING']).split('&')
         querylist = []
-        for query in fullquery :
+        for query in fullquery:
             querylist = querylist + (query.split('='))
         try:
             property_index = querylist.index('propertyid')
-            propertyid = querylist[property_index+1]
+            propertyid = querylist[property_index + 1]
             warnings = warnings.filter(warning_property=propertyid)
         except Exception as e:
-            print( e)
+            print(e)
             pass
         serialize = WarningSerializer(warnings, many=True)
         return Response(serialize.data, HTTP_200_OK)

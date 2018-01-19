@@ -564,14 +564,25 @@ Está feito, mas será que faz sentido editar isto?
 #### Parameters
 - *propertyid*: filter by property id
 
+#### Response
+```json
+[
+  {
+      "warning_id": "id",
+      "warning_description": "description",
+      "warning_property": 1
+  },
+]
+```
+
 ### POST /warnings/
 Estes warnings são para coisas do género: um sensor deixa de funcionar ou o sistema de metereologia não responde. Ainda não está bem definido.
 
 #### Body
 ```json
 {
-  "property": 1,
-  "error_code": "001",
+    "warning_description": "description",
+    "warning_property": 1
 }
 ```
 
