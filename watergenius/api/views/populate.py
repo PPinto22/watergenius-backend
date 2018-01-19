@@ -1,5 +1,7 @@
 from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.status import *
 
 from api.models import *
 
@@ -411,7 +413,7 @@ class PopulateView(APIView):
             irrigation = IrrigationTime()
             irrigation.irrigation_time_date = "2017-12-21T00:00:00Z"
             irrigation.irrigation_time_qtd = 10
-            irrigation.irrigation_time_sub = SubSpace.objects.get(sub=1)
+            irrigation.irrigation_time_sub = SubSpace.objects.get(sub_id=1)
             irrigation.save()
         except Exception as e:
             print(e)
@@ -419,7 +421,7 @@ class PopulateView(APIView):
             irrigation = IrrigationTime()
             irrigation.irrigation_time_date = "2017-12-21T00:00:00Z"
             irrigation.irrigation_time_qtd = 10
-            irrigation.irrigation_time_sub = SubSpace.objects.get(sub=1)
+            irrigation.irrigation_time_sub = SubSpace.objects.get(sub_id=1)
             irrigation.save()
         except Exception as e:
             print(e)
@@ -427,7 +429,7 @@ class PopulateView(APIView):
             irrigation = IrrigationTime()
             irrigation.irrigation_time_date = "2018-01-02T00:00:00Z"
             irrigation.irrigation_time_qtd = 10
-            irrigation.irrigation_time_sub = SubSpace.objects.get(sub=4)
+            irrigation.irrigation_time_sub = SubSpace.objects.get(sub_id=4)
             irrigation.save()
         except Exception as e:
             print(e)
@@ -435,7 +437,7 @@ class PopulateView(APIView):
             irrigation = IrrigationTime()
             irrigation.irrigation_time_date = "2018-12-03T00:00:00Z"
             irrigation.irrigation_time_qtd = 10
-            irrigation.irrigation_time_sub = SubSpace.objects.get(sub=2)
+            irrigation.irrigation_time_sub = SubSpace.objects.get(sub_id=2)
             irrigation.save()
         except Exception as e:
             print(e)
@@ -443,7 +445,7 @@ class PopulateView(APIView):
             irrigation = IrrigationTime()
             irrigation.irrigation_time_date = "2018-01-02T00:00:00Z"
             irrigation.irrigation_time_qtd = 10
-            irrigation.irrigation_time_sub = SubSpace.objects.get(sub=4)
+            irrigation.irrigation_time_sub = SubSpace.objects.get(sub_id=4)
             irrigation.save()
         except Exception as e:
             print(e)
@@ -451,7 +453,7 @@ class PopulateView(APIView):
             irrigation = IrrigationTime()
             irrigation.irrigation_time_date = "2018-12-03T00:00:00Z"
             irrigation.irrigation_time_qtd = 10
-            irrigation.irrigation_time_sub = SubSpace.objects.get(sub=3)
+            irrigation.irrigation_time_sub = SubSpace.objects.get(sub_id=3)
             irrigation.save()
         except Exception as e:
             print(e)
@@ -627,3 +629,5 @@ class PopulateView(APIView):
             sensor.save()
         except Exception as e:
             print(e)
+
+        return Response("OK", HTTP_200_OK)

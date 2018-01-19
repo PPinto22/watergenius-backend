@@ -140,31 +140,26 @@ class PropertyNodeView(APIView):
         serializer = CentralNodeSerializer(node, many=False)
         return Response(serializer.data, status=HTTP_200_OK)
 
-    def post(self, request, propid):
+    def put(self, request, propid):
         try:
             node = CentralNode.objects.get(node_property_id=propid)
-        except ObjectDoesNotExist as e:
             data = JSONParser().parse(request)
+            serializer = CentralNodeSerializer(data=data, partial=True)
+            if serializer.is_valid():
+                instance = node
+                for attr, value in serializer.validated_data.items():
+                    if attr != 'node_property':
+                        setattr(instance, attr, value)
+                instance.save()
+                return Response(CentralNodeSerializer(instance).data, status=HTTP_200_OK)
+            return Response('Internal error or malformed JSON ', status=HTTP_400_BAD_REQUEST)
+        except ObjectDoesNotExist as e:
+            # Nodo nao existe; criar um novo
+            data = JSONParser().parse(request)
+            data['node_property'] = propid
             serializer = CentralNodeSerializer(data=data, partial=True)
             if serializer.is_valid():
                 node = serializer.create(serializer.validated_data)
                 node.save()
                 return Response(CentralNodeSerializer(node).data, status=HTTP_200_OK)
             return Response('Internal error or malformed JSON ', status=HTTP_400_BAD_REQUEST)
-        return Response("That property already have a central node", status=HTTP_400_BAD_REQUEST)
-
-    def put(self, request, propid):
-        try:
-            node = CentralNode.objects.get(node_property_id=propid)
-        except ObjectDoesNotExist as e:
-            return Response("That property does not have a node", status=HTTP_400_BAD_REQUEST)
-        data = JSONParser().parse(request)
-        serializer = CentralNodeSerializer(data=data, partial=True)
-        if serializer.is_valid():
-            instance = node
-            for attr, value in serializer.validated_data.items():
-                if attr != 'node_property' and attr != 'node_id':
-                    setattr(instance, attr, value)
-            instance.save()
-            return Response('Central Node edited with success', status=HTTP_200_OK)
-        return Response('Internal error or malformed JSON ', status=HTTP_400_BAD_REQUEST)

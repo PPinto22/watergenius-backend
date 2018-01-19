@@ -4,8 +4,8 @@ from rest_framework.test import APIClient, APITestCase
 class APITestGlobalSetup(APITestCase):
 
     def setUp(self):
-        self.anonymousClient = APIClient()
-        self.superUserClient = self.getAPIClient("pinto@gmail.com")
+        self.anonymous = APIClient()
+        self.superUser = self.getAPIClient("pinto@gmail.com")
         self.rua = self.getAPIClient("rua@gmail.com")
         self.freitas = self.getAPIClient("freitas@gmail.com")
         self.nine = self.getAPIClient("nine@gmail.com")

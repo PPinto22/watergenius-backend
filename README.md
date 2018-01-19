@@ -45,7 +45,6 @@ python3.6 manage.py runserver
   - [GET /properties/{id}/](#get-propertiesid)
   - [DEL /properties/{id}/](#del-propertiesid)
   - [GET /properties/{id}/node/](#get-propertiesidnode)
-  - [POST /properties/{id}/node/](#post-propertiesidnode)
   - [PUT /properties/{id}/node/](#put-propertiesidnode)
   - [GET /properties/{id}/managers/](#get-propertiesidmanagers)
   - [POST /properties/{id}/managers/{id}/](#post-propertiesidmanagersid)
@@ -226,34 +225,32 @@ Atualiza apenas os atributos indicados; o id pode ir na mensagem mas é ignorado
 Response: OK
 
 ### GET /properties/{id}/node/
+O nodo central não tem id próprio. A chave é igual ao id da respetiva propriedade.
+
 #### Response
 ```json
 {
-  "node_id": 1,
 	"node_ip": "123.123.123.123",
 	"node_local_lat": -70.0,
 	"node_local_long": 150.0,
 	"node_local_alt": 20,
-	"node_property": 11
+	"node_property": 1
 }
 ```
 Ou
 > 'That property doesn't have a central node' (Codigo 200 OK)
 
-### POST /properties/{id}/node/
-**Acho que isto podia ser apenas o put, afinal só há um nodo por propriedade**
+### PUT /properties/{id}/node/
+Criação ou update
+
 ```json
 {
 	"node_ip": "123.123.123.123",
 	"node_local_lat": -70.0,
 	"node_local_long": 150.0,
-	"node_local_alt": 20,
-	"node_property": 11
+	"node_local_alt": 20
 }
 ```
-### PUT /properties/{id}/node/
-... \
-Neste momento dá erro 400 se o nodo ainda não existir; mas acho que se podia alterar para ficar o put como criação ou update.
 
 ### GET /properties/{id}/managers/
 Resposta: lista de utilizadores. Igual a [GET /users/](#get-users)

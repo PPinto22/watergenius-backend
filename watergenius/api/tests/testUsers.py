@@ -18,11 +18,11 @@ class UserTest(APITestGlobalSetup):
         self.assertTrue(status.is_success(response.status_code))
 
     def test_validate_number_of_users(self):
-        usersRequest = self.superUserClient.get('/users/')
+        usersRequest = self.superUser.get('/users/')
         self.assertEqual(len(usersRequest.data), 4)
 
     def test_get_user_validate_superuser_info(self):
-        userRequest = self.superUserClient.get('/users/pinto@gmail.com/')
+        userRequest = self.superUser.get('/users/pinto@gmail.com/')
         self.assertEqual(userRequest.data['email'], 'pinto@gmail.com')
         self.assertEqual(userRequest.data['first_name'], 'Pedro')
         self.assertEqual(userRequest.data['last_name'], 'Pinto')
@@ -37,7 +37,7 @@ class UserTest(APITestGlobalSetup):
         return self.assertTrue(status.is_success(response.status_code))
 
     def registerUserRequest(self, email, password, first_name, last_name, is_superuser=False):
-        client = self.anonymousClient
+        client = self.anonymous
         user = {
             'email': email,
             'password': password,
@@ -46,6 +46,6 @@ class UserTest(APITestGlobalSetup):
         }
         if is_superuser:
             user['is_superuser'] = is_superuser
-            client = self.superUserClient
+            client = self.superUser
 
         return client.post('/register/', user, format='json')

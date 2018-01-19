@@ -10,12 +10,14 @@ class PropertySerializer(serializers.ModelSerializer):
         validators = []  # Remove a default "unique together" constraint.
 
 class CentralNodeSerializer(serializers.ModelSerializer):
-    node_id = serializers.PrimaryKeyRelatedField(queryset=CentralNode.objects.all())
+    # node_id = serializers.PrimaryKeyRelatedField(queryset=CentralNode.objects.all())
     node_property = serializers.PrimaryKeyRelatedField(queryset=Property.objects.all())
     #node_local = serializers.PrimaryKeyRelatedField(queryset=Localization.objects.all())
+
+
     class Meta:
         model = CentralNode
-        fields = ('node_id', 'node_ip', 'node_local_lat',  'node_local_long', 'node_local_alt', 'node_property')
+        fields = ('node_ip', 'node_local_lat',  'node_local_long', 'node_local_alt', 'node_property')
         validators = []  # Remove a default "unique together" constraint.
 
 class UserManagesPropertySerializer(serializers.ModelSerializer):
