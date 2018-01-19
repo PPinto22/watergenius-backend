@@ -20,7 +20,6 @@ def getSubspacesByEmail(email):
 class SubspacesListView(APIView):
     def get(self, request):
         subspaces = getSubspacesByEmail(request.user.email)
-        print(subspaces)
         fullquery = (request.META['QUERY_STRING']).split('&')
         querylist = []
         for query in fullquery :
