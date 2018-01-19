@@ -4,7 +4,7 @@ from api.tests.globalSetup import APITestGlobalSetup
 
 class SpaceTest(APITestGlobalSetup):
 
-    fixtures = ['v2/users', 'v2/properties', 'v2/spaces']
+    fixtures = ['v1/users', 'v1/properties', 'v1/spaces']
 
     def test_length_of_get_spaces_by_property(self):
         spaces = self.rua.get('/spaces/?propertyid=1')

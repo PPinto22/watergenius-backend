@@ -47,12 +47,18 @@ subspaces:
   - 1
     - space: 1
     - embeddedsystems: [1, 2]
+    - irrigations: [1, 2, 3]
+    - dayplans: [1, 2, 3]
   - 2
     - space: 1
     - embeddedsystems: []
+    - irrigations: []
+    - dayplans: []
   - 3
     - space: 3
     - embeddedsystems: [3]
+    - irrigations: [4, 5]
+    - dayplans: [4, 5]
 
 embeddedsystems:
   - 1

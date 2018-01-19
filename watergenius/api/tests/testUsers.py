@@ -7,7 +7,7 @@ from api.tests.globalSetup import APITestGlobalSetup
 
 
 class UserTest(APITestGlobalSetup):
-    fixtures = ['v2/users']
+    fixtures = ['v1/users']
 
     def test_login_incorrect_password(self):
         response = self.loginRequest('pinto@gmail.com', 'incorrect')

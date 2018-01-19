@@ -3,7 +3,7 @@ from api.tests.globalSetup import APITestGlobalSetup
 
 class PropertyTest(APITestGlobalSetup):
 
-    fixtures = ['v2/users','v2/properties']
+    fixtures = ['v1/users','v1/properties']
 
     def test_length_of_get_properties(self):
         properties = self.rua.get('/properties/?ownerid=rua@gmail.com')
