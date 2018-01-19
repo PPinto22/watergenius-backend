@@ -14,7 +14,8 @@ class CentralNodeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CentralNode
-        fields = ('node_ip', 'node_local_lat',  'node_local_long', 'node_local_alt', 'node_property')
+        fields = ('node_ip', 'node_local_lat',  'node_local_long', 'node_local_alt', 'node_property',
+                  'node_network_name', 'node_network_password')
         validators = []  # Remove a default "unique together" constraint.
 
 class UserManagesPropertySerializer(serializers.ModelSerializer):

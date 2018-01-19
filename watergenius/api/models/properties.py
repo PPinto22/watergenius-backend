@@ -28,3 +28,5 @@ class CentralNode(models.Model):
     node_local_long = models.FloatField(default=0)
     node_local_alt = models.FloatField(default=0)
     node_property = models.OneToOneField(Property, on_delete=models.CASCADE, primary_key=True)
+    node_network_name = models.CharField(max_length=30, default="")
+    node_network_password = models.CharField(max_length=30, default="")

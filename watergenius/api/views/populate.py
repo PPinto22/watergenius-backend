@@ -462,6 +462,8 @@ class PopulateView(APIView):
             g.node_ip = "127.0.0.1"
             # g.node_local_id = 1
             g.node_property_id = 1
+            g.node_network_name = "LAN"
+            g.node_network_password = "password"
             g.save()
         except Exception as e:
             print(e)
@@ -470,6 +472,8 @@ class PopulateView(APIView):
             g.node_ip = "127.0.1.1"
             # g.node_local_id = 2
             g.node_property_id = 2
+            g.node_network_name = "LAN"
+            g.node_network_password = "password"
             g.save()
         except Exception as e:
             print(e)
@@ -479,6 +483,8 @@ class PopulateView(APIView):
             g.node_ip = "127.10.0.1"
             # g.node_local_id = 1
             g.node_property_id = 3
+            g.node_network_name = "LAN"
+            g.node_network_password = "password"
             g.save()
         except Exception as e:
             print(e)
@@ -487,6 +493,8 @@ class PopulateView(APIView):
             g.node_ip = "127.12.1.1"
             # g.node_local_id = 2
             g.node_property_id = 4
+            g.node_network_name = "LAN"
+            g.node_network_password = "password"
             g.save()
         except Exception as e:
             print(e)
@@ -497,7 +505,6 @@ class PopulateView(APIView):
             # i.esys_local_id = 2
             i.esys_sub_id = 1
             i.esys_name = "arduino 1"
-            i.esys_network_pass = "laura"
             i.save()
         except Exception as e:
             print(e)
@@ -508,7 +515,6 @@ class PopulateView(APIView):
             # i.esys_local_id = 2
             i.esys_sub_id = 1
             i.esys_name = "arduino 1"
-            i.esys_network_pass = "laura"
             i.save()
         except Exception as e:
             print(e)
@@ -519,7 +525,6 @@ class PopulateView(APIView):
             # i.esys_local_id = 1
             i.esys_sub_id = 2
             i.esys_name = "arduino 2"
-            i.esys_network_pass = "laurinda"
             i.save()
         except Exception as e:
             print(e)
@@ -530,7 +535,6 @@ class PopulateView(APIView):
             # i.esys_local_id = 2
             i.esys_sub_id = 2
             i.esys_name = "aro 15"
-            i.esys_network_pass = "123"
             i.save()
         except Exception as e:
             print(e)
@@ -541,7 +545,6 @@ class PopulateView(APIView):
             # i.esys_local_id = 2
             i.esys_sub_id = 3
             i.esys_name = "arduino 11"
-            i.esys_network_pass = "222"
             i.save()
         except Exception as e:
             print(e)
@@ -552,7 +555,6 @@ class PopulateView(APIView):
             # i.esys_local_id = 1
             i.esys_sub_id = 1
             i.esys_name = "arduino 12"
-            i.esys_network_pass = "444"
             i.save()
         except Exception as e:
             print(e)

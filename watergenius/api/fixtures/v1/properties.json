@@ -37,7 +37,9 @@
     "node_local_lat": 38.736945,
     "node_local_long": -9.142684,
     "node_local_alt": 4.5,
-    "node_property": 1
+    "node_property": 1,
+    "node_network_name": "LAN",
+    "node_network_password": "password"
   }
 },
 {
@@ -48,7 +50,9 @@
     "node_local_lat": 38.746855,
     "node_local_long": -9.16284,
     "node_local_alt": 15,
-    "node_property": 3
+    "node_property": 3,
+    "node_network_name": "LAN",
+    "node_network_password": "password"
   }
 },
 {

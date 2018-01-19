@@ -8,8 +8,7 @@
     "esys_local_alt": 5.0,
     "esys_sub": 1,
     "esys_state": 1,
-    "esys_name": "Embedded System 1",
-    "esys_network_pass": "password"
+    "esys_name": "Embedded System 1"
   }
 },
 {
@@ -21,8 +20,7 @@
     "esys_local_alt": 5.0,
     "esys_sub": 1,
     "esys_state": 0,
-    "esys_name": "Embedded System 2",
-    "esys_network_pass": "password"
+    "esys_name": "Embedded System 2"
   }
 },
 {
@@ -34,8 +32,7 @@
     "esys_local_alt": 5.0,
     "esys_sub": 3,
     "esys_state": 1,
-    "esys_name": "Embedded System 3",
-    "esys_network_pass": "password"
+    "esys_name": "Embedded System 3"
   }
 }
 ]
