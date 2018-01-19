@@ -1,13 +1,14 @@
-from api.tests.setup.propertiesSetup import PropertyTestSetup
+from api.tests.globalSetup import APITestGlobalSetup
 
 
-class PropertyTest(PropertyTestSetup):
+class PropertyTest(APITestGlobalSetup):
 
-    def test_number_of_owned_properties_equals_PROPS_PER_USER(self):
-        properties = self.regularClient.get('/properties/?ownerid='+self.regularEmail)
-        self.assertEqual(len(properties.data), self.PROPS_PER_USER)
+    fixtures = ['v2/users','v2/properties']
 
-    def test_number_of_managers_equals_MANAGERS_PER_PROP_plus_one(self):
-        propID = self.userProperties.get(self.regularEmail)[0]
-        managersResponse = self.regularClient.get('/properties/'+str(propID)+'/managers/')
-        self.assertEqual(len(managersResponse.data), self.MANAGERS_PER_PROP+1)
+    def test_length_of_get_properties(self):
+        properties = self.rua.get('/properties/?ownerid=rua@gmail.com')
+        self.assertEqual(len(properties.data), 2)
+
+    def test_length_of_get_property_managers(self):
+        managersResponse = self.rua.get('/properties/1/managers/')
+        self.assertEqual(len(managersResponse.data), 2)

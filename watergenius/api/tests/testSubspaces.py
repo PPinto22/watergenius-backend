@@ -1,11 +1,10 @@
-from api.tests.setup.subspacesSetup import SubSpaceTestSetup
+from api.tests.globalSetup import APITestGlobalSetup
 
 
-class SubSpaceTest(SubSpaceTestSetup):
+class SubSpaceTest(APITestGlobalSetup):
 
-    def test_quantity_of_subspaces_per_space(self):
-        subspaceID = next(iter(self.subspaceIDs.keys()))
-        spaceID = self.subspaceIDs[subspaceID]
-        apiClient = self.getSubSpaceOwnerAPIClient(subspaceID)
-        subspaces = apiClient.get('/subspaces/?spaceid='+str(spaceID))
-        self.assertEqual(len(subspaces.data), self.SUBSPACES_PER_SPACE)
+    fixtures = ['v2/users', 'v2/properties', 'v2/spaces', 'v2/subspaces']
+
+    def test_length_of_get_subspaces_per_space(self):
+        subspaces = self.rua.get('/subspaces/?spaceid=1')
+        self.assertEqual(len(subspaces.data), 2)

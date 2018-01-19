@@ -1,0 +1,29 @@
+[
+{
+  "model": "api.subspace",
+  "pk": 1,
+  "fields": {
+    "sub_name": "Name 1",
+    "sub_description": "Description 1",
+    "sub_space_id": 1
+  }
+},
+{
+  "model": "api.subspace",
+  "pk": 2,
+  "fields": {
+    "sub_name": "Name 2",
+    "sub_description": "Description 2",
+    "sub_space_id": 1
+  }
+},
+{
+  "model": "api.subspace",
+  "pk": 3,
+  "fields": {
+    "sub_name": "Name 3",
+    "sub_description": "Description 3",
+    "sub_space_id": 3
+  }
+}
+]

@@ -1,0 +1,62 @@
+[
+{
+  "model": "api.user",
+  "pk": "freitas@gmail.com",
+  "fields": {
+    "password": "pbkdf2_sha256$100000$uhKS8J48T10E$EJ22fBEhAi0tyviCB4e54U71Jsy1bQev+YxvmDoJ7U4=",
+    "last_login": null,
+    "first_name": "Rui",
+    "last_name": "Freitas",
+    "is_superuser": false,
+    "is_active": true,
+    "date_joined": "2018-01-18T22:47:03.105Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "api.user",
+  "pk": "nine@gmail.com",
+  "fields": {
+    "password": "pbkdf2_sha256$100000$PnfUJpgOkLl8$ZWXVH4ImQMtiOJGzaXtrad+u9KDJpCY8CUx+dvXVVE4=",
+    "last_login": null,
+    "first_name": "Joao",
+    "last_name": "Silva",
+    "is_superuser": false,
+    "is_active": true,
+    "date_joined": "2018-01-18T22:47:02.906Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "api.user",
+  "pk": "pinto@gmail.com",
+  "fields": {
+    "password": "pbkdf2_sha256$100000$4IFvy0Afvxrt$560LNieaz8WDnQvMzs2kQMm4qc8FPCK4AZArdK6KQW8=",
+    "last_login": null,
+    "first_name": "Pedro",
+    "last_name": "Pinto",
+    "is_superuser": true,
+    "is_active": true,
+    "date_joined": "2018-01-18T22:47:02.480Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "api.user",
+  "pk": "rua@gmail.com",
+  "fields": {
+    "password": "pbkdf2_sha256$100000$An9YDpB7oBpI$ICZIYP4NN60W/ZboYiAqH9UkVTmh3VSZ/K31sVnnOGQ=",
+    "last_login": null,
+    "first_name": "Rui",
+    "last_name": "Rua",
+    "is_superuser": false,
+    "is_active": true,
+    "date_joined": "2018-01-18T22:47:02.696Z",
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]

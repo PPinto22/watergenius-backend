@@ -1,0 +1,73 @@
+[
+{
+  "model": "api.property",
+  "pk": 1,
+  "fields": {
+    "prop_name": "Name 1",
+    "prop_description": "Description 1",
+    "prop_address": "Address 1",
+    "prop_owner": "rua@gmail.com"
+  }
+},
+{
+  "model": "api.property",
+  "pk": 2,
+  "fields": {
+    "prop_name": "Name 2",
+    "prop_description": "Description 2",
+    "prop_address": "Address 2",
+    "prop_owner": "rua@gmail.com"
+  }
+},
+{
+  "model": "api.property",
+  "pk": 3,
+  "fields": {
+    "prop_name": "Name 1",
+    "prop_description": "Description 1",
+    "prop_address": "Address 1",
+    "prop_owner": "nine@gmail.com"
+  }
+},
+
+{
+  "model": "api.usermanagesproperty",
+  "pk": 1,
+  "fields": {
+    "user": "rua@gmail.com",
+    "prop": 1
+  }
+},
+{
+  "model": "api.usermanagesproperty",
+  "pk": 2,
+  "fields": {
+    "user": "nine@gmail.com",
+    "prop": 1
+  }
+},
+{
+  "model": "api.usermanagesproperty",
+  "pk": 3,
+  "fields": {
+    "user": "rua@gmail.com",
+    "prop": 2
+  }
+},
+{
+  "model": "api.usermanagesproperty",
+  "pk": 5,
+  "fields": {
+    "user": "nine@gmail.com",
+    "prop": 3
+  }
+},
+{
+  "model": "api.usermanagesproperty",
+  "pk": 6,
+  "fields": {
+    "user": "freitas@gmail.com",
+    "prop": 3
+  }
+}
+]

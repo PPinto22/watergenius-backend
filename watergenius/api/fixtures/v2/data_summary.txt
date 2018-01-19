@@ -1,0 +1,52 @@
+users:
+  - pinto@gmail.com
+    - password: 'pinto'
+    - properties: []
+  - rua@gmail.com
+    - password: 'rua'
+    - properties: [1, 2]
+  - nine@gmail.com
+    - password: 'nine'
+    - properties: [3]
+  - freitas@gmail.com
+    - password: 'freitas'
+    - properties: []
+
+properties:
+  - 1
+    - owner: rua@gmail.com
+    - managers: ['rua@gmail.com', 'nine@gmail.com']
+    - spaces: [1, 2]
+  - 2
+    - owner: rua@gmail.com
+    - managers: ['rua@gmail.com']
+    - spaces: []
+  - 3
+    - owner: nine@gmail.com
+    - managers: ['nine@gmail.com', 'freitas@gmail.com']
+    - spaces: [3]
+
+spaces:
+  - 1
+    - prop: 1
+    - timeRestrictions: [1]
+    - subspaces: [1, 2]
+  - 2
+    - prop: 1
+    - timeRestrictions: []
+    - subspaces: []
+  - 3
+    - prop: 3
+    - timeRestrictions: [2, 3]
+    - subspaces: [3]
+
+subspaces:
+  - 1
+    - space: 1
+    - embeddedsystems: [1, 2]
+  - 2
+    - space: 1
+    - embeddedsystems: []
+  - 3
+    - space: 3
+    - embeddedsystems: [3]

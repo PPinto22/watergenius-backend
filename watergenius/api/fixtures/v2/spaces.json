@@ -1,0 +1,69 @@
+[
+{
+  "model": "api.planttype",
+  "pk": 1,
+  "fields": {
+    "plant_type_name": "Grass"
+  }
+},
+{
+  "model": "api.space",
+  "pk": 1,
+  "fields": {
+    "space_name": "Name 1",
+    "space_description": "Description 1",
+    "space_irrigation_hour": 20,
+    "space_property": 1,
+    "space_plant_type": 1
+  }
+},
+{
+  "model": "api.space",
+  "pk": 2,
+  "fields": {
+    "space_name": "Name 2",
+    "space_description": "Description 2",
+    "space_irrigation_hour": 21,
+    "space_property": 1,
+    "space_plant_type": 1
+  }
+},
+{
+  "model": "api.space",
+  "pk": 3,
+  "fields": {
+    "space_name": "Name 3",
+    "space_description": "Description 3",
+    "space_irrigation_hour": 20,
+    "space_property": 3,
+    "space_plant_type": 1
+  }
+},
+{
+  "model": "api.timerestriction",
+  "pk": 1,
+  "fields": {
+    "time_restriction_begin": "2018-01-18T22:47:03.603Z",
+    "time_restriction_end": "2018-01-19T00:47:03.603Z",
+    "time_restriction_space": 1
+  }
+},
+{
+  "model": "api.timerestriction",
+  "pk": 2,
+  "fields": {
+    "time_restriction_begin": "2018-01-19T12:47:03.625Z",
+    "time_restriction_end": "2018-01-19T14:47:03.625Z",
+    "time_restriction_space": 3
+  }
+},
+{
+  "model": "api.timerestriction",
+  "pk": 3,
+  "fields": {
+    "time_restriction_begin": "2018-01-18T22:47:03.676Z",
+    "time_restriction_end": "2018-01-19T00:47:03.676Z",
+    "time_restriction_space": 3
+  }
+}
+]

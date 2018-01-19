@@ -1,0 +1,41 @@
+[
+{
+  "model": "api.embeddedsystem",
+  "pk": 1,
+  "fields": {
+    "esys_local_lat": 38.736946,
+    "esys_local_long": -9.142685,
+    "esys_local_alt": 5.0,
+    "esys_sub": 1,
+    "esys_state": 1,
+    "esys_name": "Embedded System 1",
+    "esys_network_pass": "password"
+  }
+},
+{
+  "model": "api.embeddedsystem",
+  "pk": 2,
+  "fields": {
+    "esys_local_lat": 38.736946,
+    "esys_local_long": -9.142685,
+    "esys_local_alt": 5.0,
+    "esys_sub": 1,
+    "esys_state": 0,
+    "esys_name": "Embedded System 2",
+    "esys_network_pass": "password"
+  }
+},
+{
+  "model": "api.embeddedsystem",
+  "pk": 3,
+  "fields": {
+    "esys_local_lat": 38.736946,
+    "esys_local_long": -9.142685,
+    "esys_local_alt": 5.0,
+    "esys_sub": 3,
+    "esys_state": 1,
+    "esys_name": "Embedded System 3",
+    "esys_network_pass": "password"
+  }
+}
+]
