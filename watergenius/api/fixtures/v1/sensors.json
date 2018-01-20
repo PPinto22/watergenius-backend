@@ -34,7 +34,7 @@
   "model": "api.sensor",
   "pk": 3,
   "fields":{
-    "sensor_name": "Sensor 3",
+    "sensor_name": "Humidity sensor 3",
     "sensor_state": 1,
     "sensor_esys": 3,
     "sensor_timerate": 10,

@@ -15,7 +15,7 @@ class ReadType(models.Model):
 class Read(models.Model):
     read_id = models.AutoField(primary_key=True)
     read_timestamp = models.DateTimeField(auto_now=True)
-    read_value = models.IntegerField()
+    read_value = models.FloatField()
     read_sensor = models.ForeignKey(Sensor, related_name='belongs_to_sensor', on_delete=models.CASCADE)
     # read_dayplan = models.ForeignKey(DayPlan, related_name='belongs_to_dayplan', on_delete=models.CASCADE)
     read_type = models.ForeignKey(ReadType, related_name='has_readtype', on_delete=models.CASCADE)

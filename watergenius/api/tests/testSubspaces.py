@@ -19,8 +19,8 @@ class SubSpaceTest(APITestGlobalSetup):
         }
         post_response = self.rua.post('/subspaces/', subspace, format='json')
         self.assertTrue(status.is_success(post_response.status_code))
-        spaces = self.rua.get('/subspaces/?spaceid=1')
-        self.assertEqual(len(spaces.data), 3)
+        subspaces = self.rua.get('/subspaces/?spaceid=1')
+        self.assertEqual(len(subspaces.data), 3)
 
     def test_update_subspace(self):
         subspace = {
