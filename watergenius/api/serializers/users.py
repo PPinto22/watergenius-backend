@@ -28,5 +28,6 @@ class UserCreateSerializer(serializers.ModelSerializer):
             }
         }
 
+
 class UserUpdateSerializer(UserCreateSerializer):
     email = serializers.EmailField(validators=[])

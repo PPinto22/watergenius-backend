@@ -1,15 +1,15 @@
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework.status import *
+from rest_framework.views import APIView
 
-from api.models.sensors import Sensor
 from api.models.embeddedsys import EmbeddedSystem
-from api.models.properties import Property, UserManagesProperty
+from api.models.properties import UserManagesProperty
+from api.models.reads import Read
+from api.models.sensors import Sensor
 from api.models.spaces import Space
 from api.models.subspaces import SubSpace
-from api.models.reads import Read
 from api.serializers.reads import ReadSerializer
 
 
@@ -37,21 +37,21 @@ class ReadsListView(APIView):
             sensors = Sensor.objects.filter(sensor_esys_id__in=embeddedsys.values('esys_sub_id'))
             reads = reads.filter(read_sensor_id__in=sensors.values('sensor_id'))
         except Exception as e:
-            print(e)
+            pass
         try:
             embeddedsysid_index = querylist.index('embeddedsysid')
             embeddedsysid = querylist[embeddedsysid_index + 1]
             sensors = Sensor.objects.filter(sensor_esys_id__in=embeddedsysid)
             reads = reads.filter(read_sensor_id__in=sensors.values('sensor_id'))
         except Exception as e:
-            print(e)
+            pass
         try:
             sensorid_index = querylist.index('sensorid')
             sensorid = querylist[sensorid_index + 1]
             sensors = Sensor.objects.get(sensor_id=sensorid)
             reads = reads.filter(read_sensor_id__in=sensors.sensor_id)
         except Exception as e:
-            print(e)
+            pass
         serialize = ReadSerializer(reads.order_by('read_timestamp'), many=True)
         return Response(serialize.data, HTTP_200_OK)
 
@@ -88,7 +88,6 @@ class ReadDetailView(APIView):
                 return Response('Especify the correct read id', HTTP_400_BAD_REQUEST)
             for attr, value in serializer.validated_data.items():
                 if attr != 'read_id':
-                    print(attr)
                     setattr(instance, attr, value)
             instance.save()
             serialize = ReadSerializer(instance, many=False)

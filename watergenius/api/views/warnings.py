@@ -1,11 +1,11 @@
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework.status import *
+from rest_framework.views import APIView
 
+from api.models.properties import UserManagesProperty
 from api.models.warnings import Warning
 from api.serializers.warnings import WarningSerializer
-from api.models.properties import Property, UserManagesProperty
 
 
 class WarningsListView(APIView):
@@ -21,7 +21,6 @@ class WarningsListView(APIView):
             propertyid = querylist[property_index + 1]
             warnings = warnings.filter(warning_property=propertyid)
         except Exception as e:
-            print(e)
             pass
         serialize = WarningSerializer(warnings, many=True)
         return Response(serialize.data, HTTP_200_OK)

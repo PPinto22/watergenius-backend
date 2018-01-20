@@ -1,6 +1,5 @@
 from .embeddedsys import *
 from .irrigations import *
-from .localizations import *
 from .plans import *
 from .properties import *
 from .reads import *

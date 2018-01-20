@@ -4,11 +4,10 @@ from rest_framework.response import Response
 from rest_framework.status import *
 from rest_framework.views import APIView
 
-from api.models.properties import Property , UserManagesProperty
+from api.models.properties import Property, UserManagesProperty
 from api.models.spaces import Space
 from api.models.subspaces import SubSpace
 from api.serializers.subspaces import SubSpaceSerializer
-
 
 
 def getSubspacesByEmail(email):
@@ -17,29 +16,28 @@ def getSubspacesByEmail(email):
     subspaces_of_user = SubSpace.objects.filter(sub_space_id_id__in=spaces_managed.values('space_id'))
     return subspaces_of_user
 
+
 class SubspacesListView(APIView):
     def get(self, request):
         subspaces = getSubspacesByEmail(request.user.email)
         fullquery = (request.META['QUERY_STRING']).split('&')
         querylist = []
-        for query in fullquery :
+        for query in fullquery:
             querylist = querylist + (query.split('='))
         try:
             property_index = querylist.index('propertyid')
-            propertyid = querylist[property_index+1]
+            propertyid = querylist[property_index + 1]
             props = Property.objects.get(prop_id=propertyid)
-            spaces = Space.objects.filter(space_property_id = props.prop_id)
+            spaces = Space.objects.filter(space_property_id=props.prop_id)
             subspaces = subspaces.filter(sub_space_id_id__in=spaces.values('space_id'))
         except Exception as e:
-            print( e)
             pass
         try:
             space_index = querylist.index('spaceid')
-            spaceid = querylist[space_index+1]
-            #spaces = Space.objects.get(space_id = props.values(space_id))
+            spaceid = querylist[space_index + 1]
+            # spaces = Space.objects.get(space_id = props.values(space_id))
             subspaces = subspaces.filter(sub_space_id_id=spaceid)
         except Exception as e:
-            print( e)
             pass
         serialize = SubSpaceSerializer(subspaces, many=True)
         return Response(serialize.data, HTTP_200_OK)
@@ -54,6 +52,7 @@ class SubspacesListView(APIView):
             return Response(serialize.data, HTTP_200_OK)
         else:
             return Response('Internal error or malformed JSON ', HTTP_400_BAD_REQUEST)
+
 
 class SubspaceDetailView(APIView):
     def get(self, request, subspaceid):
@@ -76,7 +75,6 @@ class SubspaceDetailView(APIView):
                 return Response('Especify the correct restriction id', HTTP_400_BAD_REQUEST)
             for attr, value in serializer.validated_data.items():
                 if attr != 'sub_id':
-                    print(attr)
                     setattr(instance, attr, value)
             instance.save()
             serialize = SubSpaceSerializer(instance, many=False)

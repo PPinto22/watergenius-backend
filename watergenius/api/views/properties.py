@@ -9,9 +9,10 @@ from api.serializers.properties import CentralNodeSerializer, PropertySerializer
 from api.models.users import User
 from api.serializers.users import UserSerializer
 
+
 def getPropertiesOfUser(email):
     properties_managed = UserManagesProperty.objects.filter(user_id=email)
-    props = Property.objects.filter(prop_id__in=properties_managed.values('prop_id'))    
+    props = Property.objects.filter(prop_id__in=properties_managed.values('prop_id'))
     return props
 
 
@@ -21,22 +22,20 @@ class PropertiesListView(APIView):
         prop = getPropertiesOfUser(request.user.email)
         fullquery = (request.META['QUERY_STRING']).split('&')
         querylist = []
-        for query in fullquery :
+        for query in fullquery:
             querylist = querylist + (query.split('='))
         try:
             owner_index = querylist.index('ownerid')
-            ownerid = querylist[owner_index+1]
+            ownerid = querylist[owner_index + 1]
             prop = prop.filter(prop_owner_id=ownerid)
         except Exception as e:
-            print( e)
             pass
         try:
             manager_index = querylist.index('managerid')
-            managerid = querylist[manager_index+1]
+            managerid = querylist[manager_index + 1]
             properties_managed = UserManagesProperty.objects.filter(user_id=managerid)
             prop = prop.filter(prop_id__in=properties_managed.values('prop_id'))
         except Exception as e:
-            print( e)
             pass
         serializer = PropertySerializer(list(prop), many=True)
         return Response(serializer.data, status=HTTP_200_OK)
@@ -57,6 +56,7 @@ class PropertiesListView(APIView):
         else:
             return Response(status=HTTP_400_BAD_REQUEST)
 
+
 class PropertyDetailView(APIView):
     def get(self, request, propid):
         props = getPropertiesOfUser(request.user.email)
@@ -64,7 +64,7 @@ class PropertyDetailView(APIView):
             prop = props.get(prop_id=propid)
         except Exception as e:
             return Response(status=HTTP_400_BAD_REQUEST)
-        
+
         serializer = PropertySerializer(prop, many=False)
         return Response(serializer.data, status=HTTP_200_OK)
 
@@ -80,7 +80,6 @@ class PropertyDetailView(APIView):
                 return Response('Specify the correct Property id', status=HTTP_400_BAD_REQUEST)
             for attr, value in serializer.validated_data.items():
                 if attr != 'prop_id':
-                    print(attr)
                     setattr(instance, attr, value)
             instance.save()
             serializer = PropertySerializer(instance, many=False)
@@ -106,6 +105,7 @@ class PropertyManagersListView(APIView):
         queryset = User.objects.filter(email__in=managersOfProperty.values('user_id'))
         serializer = UserSerializer(list(queryset), many=True)
         return Response(serializer.data, status=HTTP_200_OK)
+
 
 class PropertyManagerDetailView(APIView):
     def post(self, request, propid, managerid):

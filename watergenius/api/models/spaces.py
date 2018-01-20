@@ -3,11 +3,12 @@ from django.db import models
 from api.models.plants import PlantType
 from api.models.properties import Property
 
+
 class Space(models.Model):
     space_id = models.AutoField(primary_key=True)
     space_name = models.CharField(max_length=50)
     space_description = models.CharField(max_length=150)
-    space_irrigation_hour = models.IntegerField() # FIXME - Alterar para time ou lá o que é
+    space_irrigation_hour = models.IntegerField()  # FIXME - Alterar para time ou lá o que é
     space_property = models.ForeignKey(Property, related_name='belongs_to_property', on_delete=models.CASCADE)
     space_plant_type = models.ForeignKey(PlantType, related_name='has_plant_type', on_delete=models.CASCADE)
 

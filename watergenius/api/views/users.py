@@ -1,5 +1,4 @@
 from django.http import JsonResponse
-from rest_framework import status
 from rest_framework.parsers import JSONParser
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -56,7 +55,6 @@ class UserDetailView(APIView):
 
     def delete(self, request, mail):
         user = User.objects.get(email=mail)
-        print(user)
         if user:
             user.delete()
             return JsonResponse('OK', status=HTTP_200_OK, safe=False)

@@ -13,15 +13,13 @@ class EmbeddedSysListView(APIView):
         embsystems = EmbeddedSystem.objects.all()
         fullquery = (request.META['QUERY_STRING']).split('&')
         querylist = []
-        for query in fullquery :
+        for query in fullquery:
             querylist = querylist + (query.split('='))
         try:
             subspace_index = querylist.index('subspaceid')
             subspaceid = querylist[subspace_index + 1]
-            print(subspaceid)
             embsystems = embsystems.filter(esys_sub=subspaceid)
         except Exception as e:
-            print (e)
             pass
         serialize = EmbeddedSystemSerializer(embsystems, many=True)
         return Response(serialize.data, HTTP_200_OK)
@@ -36,6 +34,7 @@ class EmbeddedSysListView(APIView):
             return Response(serialize.data, HTTP_200_OK)
         else:
             return Response('Internal error or malformed JSON ', HTTP_400_BAD_REQUEST)
+
 
 class EmbeddedSysDetailView(APIView):
     def get(self, request, sysid):
