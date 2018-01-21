@@ -4,13 +4,15 @@ from api.models.embeddedsys import EmbeddedSystem
 
 
 class SensorType(models.Model):
-    sensor_type_id = models.AutoField(primary_key=True)
-    sensor_type_name = models.CharField(max_length=50)
-
+    # id = sensor_type_name_eng
+    sensor_type_id = models.CharField(primary_key=True, max_length=50)
+    sensor_type_name_eng = models.CharField(max_length=50, default="")
+    sensor_type_name_por = models.CharField(max_length=50, default="")
+    sensor_type_unit = models.CharField(max_length=10, default="")
 
 class Sensor(models.Model):
     sensor_id = models.AutoField(primary_key=True)
-    sensor_name = models.CharField(max_length=50, default="sensor nr x")
+    sensor_name = models.CharField(max_length=50, default="")
     sensor_state = models.IntegerField()
     sensor_esys = models.ForeignKey(EmbeddedSystem, related_name='belongs_to_embsys', on_delete=models.CASCADE)
     sensor_timerate = models.IntegerField()

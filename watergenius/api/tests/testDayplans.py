@@ -5,7 +5,7 @@ from api.tests.globalSetup import APITestGlobalSetup
 
 class DayplanTest(APITestGlobalSetup):
 
-    fixtures = ['v1/users', 'v1/properties', 'v1/spaces', 'v1/subspaces', 'v1/dayplans']
+    fixtures = ['tests/users', 'tests/properties', 'tests/spaces', 'tests/subspaces', 'tests/dayplans']
 
     def test_get_plans_per_subspace(self):
         plans = self.rua.get('/plans/?subspaceid=1')
@@ -15,7 +15,7 @@ class DayplanTest(APITestGlobalSetup):
         plan = {
             "dayplan_gen_time": "2018-01-17T10:30:30.500000Z",
             "dayplan_time": "2018-01-20T20:00:00.000000Z",
-            "dayplan_water_qtd": 3.1,
+            "dayplan_water_qty": 3.1,
             "dayplan_sub": 1
         }
         post_response = self.rua.post('/plans/', plan, format='json')

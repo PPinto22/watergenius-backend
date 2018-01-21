@@ -4,7 +4,7 @@
     "pk": 1,
     "fields": {
       "irrigation_time_date": "2018-01-17T20:00:00.500000Z",
-      "irrigation_time_qtd": 2,
+      "irrigation_time_qty": 2,
       "irrigation_time_sub": 1
     }
   },
@@ -13,7 +13,7 @@
     "pk": 2,
     "fields": {
       "irrigation_time_date": "2018-01-18T21:00:00.500000Z",
-      "irrigation_time_qtd": 1.5,
+      "irrigation_time_qty": 1.5,
       "irrigation_time_sub": 1
     }
   },
@@ -22,7 +22,7 @@
     "pk": 3,
     "fields": {
       "irrigation_time_date": "2018-01-19T20:00:00.500000Z",
-      "irrigation_time_qtd": 2.5,
+      "irrigation_time_qty": 2.5,
       "irrigation_time_sub": 1
     }
   },
@@ -31,7 +31,7 @@
     "pk": 4,
     "fields": {
       "irrigation_time_date": "2018-01-19T20:00:00.500000Z",
-      "irrigation_time_qtd": 2,
+      "irrigation_time_qty": 2,
       "irrigation_time_sub": 3
     }
   },
@@ -40,7 +40,7 @@
     "pk": 5,
     "fields": {
       "irrigation_time_date": "2018-01-20T20:00:00.500000Z",
-      "irrigation_time_qtd": 2,
+      "irrigation_time_qty": 2,
       "irrigation_time_sub": 3
     }
   }

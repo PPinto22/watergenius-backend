@@ -5,7 +5,7 @@ from api.tests.globalSetup import APITestGlobalSetup
 
 class SubSpaceTest(APITestGlobalSetup):
 
-    fixtures = ['v1/users', 'v1/properties', 'v1/spaces', 'v1/subspaces']
+    fixtures = ['tests/users', 'tests/properties', 'tests/spaces', 'tests/subspaces']
 
     def test_get_subspaces_per_space(self):
         subspaces = self.rua.get('/subspaces/?spaceid=1')

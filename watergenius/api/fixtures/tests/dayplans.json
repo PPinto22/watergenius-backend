@@ -5,7 +5,7 @@
     "fields": {
       "dayplan_gen_time": "2018-01-17T10:30:30.500000Z",
       "dayplan_time": "2018-01-17T20:00:00.000000Z",
-      "dayplan_water_qtd": 1.5,
+      "dayplan_water_qty": 1.5,
       "dayplan_sub": 1
     }
   },
@@ -15,7 +15,7 @@
     "fields": {
       "dayplan_gen_time": "2018-01-17T10:30:30.500000Z",
       "dayplan_time": "2018-01-18T20:00:00.000000Z",
-      "dayplan_water_qtd": 2,
+      "dayplan_water_qty": 2,
       "dayplan_sub": 1
     }
   },
@@ -25,7 +25,7 @@
     "fields": {
       "dayplan_gen_time": "2018-01-17T10:30:30.500000Z",
       "dayplan_time": "2018-01-19T20:00:00.000000Z",
-      "dayplan_water_qtd": 2.5,
+      "dayplan_water_qty": 2.5,
       "dayplan_sub": 1
     }
   },
@@ -35,7 +35,7 @@
     "fields": {
       "dayplan_gen_time": "2018-01-17T10:30:30.500000Z",
       "dayplan_time": "2018-01-17T20:00:00.000000Z",
-      "dayplan_water_qtd": 1.5,
+      "dayplan_water_qty": 1.5,
       "dayplan_sub": 3
     }
   },
@@ -45,7 +45,7 @@
     "fields": {
       "dayplan_gen_time": "2018-01-17T10:30:30.500000Z",
       "dayplan_time": "2018-01-18T20:00:00.000000Z",
-      "dayplan_water_qtd": 1.5,
+      "dayplan_water_qty": 1.5,
       "dayplan_sub": 3
     }
   }

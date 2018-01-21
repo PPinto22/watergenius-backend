@@ -1,9 +1,11 @@
 [
 {
   "model": "api.sensortype",
-  "pk": 1,
+  "pk": "humidity",
   "fields": {
-    "sensor_type_name": "Humidity"
+    "sensor_type_name_eng": "humidity",
+    "sensor_type_name_por": "humidade",
+    "sensor_type_unit": "ml"
   }
 },
 {
@@ -15,7 +17,7 @@
     "sensor_esys": 1,
     "sensor_timerate": 10,
     "sensor_depth": 20,
-    "sensor_type": 1
+    "sensor_type": "humidity"
   }
 },
 {
@@ -27,7 +29,7 @@
     "sensor_esys": 1,
     "sensor_timerate": 5,
     "sensor_depth": 25,
-    "sensor_type": 1
+    "sensor_type": "humidity"
   }
 },
 {
@@ -39,7 +41,7 @@
     "sensor_esys": 3,
     "sensor_timerate": 10,
     "sensor_depth": 20,
-    "sensor_type": 1
+    "sensor_type": "humidity"
   }
 }
 ]

@@ -1,3 +1,4 @@
+from django.core.management import call_command
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -412,7 +413,7 @@ class PopulateView(APIView):
         try:
             irrigation = IrrigationTime()
             irrigation.irrigation_time_date = "2017-12-21T00:00:00Z"
-            irrigation.irrigation_time_qtd = 10
+            irrigation.irrigation_time_qty = 10
             irrigation.irrigation_time_sub = SubSpace.objects.get(sub_id=1)
             irrigation.save()
         except Exception as e:
@@ -420,7 +421,7 @@ class PopulateView(APIView):
         try:
             irrigation = IrrigationTime()
             irrigation.irrigation_time_date = "2017-12-21T00:00:00Z"
-            irrigation.irrigation_time_qtd = 10
+            irrigation.irrigation_time_qty = 10
             irrigation.irrigation_time_sub = SubSpace.objects.get(sub_id=1)
             irrigation.save()
         except Exception as e:
@@ -428,7 +429,7 @@ class PopulateView(APIView):
         try:
             irrigation = IrrigationTime()
             irrigation.irrigation_time_date = "2018-01-02T00:00:00Z"
-            irrigation.irrigation_time_qtd = 10
+            irrigation.irrigation_time_qty = 10
             irrigation.irrigation_time_sub = SubSpace.objects.get(sub_id=4)
             irrigation.save()
         except Exception as e:
@@ -436,7 +437,7 @@ class PopulateView(APIView):
         try:
             irrigation = IrrigationTime()
             irrigation.irrigation_time_date = "2018-12-03T00:00:00Z"
-            irrigation.irrigation_time_qtd = 10
+            irrigation.irrigation_time_qty = 10
             irrigation.irrigation_time_sub = SubSpace.objects.get(sub_id=2)
             irrigation.save()
         except Exception as e:
@@ -444,7 +445,7 @@ class PopulateView(APIView):
         try:
             irrigation = IrrigationTime()
             irrigation.irrigation_time_date = "2018-01-02T00:00:00Z"
-            irrigation.irrigation_time_qtd = 10
+            irrigation.irrigation_time_qty = 10
             irrigation.irrigation_time_sub = SubSpace.objects.get(sub_id=4)
             irrigation.save()
         except Exception as e:
@@ -452,7 +453,7 @@ class PopulateView(APIView):
         try:
             irrigation = IrrigationTime()
             irrigation.irrigation_time_date = "2018-12-03T00:00:00Z"
-            irrigation.irrigation_time_qtd = 10
+            irrigation.irrigation_time_qty = 10
             irrigation.irrigation_time_sub = SubSpace.objects.get(sub_id=3)
             irrigation.save()
         except Exception as e:
@@ -559,12 +560,12 @@ class PopulateView(APIView):
         except Exception as e:
             print(e)
 
-        try:
-            tipo = SensorType()
-            tipo_sensor_type_name = "Humidade"
-            tipo.save()
-        except Exception as e:
-            print(e)
+        # try:
+        #     tipo = SensorType()
+        #     tipo_sensor_type_name = "Humidade"
+        #     tipo.save()
+        # except Exception as e:
+        #     print(e)
 
         try:
             sensor = Sensor()
@@ -572,7 +573,7 @@ class PopulateView(APIView):
             sensor.sensor_timerate = 10
             sensor.sensor_depth = 20
             sensor.sensor_esys_id = 1
-            sensor.sensor_type_id = 1
+            sensor.sensor_type_id = "humidity"
             sensor.save()
         except Exception as e:
             print(e)
@@ -583,7 +584,7 @@ class PopulateView(APIView):
             sensor.sensor_timerate = 101
             sensor.sensor_depth = 201
             sensor.sensor_esys_id = 2
-            sensor.sensor_type_id = 1
+            sensor.sensor_type_id = "humidity"
             sensor.save()
         except Exception as e:
             print(e)
@@ -594,7 +595,7 @@ class PopulateView(APIView):
             sensor.sensor_timerate = 13
             sensor.sensor_depth = 202
             sensor.sensor_esys_id = 2
-            sensor.sensor_type_id = 1
+            sensor.sensor_type_id = "humidity"
             sensor.save()
         except Exception as e:
             print(e)
@@ -605,7 +606,7 @@ class PopulateView(APIView):
             sensor.sensor_timerate = 101
             sensor.sensor_depth = 201
             sensor.sensor_esys_id = 2
-            sensor.sensor_type_id = 1
+            sensor.sensor_type_id = "humidity"
             sensor.save()
         except Exception as e:
             print(e)
@@ -616,7 +617,7 @@ class PopulateView(APIView):
             sensor.sensor_timerate = 210
             sensor.sensor_depth = 2
             sensor.sensor_esys_id = 3
-            sensor.sensor_type_id = 1
+            sensor.sensor_type_id = "humidity"
             sensor.save()
         except Exception as e:
             print(e)
@@ -627,9 +628,24 @@ class PopulateView(APIView):
             sensor.sensor_timerate = 1011
             sensor.sensor_depth = 1
             sensor.sensor_esys_id = 4
-            sensor.sensor_type_id = 1
+            sensor.sensor_type_id = "humidity"
             sensor.save()
         except Exception as e:
             print(e)
 
         return Response("OK", HTTP_200_OK)
+
+class PopulateViewV2(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        call_command('loaddata', 'tests/users.json', app_label='api')
+        call_command('loaddata', 'tests/properties.json', app_label='api')
+        call_command('loaddata', 'tests/spaces.json', app_label='api')
+        call_command('loaddata', 'tests/subspaces.json', app_label='api')
+        call_command('loaddata', 'tests/esys.json', app_label='api')
+        call_command('loaddata', 'tests/sensors.json', app_label='api')
+        call_command('loaddata', 'tests/reads.json', app_label='api')
+        call_command('loaddata', 'tests/irrigations.json', app_label='api')
+        call_command('loaddata', 'tests/dayplans.json', app_label='api')
+        return Response('OK', HTTP_200_OK)

@@ -1,21 +1,11 @@
 [
   {
-    "model": "api.readtype",
-    "pk": 1,
-    "fields": {
-      "read_type_name": "Humidity",
-      "read_type_units": "%",
-      "read_type_coef": "0"
-    }
-  },
-  {
     "model": "api.read",
     "pk": 1,
     "fields": {
       "read_timestamp": "2018-01-19T18:36:23.860205Z",
       "read_sensor": 1,
-      "read_value": 50,
-      "read_type": 1
+      "read_value": 50
     }
   },
   {
@@ -24,8 +14,7 @@
     "fields": {
       "read_timestamp": "2018-01-19T18:45:23.230205Z",
       "read_sensor": 1,
-      "read_value": 49.8,
-      "read_type": 1
+      "read_value": 49.8
     }
   },
   {
@@ -34,8 +23,7 @@
     "fields": {
       "read_timestamp": "2018-01-19T18:55:23.860205Z",
       "read_sensor": 1,
-      "read_value": 48.5,
-      "read_type": 1
+      "read_value": 48.5
     }
   },
   {
@@ -44,8 +32,7 @@
     "fields": {
       "read_timestamp": "2018-01-20T05:10:00.600000Z",
       "read_sensor": 3,
-      "read_value": 30.9,
-      "read_type": 1
+      "read_value": 30.9
     }
   },
   {
@@ -54,8 +41,7 @@
     "fields": {
       "read_timestamp": "2018-01-20T05:20:00.600000Z",
       "read_sensor": 3,
-      "read_value": 29.8,
-      "read_type": 1
+      "read_value": 29.8
     }
   }
 ]

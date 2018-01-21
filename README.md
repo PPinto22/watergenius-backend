@@ -30,6 +30,7 @@ python3.6 manage.py runserver
 
 - Populate
   - [POST /populate/](#get-populate)
+  - [POST /populate/v2/](#get-populatev2)
 - Auth
   - [POST /auth/](#post-auth)
   - [POST /register/](#post-register)
@@ -106,6 +107,9 @@ python3.6 manage.py runserver
 
 ### POST /populate/
 Povoa a BD com alguns registos de utilizadores, espaços, etc... Apenas para ambiente de desenvolvimento.
+
+### POST /populate/v2/
+Nova versao
 
 ### POST /auth/
 A autenticação é feita por JWT. Esta rota recebe as credenciais do utilizador (email e password) e devolve um token que deve ir em todas as próximas mensagens no campo Authorization do cabeçalho HTTP, da seguinte forma:
@@ -388,7 +392,8 @@ Ver [GET /spaces/](#get-spaces)
         "dayplan_id": 2,
         "dayplan_gen_time": "2018-01-11T16:51:23.819500Z",
         "dayplan_time": "2017-12-22T00:03:00Z",
-        "dayplan_water_qtd": 21,
+        "dayplan_water_qty": 21,
+        "dayplan_water_qty_unit": "L",
         "dayplan_sub": 2
     },
 ]
@@ -402,12 +407,13 @@ Ver [GET /spaces/](#get-spaces)
 - *end_date*: fiter by date < end_date
 
 ### POST /plans/
+A unidade é o Litro.
+
 #### Body
 ```json
 {
-  "dayplan_gen_time": "2018-01-11T16:51:23.819500Z",
   "dayplan_time": "2017-12-22T00:03:00Z",
-  "dayplan_water_qtd": 21,
+  "dayplan_water_qty": 21,
   "dayplan_sub": 2
 }
 ```
@@ -422,7 +428,8 @@ Ver [GET /spaces/](#get-spaces)
     {
         "irrigation_time_id": 5,
         "irrigation_time_date": "2018-01-02T00:00:00Z",
-        "irrigation_time_qtd": 10,
+        "irrigation_time_qty": 10,
+        "irrigation_time_qty_unit": "L",
         "irrigation_time_sub": 4
     },
 ]
@@ -435,11 +442,13 @@ Ver [GET /spaces/](#get-spaces)
 - *end_date*: fiter by date < end_date
 
 ### POST /irrigations/
+A unidade é o Litro.
+
 #### Body
 ```json
 {
   "irrigation_time_date": "2018-01-02T00:00:00Z",
-  "irrigation_time_qtd": 10,
+  "irrigation_time_qty": 10,
   "irrigation_time_sub": 4
 }
 ```
@@ -498,7 +507,11 @@ Está feito, mas será que faz sentido editar isto?
         "sensor_esys": 2,
         "sensor_timerate": 101,
         "sensor_depth": 201,
-        "sensor_type": 1
+        "sensor_type": {
+            "sensor_type_name_eng": "humidity",
+            "sensor_type_name_por": "humidade",
+            "sensor_type_unit": "ml"
+        }
     },
 ]
 ```
@@ -507,6 +520,8 @@ Está feito, mas será que faz sentido editar isto?
 - *embeddedsysid*: filter by embedded system id
 
 ### POST /sensors/
+No tipo do sensor, tem que ir exatamente a string "humidity" (Case sensitive). No futuro, teriamos "temperature", etc. A unidade para cada tipo de sensor é estática. No caso da humidade é ml ou mm ou o que for, tem que se ver, mas não é definida pelo utilizador - é estática.
+
 #### Body
 ```json
 {
@@ -515,7 +530,7 @@ Está feito, mas será que faz sentido editar isto?
     "sensor_esys": 2,
     "sensor_timerate": 101,
     "sensor_depth": 201,
-    "sensor_type": 1
+    "sensor_type": "humidity"
 }
 ```
 
@@ -527,6 +542,7 @@ Está feito, mas será que faz sentido editar isto?
 ...
 
 ### GET /reads/
+A unidade da leitura está associada ao sensor.
 #### Response
 ```json
 [
@@ -535,7 +551,6 @@ Está feito, mas será que faz sentido editar isto?
         "read_timestamp": "2018-01-11T16:51:23.860205Z",
         "read_value": 100,
         "read_sensor": 2,
-        "read_type": 1
     },
 ]
 ```
@@ -552,7 +567,6 @@ Está feito, mas será que faz sentido editar isto?
   "read_timestamp": "2018-01-11T16:51:23.860205Z",
   "read_value": 100,
   "read_sensor": 2,
-  "read_type": 1
 }
 ```
 

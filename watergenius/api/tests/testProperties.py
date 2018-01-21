@@ -5,7 +5,7 @@ from api.tests.globalSetup import APITestGlobalSetup
 
 class PropertyTest(APITestGlobalSetup):
 
-    fixtures = ['v1/users','v1/properties']
+    fixtures = ['tests/users','tests/properties']
 
     def test_get_properties(self):
         properties = self.rua.get('/properties/?ownerid=rua@gmail.com')
