@@ -11,3 +11,9 @@ class PlantsListView(APIView):
         plants = PlantType.objects.all()
         serializer = PlantTypeSerializer(plants, many=True)
         return Response(serializer.data, status=HTTP_200_OK)
+
+
+class PlantDetailView(APIView):
+    def get(self, request, plantid):
+        plant = PlantType.objects.get(plant_type_id=plantid)
+        return Response(PlantTypeSerializer(plant, many=False).data, HTTP_200_OK)

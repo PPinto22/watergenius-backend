@@ -62,7 +62,7 @@ python3.6 manage.py runserver
   - [DEL /spaces/{id}/restrictions/{id}/](#del-spacesidrestrictionsid)
 - Plants
   - [GET /plants/](#get-plants)
-  - [~~GET /plants/{id}~~](#get-plantsid)
+  - [GET /plants/{id}](#get-plantsid)
 - Subspaces
   - [GET /subspaces/](#get-subspaces)
   - [POST /subspaces/](#post-subspaces)
