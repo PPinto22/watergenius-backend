@@ -29,8 +29,8 @@ python3.6 manage.py runserver
 ## API
 
 - Populate
-  - [POST /populate/](#get-populate)
-  - [POST /populate/v2/](#get-populatev2)
+  - [POST /populate/](#post-populate)
+  - [POST /populate/v2/](#post-populatev2)
 - Auth
   - [POST /auth/](#post-auth)
   - [POST /register/](#post-register)
