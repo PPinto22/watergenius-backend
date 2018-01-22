@@ -37,7 +37,11 @@ class PropertiesListView(APIView):
             prop = prop.filter(prop_id__in=properties_managed.values('prop_id'))
         except Exception as e:
             pass
-        serializer = PropertySerializer(list(prop), many=True)
+        serializer = PropertySerializer(instance=prop,
+                                        nested_node=request.GET.get('nested_node', False),
+                                        nested_spaces=request.GET.get('nested_spaces', False),
+                                        nested_subspaces=request.GET.get('nested_subspaces', False),
+                                        many=True)
         return Response(serializer.data, status=HTTP_200_OK)
 
     def post(self, request):
@@ -65,7 +69,11 @@ class PropertyDetailView(APIView):
         except Exception as e:
             return Response(status=HTTP_400_BAD_REQUEST)
 
-        serializer = PropertySerializer(prop, many=False)
+        serializer = PropertySerializer(instance=prop,
+                                        nested_node=request.GET.get('nested_node', False),
+                                        nested_spaces=request.GET.get('nested_spaces', False),
+                                        nested_subspaces=request.GET.get('nested_subspaces', False),
+                                        many=False)
         return Response(serializer.data, status=HTTP_200_OK)
 
     def put(self, request, propid):

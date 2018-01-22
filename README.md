@@ -191,6 +191,9 @@ Resposta: OK
 #### Query Parameters
 - *ownerid*: filter by owner id
 - *managerid*: filter by manager id
+- *nested_node*: include node
+- *nested_spaces*: include spaces
+- *nested_subspaces*: include subspaces
 
 ### Response
 ```json
@@ -220,7 +223,7 @@ Resposta: OK
 Igual ao pedido, mais o identificador: *prop_id*.
 
 ### GET /properties/{id}/
-Resposta: semelhante a [GET /properties/](#get-properties)
+Semelhante a [GET /properties/](#get-properties)
 
 ### PUT /properties/{id}/
 Atualiza apenas os atributos indicados; o id pode ir na mensagem mas é ignorado.
@@ -275,6 +278,7 @@ Resposta: OK
 - *ownerid*: filter by owner id
 - *managerid*: filter by manager id
 - *propertyid*: filter by property id
+- *nested_subspaces*: include subspaces
 
 #### Response
 ```json

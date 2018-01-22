@@ -1,9 +1,35 @@
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
 
+from api.models import Space
 from api.models.properties import Property, CentralNode, UserManagesProperty
+from api.serializers.spaces import SpaceSerializer
 
 
 class PropertySerializer(serializers.ModelSerializer):
+    def __init__(self, *args, nested_node=False, nested_spaces=False, nested_subspaces=False, **kwargs):
+        super(PropertySerializer, self).__init__(*args, **kwargs)
+
+        self.nested_node = nested_node
+        self.nested_spaces = nested_spaces
+        self.nested_subspaces = nested_subspaces
+
+        if nested_node:
+            self.fields['prop_node'] = serializers.SerializerMethodField()
+        if nested_spaces or nested_subspaces:
+            self.fields['prop_spaces'] = serializers.SerializerMethodField()
+
+    def get_prop_node(self, prop):
+        try:
+            node = CentralNode.objects.get(node_property=prop.prop_id)
+            return CentralNodeSerializer(instance=node).data
+        except ObjectDoesNotExist:
+            return {}  # Empty
+
+    def get_prop_spaces(self, prop):
+        spaces = Space.objects.filter(space_property_id=prop.prop_id)
+        return SpaceSerializer(instance=spaces, nested_subspaces=self.nested_subspaces, many=True).data
+
     class Meta:
         model = Property
         fields = ('prop_id', 'prop_name', 'prop_description', 'prop_address', 'prop_owner')
