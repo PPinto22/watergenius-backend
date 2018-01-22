@@ -202,19 +202,19 @@ class PopulateView(APIView):
         except Exception as e:
             print(e)
 
-        try:
-            e = PlantType()
-            e.plant_type_name = "relva"
-            e.save()
-        except Exception as e:
-            print(e)
+        # try:
+        #     e = PlantType()
+        #     e.plant_type_name = "relva"
+        #     e.save()
+        # except Exception as e:
+        #     print(e)
 
         try:
             d = Space()
             d.space_name = "relvado 1"
             d.space_description = "relva da churrascaria"
             d.space_irrigation_hour = 11
-            d.space_plant_type_id = 1
+            d.space_plant_type_id = "grass"
             d.space_property_id = 1
             d.save()
         except Exception as e:
@@ -225,7 +225,7 @@ class PopulateView(APIView):
             d.space_name = "relvado 2"
             d.space_description = "relva das traseiras"
             d.space_irrigation_hour = 11
-            d.space_plant_type_id = 1
+            d.space_plant_type_id = "grass"
             d.space_property_id = 1
             d.save()
         except Exception as e:
@@ -236,7 +236,7 @@ class PopulateView(APIView):
             d.space_name = "relvado 12"
             d.space_description = "relva daqui"
             d.space_irrigation_hour = 11
-            d.space_plant_type_id = 1
+            d.space_plant_type_id = "grass"
             d.space_property_id = 2
             d.save()
         except Exception as e:
@@ -247,7 +247,7 @@ class PopulateView(APIView):
             d.space_name = "aaa 2"
             d.space_description = "relva do lado"
             d.space_irrigation_hour = 8
-            d.space_plant_type_id = 1
+            d.space_plant_type_id = "grass"
             d.space_property_id = 3
             d.save()
         except Exception as e:
@@ -258,7 +258,7 @@ class PopulateView(APIView):
             d.space_name = "a 2"
             d.space_description = "relva do fundo"
             d.space_irrigation_hour = 13
-            d.space_plant_type_id = 1
+            d.space_plant_type_id = "grass"
             d.space_property_id = 4
             d.save()
         except Exception as e:
@@ -375,7 +375,7 @@ class PopulateView(APIView):
             d.space_name = "relvado 3"
             d.space_description = "relva do lago"
             d.space_irrigation_hour = 2
-            d.space_plant_type_id = 1
+            d.space_plant_type_id = "grass"
             d.space_property_id = 4
             d.save()
         except Exception as e:
@@ -395,7 +395,7 @@ class PopulateView(APIView):
             d.space_name = "relv222ado 3"
             d.space_description = "relva do l222ago"
             d.space_irrigation_hour = 2
-            d.space_plant_type_id = 1
+            d.space_plant_type_id = "grass"
             d.space_property_id = 4
             d.save()
         except Exception as e:

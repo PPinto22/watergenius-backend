@@ -24,7 +24,7 @@ class SpaceTest(APITestGlobalSetup):
             "space_description": "Description 4",
             "space_irrigation_hour": 20,
             "space_property": 2,
-            "space_plant_type": 1
+            "space_plant_type": "grass"
         }
         post_response = self.rua.post('/spaces/', space, format='json')
         self.assertTrue(status.is_success(post_response.status_code))

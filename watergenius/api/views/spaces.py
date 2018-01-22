@@ -7,7 +7,7 @@ from rest_framework.status import *
 from api.models import Property
 from api.models.properties import UserManagesProperty
 from api.models.spaces import Space, TimeRestriction
-from api.serializers.spaces import SpaceSerializer, TimeRestrictionSerializer
+from api.serializers.spaces import SpaceSerializer, SpacePlantSerializer, TimeRestrictionSerializer
 
 
 def getSpacesOfUser(email):
@@ -45,7 +45,7 @@ class SpacesListView(APIView):
             all_spaces = all_spaces.filter(space_property_id__in=propertyid)
         except Exception as e:
             pass
-        spaces = SpaceSerializer(all_spaces, many=True)
+        spaces = SpacePlantSerializer(all_spaces, many=True)
         return Response(spaces.data, status=HTTP_200_OK)
 
     def post(self, request):
@@ -54,7 +54,7 @@ class SpacesListView(APIView):
         if serializer.is_valid():
             instance = serializer.create(serializer.validated_data)
             instance.save()
-            spaces = SpaceSerializer(instance, many=False)
+            spaces = SpacePlantSerializer(instance, many=False)
             return Response(spaces.data, status=HTTP_200_OK)
         else:
             return Response('Internal error or malformed JSON', status=HTTP_400_BAD_REQUEST)
@@ -67,8 +67,8 @@ class SpaceDetailView(APIView):
             space = all_spaces.get(space_id=spaceid)
         except ObjectDoesNotExist as e:
             return Response("That space doesn't even exist, fool", status=HTTP_400_BAD_REQUEST)
-        spaces = SpaceSerializer(space, many=False)
-        return Response(spaces.data, status=HTTP_200_OK)
+        space = SpacePlantSerializer(space, many=False)
+        return Response(space.data, status=HTTP_200_OK)
 
     def put(self, request, spaceid):
         try:
@@ -84,8 +84,8 @@ class SpaceDetailView(APIView):
                     if attr != 'space_id':
                         setattr(instance, attr, value)
                 instance.save()
-                spaces = SpaceSerializer(instance, many=False)
-                return Response(spaces.data, status=HTTP_200_OK)
+                space = SpacePlantSerializer(instance, many=False)
+                return Response(space.data, status=HTTP_200_OK)
             else:
                 return Response('Internal error or malformed JSON', status=HTTP_500_INTERNAL_SERVER_ERROR)
 

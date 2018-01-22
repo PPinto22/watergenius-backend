@@ -15,7 +15,7 @@ def forwards_func(apps, schema_editor):
 def reverse_func(apps, schema_editor):
     # SensorType = apps.get_model("api", "SensorType")
     # db_alias = schema_editor.connection.alias
-    # SensorType.objects.using(db_alias).filter(sensor_type_id="Humidity").delete()
+    # SensorType.objects.using(db_alias).filter(sensor_type_id="humidity").delete()
 
     # Na verdade, remover isto pode ser mau, pq faz cascade a todos os sensores
     pass

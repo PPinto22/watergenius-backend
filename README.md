@@ -285,12 +285,17 @@ Resposta: OK
         "space_description": "Space description",
         "space_irrigation_hour": 23,
         "space_property": 2,
-        "space_plant_type": 1
+        "space_plant_type": {
+          "plant_type_id": "grass",
+          "plant_type_name_eng": "grass",
+          "plant_type_name_por": "relva"
+        }
     },
 ]
 ```
 
 ### POST /spaces/
+
 #### Body
 ```json
 {
@@ -298,9 +303,10 @@ Resposta: OK
     "space_description": "Space description",
     "space_irrigation_hour": 23,
     "space_property": 2,
-    "space_plant_type": 1
+    "space_plant_type": "grass"
 }
 ```
+O tipo de planta tem é case sensitive.
 
 ### GET /spaces/{id}/
 Ver [GET /spaces/](#get-spaces)
@@ -341,8 +347,9 @@ Ver [GET /spaces/](#get-spaces)
 ```json
 [
     {
-        "plant_type_id": 1,
-        "plant_type_name": "relva",
+        "plant_type_id": "grass",
+        "plant_type_name_eng": "grass",
+        "plant_type_name_por": "relva",
         "plant_param1": "Parametros para o algoritmo de rega",
         "plant_param2": "Para ja nao estao implementados"
     },
@@ -407,8 +414,6 @@ Ver [GET /spaces/](#get-spaces)
 - *end_date*: fiter by date < end_date
 
 ### POST /plans/
-A unidade é o Litro.
-
 #### Body
 ```json
 {
@@ -417,6 +422,8 @@ A unidade é o Litro.
   "dayplan_sub": 2
 }
 ```
+
+A unidade é o Litro.
 
 ### GET /plans/{id}/
 ...
@@ -442,7 +449,6 @@ A unidade é o Litro.
 - *end_date*: fiter by date < end_date
 
 ### POST /irrigations/
-A unidade é o Litro.
 
 #### Body
 ```json
@@ -452,6 +458,8 @@ A unidade é o Litro.
   "irrigation_time_sub": 4
 }
 ```
+
+A unidade é o Litro.
 
 ### GET /irrigations/{id}/
 ...
@@ -542,7 +550,7 @@ No tipo do sensor, tem que ir exatamente a string "humidity" (Case sensitive). N
 ...
 
 ### GET /reads/
-A unidade da leitura está associada ao sensor.
+
 #### Response
 ```json
 [
@@ -554,6 +562,7 @@ A unidade da leitura está associada ao sensor.
     },
 ]
 ```
+A unidade da leitura está associada ao sensor.
 
 #### Parameters
 - *subspaceid*: filter by subspace id

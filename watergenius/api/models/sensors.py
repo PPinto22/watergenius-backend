@@ -10,6 +10,7 @@ class SensorType(models.Model):
     sensor_type_name_por = models.CharField(max_length=50, default="")
     sensor_type_unit = models.CharField(max_length=10, default="")
 
+
 class Sensor(models.Model):
     sensor_id = models.AutoField(primary_key=True)
     sensor_name = models.CharField(max_length=50, default="")

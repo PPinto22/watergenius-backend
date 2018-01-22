@@ -1,9 +1,10 @@
 [
 {
   "model": "api.planttype",
-  "pk": 1,
+  "pk": "grass",
   "fields": {
-    "plant_type_name": "Grass"
+    "plant_type_name_eng": "grass",
+    "plant_type_name_por": "relva"
   }
 },
 {
@@ -14,7 +15,7 @@
     "space_description": "Description 1",
     "space_irrigation_hour": 20,
     "space_property": 1,
-    "space_plant_type": 1
+    "space_plant_type": "grass"
   }
 },
 {
@@ -25,7 +26,7 @@
     "space_description": "Description 2",
     "space_irrigation_hour": 21,
     "space_property": 1,
-    "space_plant_type": 1
+    "space_plant_type": "grass"
   }
 },
 {
@@ -36,7 +37,7 @@
     "space_description": "Description 3",
     "space_irrigation_hour": 20,
     "space_property": 3,
-    "space_plant_type": 1
+    "space_plant_type": "grass"
   }
 },
 {
