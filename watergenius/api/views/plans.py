@@ -12,8 +12,11 @@ from api.models.spaces import Space
 from api.models.subspaces import SubSpace
 
 
-def getPlansOfUser(email):
-    properties_managed = UserManagesProperty.objects.filter(user_id=email)
+def getPlansOfUser(user):
+    if user.is_superuser:
+        return DayPlan.objects.all()
+
+    properties_managed = UserManagesProperty.objects.filter(user_id=user.email)
     spaces_managed = Space.objects.filter(space_property_id__in=properties_managed.values('prop_id'))
     subspaces_of_user = SubSpace.objects.filter(sub_space_id_id__in=spaces_managed.values('space_id'))
     dayplans = DayPlan.objects.filter(dayplan_sub__in=subspaces_of_user.values('sub_id'))
@@ -22,7 +25,7 @@ def getPlansOfUser(email):
 
 class PlansListView(APIView):
     def get(self, request):
-        dayplans = getPlansOfUser(request.user.email)
+        dayplans = getPlansOfUser(request.user)
         fullquery = (request.META['QUERY_STRING']).split('&')
         querylist = []
         for query in fullquery:

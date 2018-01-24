@@ -11,8 +11,11 @@ from api.models.spaces import Space
 from api.models.subspaces import SubSpace
 
 
-def getIrrigationsOfUser(email):
-    properties_managed = UserManagesProperty.objects.filter(user_id=email)
+def getIrrigationsOfUser(user):
+    if user.is_superuser:
+        return IrrigationTime.objects.all()
+
+    properties_managed = UserManagesProperty.objects.filter(user_id=user.email)
     spaces_managed = Space.objects.filter(space_property_id__in=properties_managed.values('prop_id'))
     subspaces_of_user = SubSpace.objects.filter(sub_space_id_id__in=spaces_managed.values('space_id'))
     irrigations = IrrigationTime.objects.filter(irrigation_time_sub__in=subspaces_of_user.values('sub_id'))
@@ -21,7 +24,7 @@ def getIrrigationsOfUser(email):
 
 class IrrigationTimeListView(APIView):
     def get(self, request):
-        irrigations = getIrrigationsOfUser(request.user.email)
+        irrigations = getIrrigationsOfUser(request.user)
         fullquery = (request.META['QUERY_STRING']).split('&')
         querylist = []
         for query in fullquery:
