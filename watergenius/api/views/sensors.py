@@ -9,7 +9,7 @@ from api.models.properties import UserManagesProperty
 from api.models.sensors import Sensor
 from api.models.spaces import Space
 from api.models.subspaces import SubSpace
-from api.serializers.sensors import SensorSerializer, SensorCreateSerializer
+from api.serializers.sensors import SensorSerializer
 
 
 def getSensorsOfUser(email):
@@ -46,7 +46,7 @@ class SensorsListView(APIView):
 
     def post(self, request):
         data = JSONParser().parse(request)
-        serializer = SensorCreateSerializer(data=data, partial=True)
+        serializer = SensorSerializer(data=data, partial=True)
         if serializer.is_valid():
             instance = serializer.create(serializer.validated_data)
             instance.save()
@@ -67,7 +67,7 @@ class SensorDetailView(APIView):
 
     def put(self, request, sensid):
         data = JSONParser().parse(request)
-        serializer = SensorCreateSerializer(data=data, partial=True)
+        serializer = SensorSerializer(data=data, partial=True)
         if serializer.is_valid():
             try:
                 instance = Sensor.objects.get(sensor_id=sensid)

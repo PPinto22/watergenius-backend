@@ -3,13 +3,6 @@ from rest_framework import serializers
 from api.models.sensors import Sensor, SensorType
 
 
-class SensorCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Sensor
-        fields = ('sensor_id', 'sensor_name', 'sensor_state', 'sensor_esys', 'sensor_timerate', 'sensor_depth', 'sensor_type')
-        validators = []  # Remove a default "unique together" constraint.
-
-
 class SensorTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = SensorType
@@ -18,8 +11,13 @@ class SensorTypeSerializer(serializers.ModelSerializer):
 
 class SensorSerializer(serializers.ModelSerializer):
 
-    sensor_type = SensorTypeSerializer()
+    def __init__(self, *args, **kwargs):
+        super(SensorSerializer, self).__init__(*args, **kwargs)
+        if self.instance is not None:
+            self.fields['sensor_type'] = SensorTypeSerializer()
 
     class Meta:
         model = Sensor
-        fields = ('sensor_id', 'sensor_name', 'sensor_state', 'sensor_esys', 'sensor_timerate', 'sensor_depth', 'sensor_type')
+        fields = ('sensor_id', 'sensor_name', 'sensor_state', 'sensor_esys',
+                  'sensor_timerate', 'sensor_timerate_unit',
+                  'sensor_depth', 'sensor_depth_unit', 'sensor_type')

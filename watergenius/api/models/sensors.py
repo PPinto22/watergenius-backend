@@ -17,5 +17,7 @@ class Sensor(models.Model):
     sensor_state = models.IntegerField()
     sensor_esys = models.ForeignKey(EmbeddedSystem, related_name='belongs_to_embsys', on_delete=models.CASCADE)
     sensor_timerate = models.IntegerField()
+    sensor_timerate_unit = models.CharField(max_length=6, default="min")
     sensor_depth = models.IntegerField()
+    sensor_depth_unit = models.CharField(max_length=6, default="cm")
     sensor_type = models.ForeignKey(SensorType, related_name='has_type', on_delete=models.CASCADE)
