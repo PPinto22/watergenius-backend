@@ -1,3 +1,5 @@
+import datetime
+
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
@@ -55,6 +57,23 @@ class ReadsListView(APIView):
             reads = reads.filter(read_sensor_id__in=sensors.sensor_id)
         except Exception as e:
             pass
+
+        begin_date = request.GET.get('begin_date', None)
+        if begin_date is not None:
+            try:
+                dt = datetime.datetime.utcfromtimestamp(float(begin_date) / 1000)
+                reads = reads.filter(read_timestamp__gte=dt)
+            except Exception as e:
+                pass
+
+        end_date = request.GET.get('end_date', None)
+        if end_date is not None:
+            try:
+                dt = datetime.datetime.utcfromtimestamp(float(end_date) / 1000)
+                reads = reads.filter(read_timestamp__lte=dt)
+            except Exception as e:
+                pass
+
         serialize = ReadSerializer(reads.order_by('read_timestamp'), many=True)
         return Response(serialize.data, HTTP_200_OK)
 

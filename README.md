@@ -416,8 +416,8 @@ Ordenados por ``dayplan_time`` crescente.
 - *propertyid*: filter by property ``id``
 - *spaceid*: fiter by space ``id``
 - *subspaceid*: fiter by subspace ``id``
-- *begin_date*: fiter by ``date`` > begin_date
-- *end_date*: fiter by ``date`` < end_date
+- *begin_date*: fiter by ``date`` > begin_date (unix timestamp in ms)
+- *end_date*: fiter by ``date`` < end_date (unix timestamp in ms)
 - *last*: get just the ``N`` last plans
 
 ### POST /plans/
@@ -454,8 +454,8 @@ Ordenado por ``irrigation_time_date`` crescente.
 - *propertyid*: filter by property ``id``
 - *spaceid*: fiter by space ``id``
 - *subspaceid*: fiter by subspace ``id``
-- *begin_date*: fiter by ``date`` > begin_date
-- *end_date*: fiter by ``date`` < end_date
+- *begin_date*: fiter by ``date`` > begin_date (unix timestamp)
+- *end_date*: fiter by ``date`` < end_date (unix timestamp)
 - *last*: get just the ``N`` last irrigations
 
 ### POST /irrigations/
@@ -579,6 +579,8 @@ A unidade da leitura está associada ao sensor.
 - *subspaceid*: filter by subspace ``id``
 - *embeddedsysid*: filter by embedded system ``id``
 - *sensorid*: filter by sensor ``id``
+- *begin_date*: fiter by ``date`` > begin_date (unix timestamp in ms)
+- *end_date*: fiter by ``date`` < end_date (unix timestamp in ms)
 
 ### POST /reads/
 #### Body
