@@ -67,7 +67,20 @@ class IrrigationTimeListView(APIView):
             irrigations = irrigations.filter(irrigation_time_date__lte=dt)
         except Exception as e:
             pass
-        serialize = IrrigationTimeSerializer(irrigations.order_by('irrigation_time_date'), many=True)
+
+        # A order final é +irrigation_time_date. É revertida de seguida.
+        irrigations = irrigations.order_by('-irrigation_time_date')
+
+        # N irrigacoes mais recentes
+        try:
+            lastN = int(request.GET.get('last'))
+            irrigations = irrigations[:lastN]
+        except Exception as e:
+            pass
+
+        irrigations = reversed(irrigations)
+
+        serialize = IrrigationTimeSerializer(instance=irrigations, many=True)
         return Response(serialize.data, HTTP_200_OK)
 
     def post(self, request):

@@ -67,7 +67,20 @@ class PlansListView(APIView):
             dayplans = dayplans.filter(dayplan_gen_time__lte=dt)
         except Exception as e:
             pass
-        serialize = DayPlanSerializer(dayplans.order_by('dayplan_time'), many=True)
+
+        # A order final é +dayplan_time. É revertida de seguida.
+        dayplans = dayplans.order_by('-dayplan_time')
+
+        # N planos mais recentes
+        try:
+            lastN = int(request.GET.get('last'))
+            dayplans = dayplans[:lastN]
+        except Exception as e:
+            pass
+
+        dayplans = reversed(dayplans)
+
+        serialize = DayPlanSerializer(dayplans, many=True)
         return Response(serialize.data, HTTP_200_OK)
 
     def post(self, request):

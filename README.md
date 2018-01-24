@@ -396,6 +396,8 @@ Ver [GET /spaces/](#get-spaces)
 ...
 
 ### GET /plans/
+Ordenados por ``dayplan_time`` crescente.
+
 #### Response
 ```json
 [
@@ -416,6 +418,7 @@ Ver [GET /spaces/](#get-spaces)
 - *subspaceid*: fiter by subspace ``id``
 - *begin_date*: fiter by ``date`` > begin_date
 - *end_date*: fiter by ``date`` < end_date
+- *last*: get just the ``N`` last plans
 
 ### POST /plans/
 #### Body
@@ -433,6 +436,8 @@ A unidade é o Litro.
 ...
 
 ### GET /irrigations/
+Ordenado por ``irrigation_time_date`` crescente.
+
 #### Response
 ```json
 [
@@ -451,6 +456,7 @@ A unidade é o Litro.
 - *subspaceid*: fiter by subspace ``id``
 - *begin_date*: fiter by ``date`` > begin_date
 - *end_date*: fiter by ``date`` < end_date
+- *last*: get just the ``N`` last irrigations
 
 ### POST /irrigations/
 
