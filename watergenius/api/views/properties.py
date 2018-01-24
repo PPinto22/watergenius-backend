@@ -39,8 +39,7 @@ class PropertiesListView(APIView):
             pass
         serializer = PropertySerializer(instance=prop,
                                         nested_node=request.GET.get('nested_node', False),
-                                        nested_spaces=request.GET.get('nested_spaces', False),
-                                        nested_subspaces=request.GET.get('nested_subspaces', False),
+                                        nest_level=request.GET.get('nest_level', 'properties'),
                                         many=True)
         return Response(serializer.data, status=HTTP_200_OK)
 
@@ -71,8 +70,7 @@ class PropertyDetailView(APIView):
 
         serializer = PropertySerializer(instance=prop,
                                         nested_node=request.GET.get('nested_node', False),
-                                        nested_spaces=request.GET.get('nested_spaces', False),
-                                        nested_subspaces=request.GET.get('nested_subspaces', False),
+                                        nest_level=request.GET.get('nest_level', 'properties'),
                                         many=False)
         return Response(serializer.data, status=HTTP_200_OK)
 

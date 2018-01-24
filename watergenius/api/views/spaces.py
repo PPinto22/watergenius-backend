@@ -46,7 +46,7 @@ class SpacesListView(APIView):
         except Exception as e:
             pass
         spaces = SpaceSerializer(instance=all_spaces, nested_plant=True,
-                                 nested_subspaces=request.GET.get('nested_subspaces', False),
+                                 nest_level=request.GET.get('nest_level', 'spaces'),
                                  many=True)
         return Response(spaces.data, status=HTTP_200_OK)
 
@@ -70,7 +70,7 @@ class SpaceDetailView(APIView):
         except ObjectDoesNotExist as e:
             return Response("That space doesn't even exist, fool", status=HTTP_400_BAD_REQUEST)
         space = SpaceSerializer(instance=space, nested_plant=True,
-                                nested_subspaces=request.GET.get('nested_subspaces', False),
+                                nest_level=request.GET.get('nest_level', 'spaces'),
                                 many=False)
         return Response(space.data, status=HTTP_200_OK)
 

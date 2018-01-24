@@ -7,16 +7,15 @@ from api.serializers.spaces import SpaceSerializer
 
 
 class PropertySerializer(serializers.ModelSerializer):
-    def __init__(self, *args, nested_node=False, nested_spaces=False, nested_subspaces=False, **kwargs):
+    def __init__(self, *args, nested_node=False, nest_level='properties', **kwargs):
         super(PropertySerializer, self).__init__(*args, **kwargs)
 
         self.nested_node = nested_node
-        self.nested_spaces = nested_spaces
-        self.nested_subspaces = nested_subspaces
+        self.nest_level = nest_level
 
         if nested_node:
             self.fields['prop_node'] = serializers.SerializerMethodField()
-        if nested_spaces or nested_subspaces:
+        if nest_level in ['spaces', 'subspaces', 'embeddedsys', 'sensors']:
             self.fields['prop_spaces'] = serializers.SerializerMethodField()
 
     def get_prop_node(self, prop):
@@ -28,7 +27,7 @@ class PropertySerializer(serializers.ModelSerializer):
 
     def get_prop_spaces(self, prop):
         spaces = Space.objects.filter(space_property_id=prop.prop_id)
-        return SpaceSerializer(instance=spaces, nested_subspaces=self.nested_subspaces, many=True).data
+        return SpaceSerializer(instance=spaces, nest_level=self.nest_level, many=True).data
 
     class Meta:
         model = Property

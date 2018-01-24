@@ -9,33 +9,25 @@ from api.serializers.subspaces import SubSpaceSerializer
 class SpaceSerializer(serializers.ModelSerializer):
     space_id = serializers.PrimaryKeyRelatedField(queryset=Space.objects.all())
 
-    def __init__(self, *args, nested_plant=False, nested_subspaces=False, **kwargs):
+    def __init__(self, *args, nested_plant=False, nest_level='spaces', **kwargs):
         super(SpaceSerializer, self).__init__(*args, **kwargs)
+
+        self.nest_level = nest_level
 
         if nested_plant:
             self.fields['space_plant_type'] = PlantTypeSerializer()
-        if nested_subspaces:
+        if nest_level in ['subspaces', 'embeddedsys', 'sensors']:
             self.fields['space_subspaces'] = serializers.SerializerMethodField()
 
     def get_space_subspaces(self, space):
         subspaces = SubSpace.objects.filter(sub_space_id_id=space.space_id)
-        return SubSpaceSerializer(instance=subspaces, many=True).data
+        return SubSpaceSerializer(instance=subspaces, nest_level=self.nest_level, many=True).data
 
     class Meta:
         model = Space
         fields = ('space_id', 'space_name', 'space_description',
                   'space_irrigation_hour', 'space_property', 'space_plant_type')
         validators = []  # Remove a default "unique together" constraint.
-
-
-# class SpacePlantSerializer(serializers.ModelSerializer):
-#
-#     space_plant_type = PlantTypeSerializer()
-#
-#     class Meta:
-#         model = Space
-#         fields = ('space_id', 'space_name', 'space_description',
-#                   'space_irrigation_hour', 'space_property', 'space_plant_type')
 
 
 class TimeRestrictionSerializer(serializers.ModelSerializer):

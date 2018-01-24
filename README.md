@@ -189,11 +189,10 @@ Resposta: OK
 
 ### GET /properties/
 #### Query Parameters
-- *ownerid*: filter by owner id
-- *managerid*: filter by manager id
-- *nested_node*: include node
-- *nested_spaces*: include spaces
-- *nested_subspaces*: include subspaces
+- *ownerid*: filter by owner ``id``
+- *managerid*: filter by manager ``id``
+- *nested_node*: ``true`` or ``false``
+- *nest_level*: ``spaces``, ``subspaces``, ``embeddedsys`` or ``sensors``
 
 ### Response
 ```json
@@ -275,10 +274,10 @@ Resposta: OK
 
 ### GET /spaces/
 #### Query Parameters
-- *ownerid*: filter by owner id
-- *managerid*: filter by manager id
-- *propertyid*: filter by property id
-- *nested_subspaces*: include subspaces
+- *ownerid*: filter by owner ``id``
+- *managerid*: filter by manager ``id``
+- *propertyid*: filter by property ``id``
+- *nest_level*: ``subspaces``, ``embeddedsys`` or ``sensors``
 
 #### Response
 ```json
@@ -375,8 +374,9 @@ Ver [GET /spaces/](#get-spaces)
 ]
 ```
 #### Parameters
-- *propertyid*: filter by property id
-- *spaceid*: filter by space id
+- *propertyid*: filter by property ``id``
+- *spaceid*: filter by space ``id``
+- *nest_level*: ``embeddedsys`` or ``sensors``
 
 ### POST /subspaces/
 #### Body
@@ -411,11 +411,11 @@ Ver [GET /spaces/](#get-spaces)
 ```
 
 #### Query parameters
-- *propertyid*: filter by property
-- *spaceid*: fiter by space
-- *subspaceid*: fiter by subspace
-- *begin_date*: fiter by date > begin_date
-- *end_date*: fiter by date < end_date
+- *propertyid*: filter by property ``id``
+- *spaceid*: fiter by space ``id``
+- *subspaceid*: fiter by subspace ``id``
+- *begin_date*: fiter by ``date`` > begin_date
+- *end_date*: fiter by ``date`` < end_date
 
 ### POST /plans/
 #### Body
@@ -446,11 +446,11 @@ A unidade é o Litro.
 ]
 ```
 #### Query parameters
-- *propertyid*: filter by property
-- *spaceid*: fiter by space
-- *subspaceid*: fiter by subspace
-- *begin_date*: fiter by date > begin_date
-- *end_date*: fiter by date < end_date
+- *propertyid*: filter by property ``id``
+- *spaceid*: fiter by space ``id``
+- *subspaceid*: fiter by subspace ``id``
+- *begin_date*: fiter by ``date`` > begin_date
+- *end_date*: fiter by ``date`` < end_date
 
 ### POST /irrigations/
 
@@ -487,7 +487,8 @@ Está feito, mas será que faz sentido editar isto?
 },
 ```
 #### Parameters
-- *subspaceid*: filter by subspace id
+- *subspaceid*: filter by subspace ``id``
+- *nest_level*: ``sensors``
 
 ### POST /embeddedsys/
 #### Body
@@ -528,8 +529,8 @@ Está feito, mas será que faz sentido editar isto?
 ]
 ```
 #### Parameters
-- *subspaceid*: filter by subspace id
-- *embeddedsysid*: filter by embedded system id
+- *subspaceid*: filter by subspace ``id``
+- *embeddedsysid*: filter by embedded system ``id``
 
 ### POST /sensors/
 No tipo do sensor, tem que ir exatamente a string "humidity" (Case sensitive). No futuro, teriamos "temperature", etc. A unidade para cada tipo de sensor é estática. No caso da humidade é ml ou mm ou o que for, tem que se ver, mas não é definida pelo utilizador - é estática.
@@ -569,9 +570,9 @@ No tipo do sensor, tem que ir exatamente a string "humidity" (Case sensitive). N
 A unidade da leitura está associada ao sensor.
 
 #### Parameters
-- *subspaceid*: filter by subspace id
-- *embeddedsysid*: filter by embedded system id
-- *sensorid*: filter by sensor id
+- *subspaceid*: filter by subspace ``id``
+- *embeddedsysid*: filter by embedded system ``id``
+- *sensorid*: filter by sensor ``id``
 
 ### POST /reads/
 #### Body
@@ -588,7 +589,7 @@ A unidade da leitura está associada ao sensor.
 
 ### GET /warnings/
 #### Parameters
-- *propertyid*: filter by property id
+- *propertyid*: filter by property ``id``
 
 #### Response
 ```json
@@ -613,7 +614,7 @@ Estes warnings são para coisas do género: um sensor deixa de funcionar ou o si
 ```
 
 #### Query Parameters
-- *propertyid*: filter by property
+- *propertyid*: filter by property ``id``
 
 
 ### POST /node/{id}/poweroff/

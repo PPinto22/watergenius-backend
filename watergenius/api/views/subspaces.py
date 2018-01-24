@@ -39,7 +39,9 @@ class SubspacesListView(APIView):
             subspaces = subspaces.filter(sub_space_id_id=spaceid)
         except Exception as e:
             pass
-        serialize = SubSpaceSerializer(subspaces, many=True)
+        serialize = SubSpaceSerializer(subspaces,
+                                       nest_level=request.GET.get('nest_level', 'subspaces'),
+                                       many=True)
         return Response(serialize.data, HTTP_200_OK)
 
     def post(self, request):
@@ -62,7 +64,9 @@ class SubspaceDetailView(APIView):
             subspace = subspaces.get(sub_id=subspaceid)
         except ObjectDoesNotExist:
             return Response("That subspace doesn't even exist or isn't yours, fool", HTTP_400_BAD_REQUEST)
-        serialize = SubSpaceSerializer(subspace, many=False)
+        serialize = SubSpaceSerializer(subspace,
+                                       nest_level=request.GET.get('nest_level', 'subspaces'),
+                                       many=False)
         return Response(serialize.data, HTTP_200_OK)
 
     def put(self, request, subspaceid):

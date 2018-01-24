@@ -21,7 +21,9 @@ class EmbeddedSysListView(APIView):
             embsystems = embsystems.filter(esys_sub=subspaceid)
         except Exception as e:
             pass
-        serialize = EmbeddedSystemSerializer(embsystems, many=True)
+        serialize = EmbeddedSystemSerializer(embsystems,
+                                             nest_level=request.GET.get('nest_level', 'embeddedsys'),
+                                             many=True)
         return Response(serialize.data, HTTP_200_OK)
 
     def post(self, request):
@@ -42,7 +44,9 @@ class EmbeddedSysDetailView(APIView):
             esys = EmbeddedSystem.objects.get(esys_id=sysid)
         except ObjectDoesNotExist as e:
             return Response("That EmbeddedSystem  doesn't even exist, fool", HTTP_400_BAD_REQUEST)
-        serialize = EmbeddedSystemSerializer(esys, many=False)
+        serialize = EmbeddedSystemSerializer(esys,
+                                             nest_level=request.GET.get('nest_level', 'embeddedsys'),
+                                             many=False)
         return Response(serialize.data, HTTP_200_OK)
 
     def put(self, request, sysid):
