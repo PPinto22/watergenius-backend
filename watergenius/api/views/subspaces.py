@@ -4,22 +4,26 @@ from rest_framework.response import Response
 from rest_framework.status import *
 from rest_framework.views import APIView
 
+from api.models import User
 from api.models.properties import Property, UserManagesProperty
 from api.models.spaces import Space
 from api.models.subspaces import SubSpace
 from api.serializers.subspaces import SubSpaceSerializer
 
 
-def getSubspacesByEmail(email):
-    properties_managed = UserManagesProperty.objects.filter(user_id=email)
+def getSubspacesByUser(user):
+    if user.is_superuser:
+        return SubSpace.objects.all()
+
+    properties_managed = UserManagesProperty.objects.filter(user_id=user.email)
     spaces_managed = Space.objects.filter(space_property_id__in=properties_managed.values('prop_id'))
-    subspaces_of_user = SubSpace.objects.filter(sub_space_id_id__in=spaces_managed.values('space_id'))
-    return subspaces_of_user
+    subspaces = SubSpace.objects.filter(sub_space_id_id__in=spaces_managed.values('space_id'))
+    return subspaces
 
 
 class SubspacesListView(APIView):
     def get(self, request):
-        subspaces = getSubspacesByEmail(request.user.email)
+        subspaces = getSubspacesByUser(request.user)
         fullquery = (request.META['QUERY_STRING']).split('&')
         querylist = []
         for query in fullquery:
@@ -58,7 +62,7 @@ class SubspacesListView(APIView):
 
 class SubspaceDetailView(APIView):
     def get(self, request, subspaceid):
-        subspaces = getSubspacesByEmail(request.user.email)
+        subspaces = getSubspacesByUser(request.user)
         subspace = None
         try:
             subspace = subspaces.get(sub_id=subspaceid)
@@ -88,7 +92,7 @@ class SubspaceDetailView(APIView):
 
     def delete(self, request, subspaceid):
         try:
-            subspaces = getSubspacesByEmail(request.user.email)
+            subspaces = getSubspacesByUser(request.user)
             space = subspaces.get(sub_id=subspaceid)
         except ObjectDoesNotExist:
             return Response("That subspace doesn't even exist or isn't yours, fool", HTTP_400_BAD_REQUEST)

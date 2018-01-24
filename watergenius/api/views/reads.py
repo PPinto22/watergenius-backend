@@ -13,8 +13,11 @@ from api.models.subspaces import SubSpace
 from api.serializers.reads import ReadSerializer
 
 
-def getReadsOfUser(email):
-    properties_managed = UserManagesProperty.objects.filter(user_id=email)
+def getReadsOfUser(user):
+    if user.is_superuser:
+        return Read.objects.all()
+
+    properties_managed = UserManagesProperty.objects.filter(user_id=user.email)
     spaces_managed = Space.objects.filter(space_property_id__in=properties_managed.values('prop_id'))
     subspaces_of_user = SubSpace.objects.filter(sub_space_id_id__in=spaces_managed.values('space_id'))
     embeddedsys = EmbeddedSystem.objects.filter(esys_sub_id__in=subspaces_of_user)
@@ -25,7 +28,7 @@ def getReadsOfUser(email):
 
 class ReadsListView(APIView):
     def get(self, request):
-        reads = getReadsOfUser(request.user.email)
+        reads = getReadsOfUser(request.user)
         fullquery = (request.META['QUERY_STRING']).split('&')
         querylist = []
         for query in fullquery:

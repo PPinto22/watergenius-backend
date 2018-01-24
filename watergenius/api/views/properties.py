@@ -10,8 +10,11 @@ from api.models.users import User
 from api.serializers.users import UserSerializer
 
 
-def getPropertiesOfUser(email):
-    properties_managed = UserManagesProperty.objects.filter(user_id=email)
+def getPropertiesOfUser(user):
+    if user.is_superuser:
+        return Property.objects.all()
+
+    properties_managed = UserManagesProperty.objects.filter(user_id=user.email)
     props = Property.objects.filter(prop_id__in=properties_managed.values('prop_id'))
     return props
 
@@ -19,7 +22,7 @@ def getPropertiesOfUser(email):
 class PropertiesListView(APIView):
     def get(self, request):
         # TODO  check authenticated user and get only the properties of that user
-        prop = getPropertiesOfUser(request.user.email)
+        prop = getPropertiesOfUser(request.user)
         fullquery = (request.META['QUERY_STRING']).split('&')
         querylist = []
         for query in fullquery:
@@ -62,7 +65,7 @@ class PropertiesListView(APIView):
 
 class PropertyDetailView(APIView):
     def get(self, request, propid):
-        props = getPropertiesOfUser(request.user.email)
+        props = getPropertiesOfUser(request.user)
         try:
             prop = props.get(prop_id=propid)
         except Exception as e:
@@ -75,8 +78,6 @@ class PropertyDetailView(APIView):
         return Response(serializer.data, status=HTTP_200_OK)
 
     def put(self, request, propid):
-        if propid == None or propid == "":
-            return Response('Especify the Property id in url', status=HTTP_400_BAD_REQUEST)
         data = JSONParser().parse(request)
         serializer = PropertySerializer(data=data, partial=True)
         if serializer.is_valid():

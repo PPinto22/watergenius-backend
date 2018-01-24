@@ -12,8 +12,11 @@ from api.models.subspaces import SubSpace
 from api.serializers.sensors import SensorSerializer
 
 
-def getSensorsOfUser(email):
-    properties_managed = UserManagesProperty.objects.filter(user_id=email)
+def getSensorsOfUser(user):
+    if user.is_superuser:
+        return Sensor.objects.all()
+    
+    properties_managed = UserManagesProperty.objects.filter(user_id=user.email)
     spaces_managed = Space.objects.filter(space_property_id__in=properties_managed.values('prop_id'))
     subspaces_of_user = SubSpace.objects.filter(sub_space_id_id__in=spaces_managed.values('space_id'))
     embeddedsys = EmbeddedSystem.objects.filter(esys_sub_id__in=subspaces_of_user)
@@ -23,7 +26,7 @@ def getSensorsOfUser(email):
 
 class SensorsListView(APIView):
     def get(self, request):
-        sensors = getSensorsOfUser(request.user.email)
+        sensors = getSensorsOfUser(request.user)
         fullquery = (request.META['QUERY_STRING']).split('&')
         querylist = []
         for query in fullquery:

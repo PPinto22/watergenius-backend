@@ -4,22 +4,25 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.status import *
 
-from api.models import Property
+from api.models import Property, User
 from api.models.properties import UserManagesProperty
 from api.models.spaces import Space, TimeRestriction
 from api.serializers.spaces import SpaceSerializer, TimeRestrictionSerializer
 
 
-def getSpacesOfUser(email):
-    properties_managed = UserManagesProperty.objects.filter(user_id=email)
+def getSpacesOfUser(user):
+    if user.is_superuser:
+        return Space.objects.all()
+
+    properties_managed = UserManagesProperty.objects.filter(user_id=user.email)
     props = Property.objects.filter(prop_id__in=properties_managed.values('prop_id'))
-    all_spaces = Space.objects.filter(space_property__in=props.values('prop_id'))
-    return all_spaces
+    spaces = Space.objects.filter(space_property__in=props.values('prop_id'))
+    return spaces
 
 
 class SpacesListView(APIView):
     def get(self, request):
-        all_spaces = getSpacesOfUser(request.user.email)
+        all_spaces = getSpacesOfUser(request.user)
         fullquery = (request.META['QUERY_STRING']).split('&')
         querylist = []
         for query in fullquery:
@@ -64,7 +67,7 @@ class SpacesListView(APIView):
 
 class SpaceDetailView(APIView):
     def get(self, request, spaceid):
-        all_spaces = getSpacesOfUser(request.user.email)
+        all_spaces = getSpacesOfUser(request.user)
         try:
             space = all_spaces.get(space_id=spaceid)
         except ObjectDoesNotExist as e:
@@ -104,7 +107,7 @@ class SpaceDetailView(APIView):
 
 class SpaceRestrictionsListView(APIView):
     def get(self, request, spaceid):
-        all_spaces = getSpacesOfUser(request.user.email)
+        all_spaces = getSpacesOfUser(request.user)
         try:
             space = all_spaces.get(space_id=spaceid)
         except ObjectDoesNotExist as e:

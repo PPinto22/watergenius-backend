@@ -1,5 +1,6 @@
 users:
   - pinto@gmail.com
+    - admin: True
     - password: 'pinto'
     - properties: []
   - rua@gmail.com

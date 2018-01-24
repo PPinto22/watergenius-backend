@@ -6,11 +6,21 @@ from rest_framework.status import *
 
 from api.models.embeddedsys import EmbeddedSystem
 from api.serializers.embeddedsys import EmbeddedSystemSerializer
+from api.views.subspaces import getSubspacesByUser
+
+
+def getEmbeddedSystemsOfUser(user):
+    embeddedSys = EmbeddedSystem.objects.all()
+    if user.is_superuser:
+        return embeddedSys
+
+    subspaces = getSubspacesByUser(user)
+    return embeddedSys.filter(esys_sub__in=subspaces.values('sub_id'))
 
 
 class EmbeddedSysListView(APIView):
     def get(self, request):
-        embsystems = EmbeddedSystem.objects.all()
+        embsystems = getEmbeddedSystemsOfUser(request.user)
         fullquery = (request.META['QUERY_STRING']).split('&')
         querylist = []
         for query in fullquery:
