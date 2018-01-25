@@ -54,7 +54,7 @@ class ReadsListView(APIView):
             sensorid_index = querylist.index('sensorid')
             sensorid = querylist[sensorid_index + 1]
             sensors = Sensor.objects.get(sensor_id=sensorid)
-            reads = reads.filter(read_sensor_id__in=sensors.sensor_id)
+            reads = reads.filter(read_sensor_id=sensors.sensor_id)
         except Exception as e:
             pass
 
