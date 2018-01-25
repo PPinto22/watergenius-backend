@@ -9,3 +9,6 @@ ENV/
 env/
 
 .idea/
+
+
+watergenius/api/static/properties/

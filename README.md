@@ -100,6 +100,10 @@ python3.6 manage.py runserver
 - Warnings
   - [GET /warnings/](#get-warnings)
   - [POST /warnings/](#post-warnings)
+- Configs
+  - [GET /configs/properties/{id}/](#get-configspropertiesid)
+  - [GET /configs/properties/{id}/node/](#get-configspropertiesidnode)
+  - [GET /configs/sensors/{id}/](#get-configssensorsid)
 - Operability
   - [~~POST /node/{i}/poweroff/~~](#post-nodeipoweroff)
 
@@ -624,6 +628,22 @@ Estes warnings são para coisas do género: um sensor deixa de funcionar ou o si
 #### Query Parameters
 - *propertyid*: filter by property ``id``
 
+### GET /configs/properties/{id}/
+Zip com todos os ficheiros de configuracao
+
+### GET /configs/properties/{id}/node/
+Faz download deste ficheiro json:
+```json
+{
+    "serverURL": "192.168.1.39:8000",
+    "user": "rua@gmail.com",
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoicGludG9AZ[...]",
+    "property": "1"
+}
+```
+
+### GET /configs/sensors/{id}/
+Ficheiro .ino para os sensores, com os parametros definidos.
 
 ### POST /node/{id}/poweroff/
 Desliga totalmente o nodo central. Depois a ativação teria que ser manual? **PRIORIDADE BAIXA**

@@ -19,6 +19,7 @@ urlpatterns = [
     path('reads/', include('api.urls.reads')),
     path('embeddedsys/', include('api.urls.embeddedsys')),
     path('warnings/', include('api.urls.warnings')),
+    path('configs/', include('api.urls.configs'))
 ]
 
 if settings.DEBUG:
