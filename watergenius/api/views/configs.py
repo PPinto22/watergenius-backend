@@ -67,7 +67,7 @@ def getCentralNodeConfig(request, prop):
         token = token.decode("utf-8")
 
     config = {
-        'serverURL': 'https://watergenius-backend.herokuapp.com/',
+        'serverURL': 'https://watergenius-backend.herokuapp.com',
         'user': prop.prop_owner.email,
         'token': token,  # FIXME - Token pode ser do admin e nao do proprietario
         'property': str(prop.prop_id)

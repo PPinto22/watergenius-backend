@@ -8,7 +8,7 @@ heroku login
 git subtree push --prefix watergenius heroku master
 ```
 
-URL: ``https://watergenius-backend.herokuapp.com/``
+URL: ``https://watergenius-backend.herokuapp.com``
 
 ## Iniciar a aplicação
 neste momento o docker não está a iniciar o django, apenas a db e o angular.
