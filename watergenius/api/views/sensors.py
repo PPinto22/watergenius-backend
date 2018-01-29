@@ -47,7 +47,7 @@ class SensorsListView(APIView):
         try:
             embeddedsysid_index = querylist.index('embeddedsysid')
             embeddedsysid = querylist[embeddedsysid_index + 1]
-            sensors = sensors.filter(sensor_esys_id__in=embeddedsysid)
+            sensors = sensors.filter(sensor_esys_id=embeddedsysid)
         except Exception as e:
             pass
         serialize = SensorSerializer(sensors, many=True)

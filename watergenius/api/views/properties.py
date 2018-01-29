@@ -57,6 +57,10 @@ class PropertiesListView(APIView):
             managers.prop_id = property.prop_id
             managers.user_id = property.prop_owner_id
             managers.save()
+            # cria nodo vazio
+            node = CentralNode()
+            node.node_property = property
+            node.save()
             serializer = PropertySerializer(property, many=False)
             return Response(serializer.data, status=HTTP_200_OK)
         else:
