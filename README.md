@@ -5,7 +5,7 @@
 ```
 heroku login
 
-git subtree push --prefix watergenius heroku master
+git push heroku master
 ```
 
 URL: ``https://watergenius-backend.herokuapp.com``
