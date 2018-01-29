@@ -115,3 +115,20 @@ class PlanDetailView(APIView):
             return Response("That subspace doesn't even exist, fool", HTTP_400_BAD_REQUEST)
         dayplans.delete()
         return Response("Dayplan deleted", HTTP_200_OK)
+
+    def put(self, request, planid):
+        data = JSONParser().parse(request)
+        serializer = DayPlanSerializer(data=data, partial=True)
+        if serializer.is_valid():
+            try:
+                instance = DayPlan.objects.get(dayplan_id=planid)
+            except ObjectDoesNotExist as e:
+                return Response('Specify the correct plan id', status=HTTP_400_BAD_REQUEST)
+            for attr, value in serializer.validated_data.items():
+                if attr != 'dayplan_id':
+                    setattr(instance, attr, value)
+            instance.save()
+            serializer = DayPlanSerializer(instance, many=False)
+            return Response(serializer.data, status=HTTP_200_OK)
+        else:
+            return Response('Internal error or malformed json ', status=HTTP_400_BAD_REQUEST)

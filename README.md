@@ -80,11 +80,11 @@ python3.6 manage.py runserver
   - [GET /subspaces/{id}/](#get-subspacesid)
   - [PUT /subspaces/{id}/](#put-subspacesid)
   - [DEL /subspaces/{id}/](#del-subspacesid)
-
 - Plans
   - [GET /plans/](#get-plans)
   - [POST /plans/](#post-plans)
   - [GET /plans/{id}/](#get-plansid)
+  - [PUT /plans/{id}/](#put-plansid)
   - [DEL /plans/{id}/](#get-plansid)
 - Irrigations
   - [GET /irrigations/](#get-irrigations)
@@ -448,6 +448,12 @@ Ordenados por ``dayplan_time`` crescente.
 A unidade é o Litro.
 
 ### GET /plans/{id}/
+...
+
+### PUT /plans/{id}/
+...
+
+### DEL /plans/{id}/
 ...
 
 ### GET /irrigations/
