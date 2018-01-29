@@ -13,6 +13,20 @@ from api.models.sensors import Sensor
 from api.models.spaces import Space
 from api.models.subspaces import SubSpace
 from api.serializers.reads import ReadSerializer
+from django.utils import timezone
+
+#tenho sensor id
+def updateSensor(read_sensor_id):
+    sensor = Sensor.objects.get(sensor_id=read_sensor_id)
+    sensor.sensor_last_read = timezone.now()
+    sensor.save()
+
+def updateEmbeddedSys(read_sensor_id):
+    sensor = Sensor.objects.get(sensor_id=read_sensor_id)
+    print(sensor)
+    esys = EmbeddedSystem.objects.get(esys_id=sensor.sensor_esys_id)
+    esys.esys_last_read = timezone.now()
+    esys.save()
 
 
 def getReadsOfUser(user):
@@ -83,6 +97,8 @@ class ReadsListView(APIView):
         if serializer.is_valid():
             instance = serializer.create(serializer.validated_data)
             instance.save()
+            updateSensor(serializer.validated_data['read_sensor'].sensor_id)
+            updateEmbeddedSys(serializer.validated_data['read_sensor'].sensor_id)
             serialize = ReadSerializer(instance, many=False)
             return Response(serialize.data, HTTP_200_OK)
         else:
