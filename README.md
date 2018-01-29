@@ -5,6 +5,8 @@
 ```
 heroku login
 
+heroku git:remote -a watergenius-backend
+
 git push heroku master
 ```
 
