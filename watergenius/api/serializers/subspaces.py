@@ -15,7 +15,7 @@ class SubSpaceSerializer(serializers.ModelSerializer):
             self.fields['sub_embeddedsys'] = serializers.SerializerMethodField()
 
     def get_sub_embeddedsys(self, subspace):
-        esys = EmbeddedSystem.objects.filter(esys_id=subspace.sub_id)
+        esys = EmbeddedSystem.objects.filter(esys_sub=subspace.sub_id)
         return EmbeddedSystemSerializer(instance=esys, nest_level=self.nest_level, many=True).data
 
     class Meta:
