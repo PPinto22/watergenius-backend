@@ -70,6 +70,7 @@ class PropertiesListView(APIView):
 class PropertyDetailView(APIView):
     def get(self, request, propid):
         props = getPropertiesOfUser(request.user)
+        print(props)
         try:
             prop = props.get(prop_id=propid)
         except Exception as e:

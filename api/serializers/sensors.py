@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from api.models.sensors import Sensor, SensorType
-
+from django.utils import timezone
 
 class SensorTypeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -16,8 +16,17 @@ class SensorSerializer(serializers.ModelSerializer):
         if self.instance is not None:
             self.fields['sensor_type'] = SensorTypeSerializer()
 
+        self.fields['sensor_state'] = serializers.SerializerMethodField('check_state')
+    
+    def check_state(self, sensor):
+        res = ((timezone.now() - timezone.timedelta(minutes=15) <= sensor.sensor_last_read ) )
+        if res:
+            return 1 
+        else:
+            return 0
+        
     class Meta:
         model = Sensor
-        fields = ('sensor_id', 'sensor_name', 'sensor_state', 'sensor_esys',
+        fields = ('sensor_id', 'sensor_name', 'sensor_esys',
                   'sensor_timerate', 'sensor_timerate_unit',
                   'sensor_depth', 'sensor_depth_unit', 'sensor_type')
