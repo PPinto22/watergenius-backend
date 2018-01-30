@@ -7,6 +7,7 @@ import shutil
 from django.http import HttpResponse
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
+from unidecode import unidecode
 
 from api.models import Property, Sensor, CentralNode
 from api.views.sensors import getSensorsOfProperty
@@ -164,7 +165,8 @@ def propFile(prop, full_path=False, include_extension=True):
 
 
 def safe(unsafeFileName):
-    return "".join([c for c in unsafeFileName.lower() if re.match(r'\w', c)])
+    name = unidecode(unsafeFileName).lower()
+    return "".join([c for c in name if re.match(r'\w', c)])
 
 
 def createDirectoryIfNotExists(dirname):
