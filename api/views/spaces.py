@@ -45,7 +45,7 @@ class SpacesListView(APIView):
         try:
             property_index = querylist.index('propertyid')
             propertyid = querylist[property_index + 1]
-            all_spaces = all_spaces.filter(space_property_id__in=propertyid)
+            all_spaces = all_spaces.filter(space_property_id=propertyid)
         except Exception as e:
             pass
         spaces = SpaceSerializer(instance=all_spaces, nested_plant=True,
