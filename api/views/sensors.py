@@ -24,9 +24,12 @@ def getSensorsOfUser(user):
 
 def getSensorsOfProperty(prop):
     spaces = Space.objects.filter(space_property=prop.prop_id)
+    print(spaces.values('space_id'))
     subspaces = SubSpace.objects.filter(sub_space_id_id__in=spaces.values('space_id'))
+    print(subspaces.values('sub_id'))
     embeddedsys = EmbeddedSystem.objects.filter(esys_sub_id__in=subspaces.values('sub_id'))
-    sensors = Sensor.objects.filter(sensor_esys_id__in=embeddedsys.values('esys_sub_id'))
+    print(embeddedsys.values('esys_sub_id'))
+    sensors = Sensor.objects.filter(sensor_esys_id__in=embeddedsys.values('esys_id'))
     return sensors
 
 
