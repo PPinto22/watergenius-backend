@@ -7,7 +7,7 @@
     "esys_local_long": -9.142685,
     "esys_local_alt": 5.0,
     "esys_sub": 1,
-    "esys_state": 1,
+    "esys_last_read": "2018-01-19T18:36:23.860205Z",
     "esys_name": "Embedded System 1"
   }
 },
@@ -19,7 +19,7 @@
     "esys_local_long": -9.142685,
     "esys_local_alt": 5.0,
     "esys_sub": 1,
-    "esys_state": 0,
+    "esys_last_read": "2018-01-20T18:36:23.860205Z",
     "esys_name": "Embedded System 2"
   }
 },
@@ -31,7 +31,7 @@
     "esys_local_long": -9.142685,
     "esys_local_alt": 5.0,
     "esys_sub": 3,
-    "esys_state": 1,
+    "esys_last_read": "2018-01-21T18:36:23.860205Z",
     "esys_name": "Embedded System 3"
   }
 }

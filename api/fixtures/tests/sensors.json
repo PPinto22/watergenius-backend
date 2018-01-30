@@ -13,7 +13,7 @@
   "pk": 1,
   "fields":{
     "sensor_name": "Humidity sensor 1",
-    "sensor_state": 1,
+    "sensor_last_read": "2018-01-19T18:36:23.860205Z",
     "sensor_esys": 1,
     "sensor_timerate": 30,
     "sensor_depth": 20,
@@ -25,7 +25,7 @@
   "pk": 2,
   "fields":{
     "sensor_name": "Humidity sensor 2",
-    "sensor_state": 1,
+    "sensor_last_read": "2018-01-20T18:36:23.860205Z",
     "sensor_esys": 1,
     "sensor_timerate": 30,
     "sensor_depth": 25,
@@ -37,7 +37,7 @@
   "pk": 3,
   "fields":{
     "sensor_name": "Humidity sensor 3",
-    "sensor_state": 1,
+    "sensor_last_read": "2018-01-21T18:36:23.860205Z",
     "sensor_esys": 3,
     "sensor_timerate": 30,
     "sensor_depth": 20,
