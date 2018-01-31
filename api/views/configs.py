@@ -76,20 +76,22 @@ def getCentralNodeConfig(request, prop):
     return json.dumps(config, indent=4)
 
 
-def getSensorConfig(sensor, file_content=None, ssid=None, pw=None):
+def getSensorConfig(sensor, file_content=None, ip=None, ssid=None, pw=None):
     if file_content is None:
         with open('api/static/sensor.ino', 'r') as file:
             file_content = file.read()
-    if ssid is None or pw is None:
+    if any(x is None for x in [ssid, ip, pw]):
         prop = sensor.sensor_esys.esys_sub.sub_space_id.space_property
         node = CentralNode.objects.get(node_property=prop.prop_id)
         ssid = node.node_network_name
         pw = node.node_network_password
+        ip = node.node_ip
 
     #  TODO - Replace in a single pass
     config = re.sub(r'\d* */\*NODEID\*/', str(sensor.sensor_esys.esys_id), file_content)
     config = re.sub(r'\d* */\*SENSORID\*/', str(sensor.sensor_id), config)
     config = re.sub(r'(\"[^"]*\")? */\*SSID\*/', '\"' + ssid + '\"', config)
+    config = re.sub(r'(\"[^"]*\")? */\*SERVERIP\*/', '\"' + ip + '\"', config)
     config = re.sub(r'(\"[^"]*\")? */\*PW\*/', '\"' + pw + '\"', config)
     config = re.sub(r'\d* */\*TIMERATE\*/', str(sensor.sensor_timerate), config)
     return config
@@ -120,6 +122,7 @@ def savePropertyConfig(request, prop):
 
     for sensor in sensors:
         sensorConfig = getSensorConfig(sensor, file_content=inoFile,
+                                       ip=node.node_ip,
                                        ssid=node.node_network_name,
                                        pw=node.node_network_password)
         saveSensorConfig(sensor, sensorConfig)
