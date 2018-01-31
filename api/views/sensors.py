@@ -80,7 +80,7 @@ class SensorDetailView(APIView):
     def put(self, request, sensid):
         data = JSONParser().parse(request)
         serializer = SensorSerializer(data=data, partial=True)
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             try:
                 instance = Sensor.objects.get(sensor_id=sensid)
             except ObjectDoesNotExist as e:
@@ -91,8 +91,8 @@ class SensorDetailView(APIView):
             instance.save()
             serialize = SensorSerializer(instance, many=False)
             return Response(serialize.data, HTTP_200_OK)
-        else:
-            return Response('Internal error or malformed json ', HTTP_400_BAD_REQUEST)
+        #else:
+            #return Response('Internal error or malformed json ', HTTP_400_BAD_REQUEST)
 
     def delete(self, request, sensid):
         try:

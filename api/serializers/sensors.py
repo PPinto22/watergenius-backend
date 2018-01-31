@@ -19,7 +19,8 @@ class SensorSerializer(serializers.ModelSerializer):
         self.fields['sensor_state'] = serializers.SerializerMethodField('check_state')
     
     def check_state(self, sensor):
-        res = ((timezone.now() - timezone.timedelta(minutes=15) <= sensor.sensor_last_read ) )
+        time_delta = sensor.sensor_timerate + 2
+        res = ((timezone.now() - timezone.timedelta(minutes=time_delta) <= sensor.sensor_last_read ) )
         if res:
             return 1 
         else:
@@ -29,4 +30,4 @@ class SensorSerializer(serializers.ModelSerializer):
         model = Sensor
         fields = ('sensor_id', 'sensor_name', 'sensor_esys',
                   'sensor_timerate', 'sensor_timerate_unit',
-                  'sensor_depth', 'sensor_depth_unit', 'sensor_type')
+                  'sensor_depth', 'sensor_depth_unit', 'sensor_last_read','sensor_type')
