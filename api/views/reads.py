@@ -15,11 +15,13 @@ from api.models.subspaces import SubSpace
 from api.serializers.reads import ReadSerializer
 from django.utils import timezone
 
-#tenho sensor id
+
+# tenho sensor id
 def updateSensor(read_sensor_id):
     sensor = Sensor.objects.get(sensor_id=read_sensor_id)
     sensor.sensor_last_read = timezone.now()
     sensor.save()
+
 
 def updateEmbeddedSys(read_sensor_id):
     sensor = Sensor.objects.get(sensor_id=read_sensor_id)
@@ -94,15 +96,13 @@ class ReadsListView(APIView):
     def post(self, request):
         data = JSONParser().parse(request)
         serializer = ReadSerializer(data=data, partial=True)
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             instance = serializer.create(serializer.validated_data)
             instance.save()
             updateSensor(serializer.validated_data['read_sensor'].sensor_id)
             updateEmbeddedSys(serializer.validated_data['read_sensor'].sensor_id)
             serialize = ReadSerializer(instance, many=False)
             return Response(serialize.data, HTTP_200_OK)
-        else:
-            return Response('Internal error or malformed JSON ', HTTP_400_BAD_REQUEST)
 
 
 class ReadDetailView(APIView):
