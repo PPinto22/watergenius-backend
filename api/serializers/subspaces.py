@@ -6,6 +6,8 @@ from api.serializers.embeddedsys import EmbeddedSystemSerializer
 
 class SubSpaceSerializer(serializers.ModelSerializer):
 
+    sub_area_unit = serializers.CharField(max_length=6, read_only=True)
+
     def __init__(self, *args, nest_level='subspace', **kwargs):
         super(SubSpaceSerializer, self).__init__(*args, **kwargs)
 
@@ -20,5 +22,5 @@ class SubSpaceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SubSpace
-        fields = ('sub_id', 'sub_name', 'sub_description', 'sub_space_id')
+        fields = ('sub_id', 'sub_name', 'sub_description', 'sub_area', 'sub_area_unit', 'sub_space_id')
         validators = []  # Remove a default "unique together" constraint.

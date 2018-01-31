@@ -384,6 +384,8 @@ Ver [GET /spaces/](#get-spaces)
         "sub_id": 5,
         "sub_name": "SubEspa22222ço 23",
         "sub_description": "Ao lado da1 estatua do ze",
+        "sub_area": 10,
+        "sub_area_unit": "m2",
         "sub_space_id": 3
     },
 ]
@@ -399,6 +401,7 @@ Ver [GET /spaces/](#get-spaces)
 {
     "sub_name": "SubEspa22222ço 23",
     "sub_description": "Ao lado da1 estatua do ze",
+    "sub_area": 10,
     "sub_space_id": 3
 }
 ```
@@ -421,7 +424,9 @@ Ordenados por ``dayplan_time`` crescente.
         "dayplan_gen_time": "2018-01-11T16:51:23.819500Z",
         "dayplan_time": "2017-12-22T00:03:00Z",
         "dayplan_water_qty": 21,
-        "dayplan_water_qty_unit": "L",
+        "dayplan_water_qty_unit": "mm",
+        "dayplan_rain": 2,
+        "dayplan_rain_unit": "mm",
         "dayplan_sub": 2
     },
 ]
@@ -441,6 +446,7 @@ Ordenados por ``dayplan_time`` crescente.
 {
   "dayplan_time": "2017-12-22T00:03:00Z",
   "dayplan_water_qty": 21,
+  "dayplan_rain": 2,
   "dayplan_sub": 2
 }
 ```
@@ -466,7 +472,7 @@ Ordenado por ``irrigation_time_date`` crescente.
         "irrigation_time_id": 5,
         "irrigation_time_date": "2018-01-02T00:00:00Z",
         "irrigation_time_qty": 10,
-        "irrigation_time_qty_unit": "L",
+        "irrigation_time_qty_unit": "mm",
         "irrigation_time_sub": 4
     },
 ]
