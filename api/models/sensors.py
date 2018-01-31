@@ -1,7 +1,7 @@
 from django.db import models
 
 from api.models.embeddedsys import EmbeddedSystem
-
+from django.utils import timezone
 
 class SensorType(models.Model):
     # id = sensor_type_name_eng
@@ -22,3 +22,12 @@ class Sensor(models.Model):
     sensor_depth = models.IntegerField()
     sensor_depth_unit = models.CharField(max_length=6, default="cm")
     sensor_type = models.ForeignKey(SensorType, related_name='has_type', on_delete=models.CASCADE)
+
+
+    def check_state(self):
+        time_delta = self.sensor_timerate + 2
+        res = ((timezone.now() - timezone.timedelta(minutes=time_delta) <= self.sensor_last_read ) )
+        if res:
+            return 1 
+        else:
+            return 0

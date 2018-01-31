@@ -19,9 +19,12 @@ class EmbeddedSystemSerializer(serializers.ModelSerializer):
         self.fields['esys_state'] = serializers.SerializerMethodField('check_state')
     
     def check_state(self, esys):
-        res = ((timezone.now() - timezone.timedelta(minutes=15) <= esys.esys_last_read ) )
-        if res:
-            return 1 
+        state = 0
+        sensors = sensors = Sensor.objects.filter(sensor_esys=esys.esys_id)
+        for x in sensors:
+           state += x.check_state()
+        if state >0:
+            return 1
         else:
             return 0
 
