@@ -28,7 +28,7 @@ CREATE DATABASE watergenius;
 
 exit
 
-pip3.6 install -r requirements/docker.txt --upgrade
+pip3.6 install -r requirements.txt --upgrade
 
 python3.6 manage.py makemigrations
 
