@@ -88,12 +88,12 @@ def getSensorConfig(sensor, file_content=None, ip=None, ssid=None, pw=None):
         ip = node.node_ip
 
     #  TODO - Replace in a single pass
-    config = re.sub(r'\d* */\*NODEID\*/', str(sensor.sensor_esys.esys_id), file_content)
-    config = re.sub(r'\d* */\*SENSORID\*/', str(sensor.sensor_id), config)
-    config = re.sub(r'(\"[^"]*\")? */\*SSID\*/', '\"' + ssid + '\"', config)
-    config = re.sub(r'(\"[^"]*\")? */\*SERVERIP\*/', '\"' + ip + '\"', config)
-    config = re.sub(r'(\"[^"]*\")? */\*PW\*/', '\"' + pw + '\"', config)
-    config = re.sub(r'\d* */\*TIMERATE\*/', str(sensor.sensor_timerate), config)
+    config = re.sub(r'\d* */\*NODEID\*/', ' '+str(sensor.sensor_esys.esys_id), file_content)
+    config = re.sub(r'\d* */\*SENSORID\*/', ' '+str(sensor.sensor_id), config)
+    config = re.sub(r'(\"[^"]*\")? */\*SSID\*/', ' ' + '\"' + ssid + '\"', config)
+    config = re.sub(r'(\"[^"]*\")? */\*SERVERIP\*/', ' ' + '\"' + ip + '\"', config)
+    config = re.sub(r'(\"[^"]*\")? */\*PW\*/', ' ' + '\"' + pw + '\"', config)
+    config = re.sub(r'\d* */\*TIMERATE\*/', ' '+str(sensor.sensor_timerate), config)
     return config
 
 

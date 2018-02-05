@@ -1,22 +1,22 @@
 
 #include "FS.h"
 #include <ESP8266WiFi.h>
-#include <Wire.h>
+#include <Wire.h> 
 #include <DS3231.h>
 #include <ArduinoJson.h>
 
 #define DEBUG true
 
 //THIS NODE CONFIG
-#define NODEID 3214524 /*NODEID*/
-#define SENSORID 3214524 /*SENSORID*/
+#define NODEID /*NODEID*/
+#define SENSORID /*SENSORID*/
 #define MAXCONNECTIONTRY 5
-#define SSIDCONNECT "Joao's iPhone" /*SSID*/
-#define SSIDPW "qwerty12345" /*PW*/
-#define SERVERIP "172.20.10.4" /*SERVERIP*/
+#define SSIDCONNECT /*SSID*/
+#define SSIDPW /*PW*/
+#define SERVERIP /*SERVERIP*/
 #define SERVERPORT 5000
-#define SERVERTIMEOUT 2200
-#define TIMERATE 1 /*TIMERATE*/
+#define SERVERTIMEOUT 10000
+#define TIMERATE /*TIMERATE*/
 #define thetaWP 0.37
 #define P 0.4
 #define Zr 0.4
@@ -24,7 +24,7 @@ bool connectedNework = false;
 bool serverAvailable = false;
 
 
-//ERROR
+//ERROR 
 #define LOGFILE "/LOG"
 #define NONETWORK 1
 #define NOSERVERCONNECTION 2
@@ -32,6 +32,8 @@ bool serverAvailable = false;
 #define NOWATER 3
 
 //PINOUT
+#define ON false
+#define OFF true
 #define WATERMESUREPOWER D1
 #define WATERMESURE 12
 #define WATERVALVE 15
@@ -41,9 +43,10 @@ volatile unsigned long  FlowPulse;
 float calibrationFactor = 4.5;
 
 void ICACHE_RAM_ATTR rpm ()
-{
+{ 
+  //Serial.println("PULSE");
   FlowPulse++;
-}
+} 
 
 bool sendError(String record ){
   WiFiClient client;
@@ -55,16 +58,29 @@ bool sendError(String record ){
   }
   if(DEBUG) Serial.println("URL: "+url);
   client.print(String("GET ") + url + " HTTP/1.1\r\n" +
-               "Host: " + SERVERIP + "\r\n" +
+               "Host: " + SERVERIP + "\r\n" + 
                "Connection: close\r\n\r\n");
   unsigned long timeout = millis();
   while (client.available() == 0) {
     if (millis() - timeout > SERVERTIMEOUT) {
       if (DEBUG) Serial.println(">>> Client Timeout !");
-      client.stop();
+      //client.stop();
       return false;
     }
   }
+  bool response = false;
+  for(int s=0;s<5 && !response;s++){
+    while(client.available()){
+      char c = client.read();
+      //String line = client.readStringUntil('\0');
+      if(DEBUG) Serial.print(c);
+       if(c=='}'){
+        response = true;
+       }
+    }
+    if(!response) delay(10000);
+  }
+  //client.stop();
   return true;
 }
 
@@ -79,7 +95,7 @@ void logUnsentErrors(String strs[], bool sent[], int len){
   for(int i = 0; i<len;i++){
     if(!sent[i]) f.println(strs[i]);
   }
-
+  
   f.close();
 }
 
@@ -100,7 +116,7 @@ void sendError(){
     erros[totErros] = leftData.substring(0,splitpos);
     leftData = leftData.substring(splitpos+1,leftData.length());
     totErros++;
-
+    
   }
   for(int i =0;i<totErros;i++){
     sent[i]= sendError(erros[i]);
@@ -124,14 +140,15 @@ void logError(int erroCode, String message){
 void setupGPIO(){
 
   pinMode(WATERVALVE, OUTPUT);
-  digitalWrite(WATERVALVE, LOW);
+  digitalWrite(WATERVALVE, OFF);
   pinMode(WATERMESUREPOWER,OUTPUT);
-  digitalWrite(WATERMESUREPOWER, LOW);
+  digitalWrite(WATERMESUREPOWER, OFF);
   pinMode(TURNON, OUTPUT);
-  digitalWrite(TURNON, LOW);
+  digitalWrite(TURNON, OFF);
   pinMode(SOILSENSOR, INPUT);
   pinMode(WATERMESURE,INPUT_PULLUP);
-
+  closeWater();
+  
 }
 
 bool connectNetwork(){
@@ -149,15 +166,15 @@ bool connectNetwork(){
     Serial.println("WiFi connected");
     Serial.println(WiFi.localIP());
   }
-
+  
   return true;
 }
 
 
-void openWater(){FlowPulse=0;digitalWrite(WATERVALVE,true);}
-void closeWater(){digitalWrite(WATERVALVE,false);FlowPulse=0;}
-void turnONWaterPower(){digitalWrite(WATERMESUREPOWER,true);}
-void turnOFFWaterPower(){digitalWrite(WATERMESUREPOWER,false);}
+void openWater(){FlowPulse=0;digitalWrite(WATERVALVE,ON);}
+void closeWater(){digitalWrite(WATERVALVE,OFF);FlowPulse=0;}
+void turnONWaterPower(){digitalWrite(WATERMESUREPOWER,ON);}
+void turnOFFWaterPower(){digitalWrite(WATERMESUREPOWER,OFF);}
 
 float readWaterQuantity(){
   unsigned long  pulsCalc = 0 ;
@@ -172,10 +189,12 @@ float readWaterQuantity(){
 
 float readHumiditySoil(){
   int soil  = analogRead(SOILSENSOR);
-  soil = constrain(soil, 485, 1023);
-  soil = map(soil, 485, 1023, 0, 100);
+  if (DEBUG) Serial.println("SOIL ANALOG " + String(soil));
+  //soil = constrain(soil, 485, 1023);
+  soil = map(soil, 854, 423, 0, 100);
   if (DEBUG) Serial.println("SOIL Humidity " + String(soil));
-  return soil;
+  //return 10.0;
+  return soil*1.0;
   //return (soil-thetaWP)*P*Zr*1000;
 }
 
@@ -183,7 +202,7 @@ int doIrrigation(long mlsQuantiy){
   float totalDone =0;
   float readLastMin[60];
   int timeRun=0;
-  turnSensorsON();
+  //turnSensorsON();
   turnONWaterPower();
   openWater();
   FlowPulse =0;
@@ -202,7 +221,7 @@ int doIrrigation(long mlsQuantiy){
       noInterrupts();
       logError(NOWATER,"WATHER READINGS NOT UPDATED WHEN IS TURN ON IN LAST MINUTE");
       return -1;
-    }
+    } 
     timeRun++;
   }
   detachInterrupt(digitalPinToInterrupt(WATERMESURE));
@@ -215,22 +234,22 @@ int doIrrigation(long mlsQuantiy){
 long sendSoilData(int humidity ){
   WiFiClient client;
   if (!client.connect(SERVERIP, SERVERPORT)) {
-     if (DEBUG) Serial.println("connection failed");
+     if (DEBUG) Serial.println(String("NO CONNECTION TO ") + String(SERVERIP)+String(":")+ String(SERVERPORT));
      logError(NONETWORK,String("NO CONNECTION TO ") + String(SERVERIP)+String(":")+ String(SERVERPORT));
      serverAvailable=false;
     return -3;
   }
 
-  String url = String("/sensorRead/") + String(NODEID) + '/' + String(humidity);
+  String url = String("/sensorRead/") + String(SENSORID) + '/' + String(humidity);
   client.print(String("GET ") + url + " HTTP/1.1\r\n" +
-               "Host: " + SERVERIP + "\r\n" +
+               "Host: " + SERVERIP + "\r\n" + 
                "Connection: close\r\n\r\n");
   unsigned long timeout = millis();
   while (client.available() == 0) {
     if (millis() - timeout > SERVERTIMEOUT) {
       if (DEBUG) Serial.println(">>> Client Timeout !");
       serverAvailable=false;
-      client.stop();
+      //client.stop();
       logError(NOSERVERRESPONSE,String("NO RESPONSE FROM ") + String(SERVERIP)+String(":")+ String(SERVERPORT));
       return -2;
     }
@@ -238,23 +257,29 @@ long sendSoilData(int humidity ){
   //Serial.println("Recieved Answer");
   bool response =false;
   long retValue = -1;
-  StaticJsonBuffer<200> jsonBuffer;
-  while(client.available()){
-    String line = client.readStringUntil('\r');
-    if(line.indexOf("quantidade")>0){
-      JsonObject& root = jsonBuffer.parseObject(line);
-      retValue = root["quantidade"];
-      response = true;
-      break;
+  StaticJsonBuffer<500> jsonBuffer;
+  for(int s=0;s<5 && !response;s++){
+    while(client.available()){
+      String line = client.readStringUntil('\r');
+      if(DEBUG) Serial.println(line);
+      if(line.indexOf("quantidade")>0){
+        JsonObject& root = jsonBuffer.parseObject(line);
+        retValue = root["quantidade"];
+        response = true;
+        //break;
+      }
+      
     }
-
+    if(!response) delay(10000);
   }
+  //client.stop();
   if (DEBUG){
     Serial.print("IRRIGATION ");
     Serial.println(retValue);
   }
   if(!response) logError(NOSERVERRESPONSE,String("INVALID RESPONSE FROM ") + String(SERVERIP)+String(":")+ String(SERVERPORT));
-  return retValue;
+  //return 10000;
+  return retValue*1000;
 }
 
 void disconnectNetwork(){
@@ -263,7 +288,7 @@ void disconnectNetwork(){
   serverAvailable=false;
 }
 
-void turnSensorsOFF(){digitalWrite(TURNON,false);}
+void turnSensorsOFF(){digitalWrite(TURNON,false);closeWater();turnOFFWaterPower();}
 
 void turnSensorsON(){digitalWrite(TURNON,true);}
 
@@ -306,6 +331,7 @@ void setup() {
     Serial.print("SETUP ");
   }
   setupGPIO();
+  closeWater();
   turnON();
   float soil  = readHumiditySoil();
   turnSensorsOFF();
@@ -322,5 +348,6 @@ void setup() {
 
 void loop() {
 }
+
 
 
