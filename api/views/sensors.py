@@ -17,18 +17,17 @@ def getSensorsOfUser(user):
         return Sensor.objects.all()
     
     properties_managed = UserManagesProperty.objects.filter(user_id=user.email)
-    sensors = []
-    for property in properties_managed:
-        sensors += getSensorsOfProperty(property)
+
+    spaces = Space.objects.filter(space_property_id__in=properties_managed.values('prop'))
+    subspaces = SubSpace.objects.filter(sub_space_id_id__in=spaces.values('space_id'))
+    embeddedsys = EmbeddedSystem.objects.filter(esys_sub_id__in=subspaces.values('sub_id'))
+    sensors = Sensor.objects.filter(sensor_esys_id__in=embeddedsys.values('esys_id'))
     return sensors
 
 def getSensorsOfProperty(prop):
-    spaces = Space.objects.filter(space_property=prop.prop_id)
-    print(spaces.values('space_id'))
+    spaces = Space.objects.filter(space_property_id=prop.prop_id)
     subspaces = SubSpace.objects.filter(sub_space_id_id__in=spaces.values('space_id'))
-    print(subspaces.values('sub_id'))
     embeddedsys = EmbeddedSystem.objects.filter(esys_sub_id__in=subspaces.values('sub_id'))
-    print(embeddedsys.values('esys_sub_id'))
     sensors = Sensor.objects.filter(sensor_esys_id__in=embeddedsys.values('esys_id'))
     return sensors
 
@@ -43,16 +42,16 @@ class SensorsListView(APIView):
         try:
             subspace_index = querylist.index('subspaceid')
             subspaceid = querylist[subspace_index + 1]
-            embeddedsys = EmbeddedSystem.objects.filter(esys_sub_id=SubSpace.objects.get(sub_id=subspaceid).sub)
+            embeddedsys = EmbeddedSystem.objects.filter(esys_sub_id=SubSpace.objects.get(sub_id=subspaceid))
             sensors = sensors.filter(sensor_esys_id__in=embeddedsys.values('esys_sub_id'))
         except Exception as e:
-            pass
+            print(e)
         try:
             embeddedsysid_index = querylist.index('embeddedsysid')
             embeddedsysid = querylist[embeddedsysid_index + 1]
             sensors = sensors.filter(sensor_esys_id=embeddedsysid)
         except Exception as e:
-            pass
+            print (e)
         serialize = SensorSerializer(sensors, many=True)
         return Response(serialize.data, HTTP_200_OK)
 
