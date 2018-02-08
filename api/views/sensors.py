@@ -43,7 +43,7 @@ class SensorsListView(APIView):
             subspace_index = querylist.index('subspaceid')
             subspaceid = querylist[subspace_index + 1]
             embeddedsys = EmbeddedSystem.objects.filter(esys_sub_id=subspaceid)
-            sensors = sensors.filter(sensor_esys_id__in=embeddedsys.values('esys_sub_id'))
+            sensors = sensors.filter(sensor_esys_id__in=embeddedsys.values('esys_sub'))
         except Exception as e:
             print(e)
         try:
