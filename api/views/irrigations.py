@@ -50,7 +50,7 @@ class IrrigationTimeListView(APIView):
         try:
             subspace_index = querylist.index('subspaceid')
             subspaceid = querylist[subspace_index + 1]
-            irrigations = irrigations.filter(irrigation_time_sub__in=subspaceid)
+            irrigations = irrigations.filter(irrigation_time_sub_id=subspaceid)
         except Exception as e:
             pass
         try:
